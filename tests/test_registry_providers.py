@@ -4,9 +4,10 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from orchestrator.providers import _extract_codex_output, discover_apinex, smoke_record
+from orchestrator.providers import _extract_codex_output, _post_chat, discover_apinex, smoke_record
 from orchestrator.registry import save_registry
 from orchestrator.registry import ModelRecord
+from orchestrator.transport import ProviderError
 
 
 class FakeSettings:
@@ -59,6 +60,15 @@ class RegistryProviderTests(unittest.TestCase):
             result = smoke_record(record, settings, {"opencode": "opencode"})
         self.assertTrue(result.verified)
         self.assertEqual(run.call_args.kwargs["timeout"], 90.0)
+
+    def test_apinex_chat_retries_one_transient_transport_failure(self):
+        settings = type("Settings", (), {
+            "apinex_api_key": "secret", "apinex_base_url": "https://example.test/v1", "timeout": 20.0,
+        })()
+        payload = {"choices": [{"message": {"content": "RETRY_OK"}}]}
+        with patch("orchestrator.providers.request_json", side_effect=[ProviderError("read timeout"), (200, payload)]) as requested:
+            self.assertEqual(_post_chat(settings, "free/model", [{"role": "user", "content": "ping"}]), "RETRY_OK")
+        self.assertEqual(requested.call_count, 2)
 
 
 if __name__ == "__main__":

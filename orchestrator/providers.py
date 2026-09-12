@@ -224,14 +224,20 @@ def _post_chat(settings: Settings, model_id: str, messages: list[dict[str, str]]
     if not settings.apinex_api_key:
         raise ProviderError("APINEX_API_KEY is not set")
     body = json.dumps({"model": model_id, "messages": messages, "temperature": 0}).encode("utf-8")
-    _, payload = request_json(
-        "POST",
-        f"{settings.apinex_base_url}/chat/completions",
-        {"Authorization": f"Bearer {settings.apinex_api_key}", "Content-Type": "application/json"},
-        body,
-        settings.timeout,
-        secrets=[settings.apinex_api_key],
-    )
+    for attempt in range(2):
+        try:
+            _, payload = request_json(
+                "POST",
+                f"{settings.apinex_base_url}/chat/completions",
+                {"Authorization": f"Bearer {settings.apinex_api_key}", "Content-Type": "application/json"},
+                body,
+                settings.timeout,
+                secrets=[settings.apinex_api_key],
+            )
+            break
+        except ProviderError:
+            if attempt == 1:
+                raise
     choices = payload.get("choices")
     if not isinstance(choices, list) or not choices:
         raise ProviderError("provider returned no chat choices")
