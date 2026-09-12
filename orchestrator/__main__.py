@@ -21,6 +21,7 @@ def _record_dicts(records: list[ModelRecord]) -> list[dict]:
 
 def _build_clients(records: list[dict], settings) -> ClientBundle:
     gemini_settings = replace(settings, timeout=max(settings.timeout, 90.0))
+    specialist_settings = replace(settings, timeout=max(settings.timeout, 90.0))
 
     def gemini(system: str, user: str) -> str:
         record = next(record for record in records if record.get("model") == "Gemini 3.8 Flash")
@@ -35,7 +36,7 @@ def _build_clients(records: list[dict], settings) -> ClientBundle:
             continue
         if record.get("provider") == "APInex":
             specialists[record["exact_id"]] = lambda item, record=record: _post_chat(
-                settings,
+                specialist_settings,
                 record["exact_id"],
                 [{"role": "user", "content": item["instruction"]}],
             )
