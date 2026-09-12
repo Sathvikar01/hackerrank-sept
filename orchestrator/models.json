@@ -1,0 +1,128 @@
+[
+  {
+    "exact_id": "gpt-6-astra",
+    "model": "Astra XHigh",
+    "provider": "Codex / OpenAI",
+    "reason": "non-interactive codex exec succeeded",
+    "role": "hardest reasoning, architecture, hypotheses, ablations",
+    "transport": "codex-cli",
+    "verified": true
+  },
+  {
+    "exact_id": "opencode/muse-spark-1.3-contributor-free",
+    "model": "Muse Spark 1.3 Contributor",
+    "provider": "OpenCode Go",
+    "reason": "opencode run succeeded",
+    "role": "repo/data/task reconnaissance",
+    "transport": "cli",
+    "verified": true
+  },
+  {
+    "exact_id": "opencode-go/deepseek-v4.1-flash",
+    "model": "DeepSeek V4.1 Flash",
+    "provider": "OpenCode Go",
+    "reason": "opencode run succeeded",
+    "role": "implementation, debugging, tests",
+    "transport": "cli",
+    "verified": true
+  },
+  {
+    "exact_id": "free/gemini-3.8-flash",
+    "model": "Gemini 3.8 Flash",
+    "provider": "APInex",
+    "reason": "chat completion succeeded",
+    "role": "orchestration",
+    "transport": "https",
+    "verified": true
+  },
+  {
+    "exact_id": "free/gpt-5.6-luna",
+    "model": "GPT-5.6 Luna",
+    "provider": "APInex",
+    "reason": "chat completion succeeded",
+    "role": "independent evaluation",
+    "transport": "https",
+    "verified": true
+  },
+  {
+    "exact_id": "free/glm-5.3-flash",
+    "model": "GLM-5.3 Flash",
+    "provider": "APInex",
+    "reason": "chat completion succeeded",
+    "role": "adversarial review",
+    "transport": "https",
+    "verified": true
+  },
+  {
+    "exact_id": null,
+    "model": "Grok 4.6",
+    "provider": "HackerRank Pair",
+    "reason": "no Pair API/CLI discovered; Pair is UI-only for this workspace",
+    "role": "escalation when the current approach is stuck",
+    "transport": "ui-only",
+    "verified": false
+  },
+  {
+    "exact_id": null,
+    "model": "GLM-5.3",
+    "provider": "HackerRank Pair",
+    "reason": "no Pair API/CLI discovered; Pair is UI-only for this workspace",
+    "role": "adversarial review",
+    "transport": "ui-only",
+    "verified": false
+  },
+  {
+    "exact_id": "gpt-6-astra",
+    "model": "Astra XHigh",
+    "provider": "Codex / OpenAI",
+    "reason": "non-interactive codex exec succeeded",
+    "role": "hardest reasoning, architecture, hypotheses, ablations",
+    "transport": "codex-cli",
+    "verified": true
+  },
+  {
+    "exact_id": "free/gemini-3.8-flash",
+    "model": "Gemini 3.8 Flash",
+    "provider": "APInex",
+    "reason": "chat completion succeeded",
+    "role": "orchestration",
+    "transport": "https",
+    "verified": true
+  },
+  {
+    "exact_id": "free/gpt-5.6-luna",
+    "model": "GPT-5.6 Luna",
+    "provider": "APInex",
+    "reason": "chat completion succeeded",
+    "role": "independent evaluation",
+    "transport": "https",
+    "verified": true
+  },
+  {
+    "exact_id": "free/glm-5.3-flash",
+    "model": "GLM-5.3 Flash",
+    "provider": "APInex",
+    "reason": "chat completion succeeded",
+    "role": "adversarial review",
+    "transport": "https",
+    "verified": true
+  },
+  {
+    "exact_id": null,
+    "model": "Grok 4.6",
+    "provider": "HackerRank Pair",
+    "reason": "no Pair API/CLI discovered; Pair is UI-only for this workspace",
+    "role": "escalation when the current approach is stuck",
+    "transport": "ui-only",
+    "verified": false
+  },
+  {
+    "exact_id": null,
+    "model": "GLM-5.3",
+    "provider": "HackerRank Pair",
+    "reason": "no Pair API/CLI discovered; Pair is UI-only for this workspace",
+    "role": "adversarial review",
+    "transport": "ui-only",
+    "verified": false
+  }
+]
