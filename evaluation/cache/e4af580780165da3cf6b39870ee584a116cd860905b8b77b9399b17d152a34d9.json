@@ -1,0 +1,1 @@
+{"text": "{\"claims\":[{\"event_ref\":\"EMP-0073\",\"field\":\"settlement_date\",\"value\":\"2025-05-23\",\"lifecycle\":\"amend\",\"evidence_span\":\"Your confirmed salary is now expected on 2025-05-23. This replaces the payroll date shown in the earlier update.\",\"confidence\":0.95}]}", "model": "meta/muse-spark-1.3-contributor", "prompt_tokens": 298, "completion_tokens": 1797}

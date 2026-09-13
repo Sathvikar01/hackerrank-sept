@@ -1,0 +1,1 @@
+{"text": "{\"claims\":[{\"event_ref\":null,\"field\":\"linked_event_id\",\"value\":\"MER-0145\",\"lifecycle\":\"inform\",\"evidence_span\":\"Ref pesanan MER-0145.\",\"confidence\":1.0}]}", "model": "meta/muse-spark-1.3-contributor", "prompt_tokens": 301, "completion_tokens": 2675}

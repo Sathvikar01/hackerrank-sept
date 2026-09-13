@@ -1,0 +1,1 @@
+{"text": "{\"claims\":[{\"event_ref\":\"BAN-0135\",\"field\":\"event_type\",\"value\":\"transfer\",\"lifecycle\":\"inform\",\"evidence_span\":\"The matching debit and credit came from a transfer between your two accounts.\",\"confidence\":0.95}]}", "model": "meta/muse-spark-1.3-contributor", "prompt_tokens": 296, "completion_tokens": 2110}

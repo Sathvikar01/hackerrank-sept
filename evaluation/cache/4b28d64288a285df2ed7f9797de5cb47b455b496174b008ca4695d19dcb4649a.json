@@ -1,0 +1,1 @@
+{"text": "{\"claims\":[{\"event_ref\":null,\"field\":\"description\",\"value\":\"No units have been sold and no cash proceeds have been generated.\",\"lifecycle\":\"inform\",\"evidence_span\":\"No units have been sold and no cash proceeds have been generated.\",\"confidence\":1.0}]}", "model": "meta/muse-spark-1.3-contributor", "prompt_tokens": 298, "completion_tokens": 4417}

@@ -1,0 +1,1 @@
+{"text": "```json\n{\"claims\":[{\"event_ref\":\"BAN-0023\",\"field\":\"description\",\"value\":\"transfer between your two accounts\",\"lifecycle\":\"confirm\",\"evidence_span\":\"transfer between your two accounts\",\"confidence\":0.95}]}\n```", "model": "google/gemini-3.8-flash", "prompt_tokens": 519, "completion_tokens": 3191}

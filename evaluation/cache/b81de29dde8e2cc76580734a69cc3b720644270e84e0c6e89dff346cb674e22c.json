@@ -1,0 +1,1 @@
+{"text": "{\"claims\":[{\"event_ref\":null,\"field\":\"linked_event_id\",\"value\":\"BAN-0136\",\"lifecycle\":\"inform\",\"evidence_span\":\"Txn ref BAN-0136.\",\"confidence\":1.0}]}", "model": "meta/muse-spark-1.3-contributor", "prompt_tokens": 302, "completion_tokens": 4593}

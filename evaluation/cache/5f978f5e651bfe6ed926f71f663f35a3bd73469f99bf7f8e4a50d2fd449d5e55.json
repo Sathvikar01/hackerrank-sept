@@ -1,0 +1,1 @@
+{"text": "{\"claims\":[{\"event_ref\":\"BAN-0041\",\"field\":\"event_type\",\"value\":\"transfer\",\"lifecycle\":\"inform\",\"evidence_span\":\"transfer between your two accounts\",\"confidence\":0.95}]}", "model": "meta/muse-spark-1.3-contributor", "prompt_tokens": 294, "completion_tokens": 1948}

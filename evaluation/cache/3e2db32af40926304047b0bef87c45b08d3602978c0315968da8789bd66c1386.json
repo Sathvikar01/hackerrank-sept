@@ -1,0 +1,1 @@
+{"text": "```json\n{\"claims\":[{\"event_ref\":\"SER-0094\",\"field\":\"status\",\"value\":\"pending\",\"lifecycle\":\"delay\",\"evidence_span\":\"Pembayaran berikutnya dari TaskSprint masih tertunda\",\"confidence\":0.95}]}\n```", "model": "google/gemini-3.8-flash", "prompt_tokens": 410, "completion_tokens": 1559}

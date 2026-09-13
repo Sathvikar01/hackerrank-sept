@@ -1,0 +1,1 @@
+{"text": "{\"claims\":[{\"event_ref\":\"event_9421\",\"field\":\"amount\",\"value\":4543,\"lifecycle\":\"confirm\",\"evidence_span\":\"TOTAL 4543 00\",\"confidence\":0.95}]}", "model": "meta/muse-spark-1.3-contributor", "prompt_tokens": 597, "completion_tokens": 2475}

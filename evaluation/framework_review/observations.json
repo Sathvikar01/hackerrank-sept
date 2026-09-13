@@ -1,0 +1,177 @@
+[
+  {
+    "probe": "missing_full_payment",
+    "row_valid": false,
+    "plan_safe": true,
+    "issues": [
+      "full_payment_plan"
+    ],
+    "hard_targets": {
+      "schema_violation_rate": 0.0,
+      "hard_safety_violation_rate": 0.0,
+      "schema_target_met": true,
+      "hard_safety_target_met": true
+    }
+  },
+  {
+    "probe": "false_safe_amount_and_earliest",
+    "row_valid": true,
+    "plan_safe": true,
+    "issues": [],
+    "hard_targets": {
+      "schema_violation_rate": 0.0,
+      "hard_safety_violation_rate": 0.0,
+      "schema_target_met": true,
+      "hard_safety_target_met": true
+    }
+  },
+  {
+    "probe": "unmatched_installments",
+    "row_valid": false,
+    "plan_safe": true,
+    "issues": [
+      "installment_option_mismatch"
+    ],
+    "hard_targets": {
+      "schema_violation_rate": 0.0,
+      "hard_safety_violation_rate": 0.0,
+      "schema_target_met": true,
+      "hard_safety_target_met": true
+    }
+  },
+  {
+    "probe": "unknown_debit",
+    "row_valid": false,
+    "plan_safe": true,
+    "issues": [
+      "unresolved_amount"
+    ],
+    "hard_targets": {
+      "schema_violation_rate": 0.0,
+      "hard_safety_violation_rate": 0.0,
+      "schema_target_met": true,
+      "hard_safety_target_met": true
+    }
+  },
+  {
+    "probe": "scheduled_unconfirmed_bonus",
+    "row_valid": true,
+    "plan_safe": true,
+    "issues": [],
+    "hard_targets": {
+      "schema_violation_rate": 0.0,
+      "hard_safety_violation_rate": 0.0,
+      "schema_target_met": true,
+      "hard_safety_target_met": true
+    }
+  },
+  {
+    "probe": "essential_variable_spending_ignored",
+    "row_valid": true,
+    "plan_safe": true,
+    "issues": [],
+    "hard_targets": {
+      "schema_violation_rate": 0.0,
+      "hard_safety_violation_rate": 0.0,
+      "schema_target_met": true,
+      "hard_safety_target_met": true
+    }
+  },
+  {
+    "probe": "forecast_and_concrete_salary_double_counted",
+    "row_valid": true,
+    "plan_safe": true,
+    "issues": [],
+    "hard_targets": {
+      "schema_violation_rate": 0.0,
+      "hard_safety_violation_rate": 0.0,
+      "schema_target_met": true,
+      "hard_safety_target_met": true
+    }
+  },
+  {
+    "probe": "future_unconfirmed_message_promoted_to_salary",
+    "row_valid": true,
+    "plan_safe": true,
+    "issues": [],
+    "hard_targets": {
+      "schema_violation_rate": 0.0,
+      "hard_safety_violation_rate": 0.0,
+      "schema_target_met": true,
+      "hard_safety_target_met": true
+    }
+  },
+  {
+    "probe": "valid_spending_change_not_applied",
+    "row_valid": false,
+    "plan_safe": false,
+    "issues": [
+      "minimum_balance",
+      "safety_invariant"
+    ],
+    "hard_targets": {
+      "schema_violation_rate": 0.0,
+      "hard_safety_violation_rate": 1.0,
+      "schema_target_met": true,
+      "hard_safety_target_met": false
+    }
+  },
+  {
+    "probe": "wrong_empty_date",
+    "expected": 0,
+    "observed": 1.0
+  },
+  {
+    "probe": "fabricated_explanation",
+    "expected_groundedness": 0,
+    "observed": {
+      "exact_match_rate": "unavailable",
+      "explanation_consistency_rate": 1.0,
+      "explanation_groundedness_rate": 1.0
+    }
+  },
+  {
+    "probe": "unsupported_income_metric",
+    "observed": 0.0,
+    "note": "SafetyResult field is never assigned after its False default in production evaluator code."
+  },
+  {
+    "probe": "public_self_comparison",
+    "rows": 25,
+    "hard_targets": {
+      "schema_violation_rate": 0.0,
+      "hard_safety_violation_rate": 0.0,
+      "schema_target_met": true,
+      "hard_safety_target_met": true
+    },
+    "failure_rows": 3,
+    "structured": {
+      "first_seven_field_exact_accuracy": 1.0
+    }
+  },
+  {
+    "probe": "current_output",
+    "rows": 250,
+    "hard_targets": {
+      "schema_violation_rate": 0.0,
+      "hard_safety_violation_rate": 0.0,
+      "schema_target_met": true,
+      "hard_safety_target_met": true
+    },
+    "failure_rows": 26,
+    "structured": {
+      "first_seven_field_exact_accuracy": "unavailable"
+    }
+  },
+  {
+    "probe": "strict_cli_missing_payment",
+    "expected_nonzero": true,
+    "actual_exit": 0,
+    "stdout": "valid"
+  },
+  {
+    "probe": "usage_report_overwrite",
+    "original_preserved": false,
+    "now_unavailable": true
+  }
+]

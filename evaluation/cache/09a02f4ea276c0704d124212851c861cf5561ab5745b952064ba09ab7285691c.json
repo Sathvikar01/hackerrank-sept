@@ -1,0 +1,1 @@
+{"text": "{\"claims\":[{\"event_ref\":null,\"field\":\"description\",\"value\":\"transfer between your two accounts\",\"lifecycle\":\"inform\",\"evidence_span\":\"transfer between your two accounts\",\"confidence\":0.95}]}", "model": "meta/muse-spark-1.3-contributor", "prompt_tokens": 501, "completion_tokens": 2564}

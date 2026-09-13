@@ -1,0 +1,1 @@
+{"text": "{\"claims\":[{\"event_ref\":null,\"field\":\"status\",\"value\":\"ended\",\"lifecycle\":\"inform\",\"evidence_span\":\"The current seasonal contract has ended.\",\"confidence\":0.95}]}", "model": "meta/muse-spark-1.3-contributor", "prompt_tokens": 291, "completion_tokens": 2441}

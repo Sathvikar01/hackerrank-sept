@@ -1,0 +1,1 @@
+{"text": "{\"claims\":[{\"event_ref\":null,\"field\":\"direction\",\"value\":\"debit\",\"lifecycle\":\"amend\",\"evidence_span\":\"monthly rent\",\"confidence\":0.9}]}", "model": "meta/muse-spark-1.3-contributor", "prompt_tokens": 387, "completion_tokens": 5658}

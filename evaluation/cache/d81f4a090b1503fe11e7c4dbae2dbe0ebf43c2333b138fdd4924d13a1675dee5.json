@@ -1,0 +1,1 @@
+{"text": "{\"claims\":[{\"event_ref\":null,\"field\":\"status\",\"value\":\"pending\",\"lifecycle\":\"delay\",\"evidence_span\":\"Pembayaran berikutnya dari TaskSprint masih tertunda.\",\"confidence\":0.9}]}", "model": "meta/muse-spark-1.3-contributor", "prompt_tokens": 302, "completion_tokens": 2682}

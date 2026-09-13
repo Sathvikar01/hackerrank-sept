@@ -1,0 +1,1 @@
+{"text": "```json\n{\"claims\":[{\"event_ref\":null,\"field\":\"event_type\",\"value\":\"investment_valuation\",\"lifecycle\":\"inform\",\"evidence_span\":\"Nilai investasi yang ditampilkan telah turun\",\"confidence\":0.95}]}\n```", "model": "google/gemini-3.8-flash", "prompt_tokens": 533, "completion_tokens": 840}
