@@ -1,5 +1,5 @@
 {
-  "candidate": "output_new.csv",
+  "candidate": "output.csv",
   "comparisons": {},
   "failures": [
     {
@@ -3006,15 +3006,15 @@
     "variable": "Essential variable spending uses the maximum historical 30-day total over the preceding 90 days, reserved at the start of each forecast month."
   },
   "usage": {
-    "average_tokens_per_request": 0.0,
+    "average_tokens_per_request": 356.652,
     "cache_hits": 384,
-    "estimated_cost_per_request": 0.0,
-    "estimated_total_cost": 0.0,
-    "input_tokens": 0,
-    "latency_ms": 741400.0,
-    "model_calls": 384,
-    "output_tokens": 0,
-    "provenance": "/tmp/metrics_new.json",
+    "estimated_cost_per_request": 6.5528e-05,
+    "estimated_total_cost": 0.016382,
+    "input_tokens": 14503,
+    "latency_ms": 392830.0,
+    "model_calls": 477,
+    "output_tokens": 74660,
+    "provenance": "evaluation\\dataset_metrics.json",
     "providers": [
       {
         "cache_hits": 167,
@@ -3038,17 +3038,17 @@
       },
       {
         "cache_hits": 8,
-        "calls": 8,
-        "estimated_cost": 0.0,
-        "input_tokens": 0,
+        "calls": 101,
+        "estimated_cost": 0.016382,
+        "input_tokens": 14503,
         "model": "meta/muse-spark-1.3-contributor",
-        "output_tokens": 0,
+        "output_tokens": 74660,
         "provider": "ZenMux",
         "purpose": "verification_controller"
       }
     ],
     "request_count": 250,
-    "total_tokens": 0
+    "total_tokens": 89163
   },
   "validation": {
     "issue_count": 0,

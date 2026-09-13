@@ -1,55 +1,57 @@
 {
-  "generated_at": "2026-09-13T07:54:24",
-  "dataset_dir": "/projects/challenge/dataset",
+  "generated_at": "2026-09-13T15:52:59",
+  "dataset_dir": "C:\\Users\\arsat\\Downloads\\hackerrank-sept\\dataset",
   "requests": 250,
   "pipeline_failures": 0,
-  "runtime_s": 15.85,
-  "requests_per_second": 15.7693,
+  "runtime_s": 392.83,
+  "requests_per_second": 0.6364,
   "primary_model": "meta/muse-spark-1.3-contributor",
   "second_model": "google/gemini-3.8-flash",
   "controller_model": "meta/muse-spark-1.3-contributor",
   "decisions": {
-    "affordable_later|wait": 30,
-    "affordable_now|full_payment": 18,
-    "affordable_with_plan|full_payment": 1,
+    "affordable_later|wait": 26,
+    "affordable_now|full_payment": 16,
     "affordable_with_plan|installments": 16,
-    "affordable_with_plan|partial_payment": 6,
-    "not_affordable|not_recommended": 179
+    "affordable_with_plan|partial_payment": 5,
+    "not_affordable|not_recommended": 187
   },
   "materiality": {
-    "attachment_immaterial": 132,
-    "attachment_material": 5,
+    "attachment_immaterial": 135,
+    "attachment_material": 2,
     "attachment_none": 113,
-    "immaterial": 243,
-    "material": 7
+    "immaterial": 230,
+    "material": 4,
+    "unknown": 16
   },
   "attachments": {
-    "ambiguous": 291,
-    "new_obligation": 529,
-    "unresolved": 357
+    "ambiguous": 344,
+    "new_obligation": 328,
+    "unresolved": 264
   },
   "attachment_unresolved_reasons": {
-    "multiple plausible existing events": 291,
-    "no amount or explicit event reference to anchor attachment": 133,
-    "amount and currency match but the dates are not compatible": 63,
-    "new obligation is incomplete: date": 52,
-    "no existing event matches the evidence": 36,
-    "amount matches an event but the currency is incompatible": 30,
-    "amount does not match any event and the evidence carries no date, category, or d": 24,
-    "matching events exist but the lifecycle is incompatible": 19
+    "conflicting values within the source for: direction": 121,
+    "multiple plausible existing events": 120,
+    "conflicting values within the source for: amount": 103,
+    "no amount or explicit event reference to anchor attachment": 91,
+    "new obligation is incomplete: date": 42,
+    "amount and currency match but the dates are not compatible": 39,
+    "no existing event matches the evidence": 31,
+    "amount matches an event but the currency is incompatible": 24,
+    "amount does not match any event and the evidence carries no date, category, or d": 20,
+    "matching events exist but the lifecycle is incompatible": 17
   },
-  "verification_gated": 7,
-  "verification_failed": 1,
+  "verification_gated": 115,
+  "verification_failed": 0,
   "conservative_decisions": 0,
   "extraction_errors": 0,
-  "rejected_claims": 4,
+  "rejected_claims": 378,
   "usage": {
     "rows": [
       {
         "model": "google/gemini-3.8-flash",
         "purpose": "extraction_independent",
-        "calls": 173,
-        "cache_hits": 173,
+        "calls": 167,
+        "cache_hits": 167,
         "prompt_tokens": 0,
         "completion_tokens": 0
       },
@@ -64,24 +66,24 @@
       {
         "model": "meta/muse-spark-1.3-contributor",
         "purpose": "verification_controller",
-        "calls": 2,
-        "cache_hits": 2,
-        "prompt_tokens": 0,
-        "completion_tokens": 0
+        "calls": 101,
+        "cache_hits": 8,
+        "prompt_tokens": 14503,
+        "completion_tokens": 74660
       }
     ],
     "cached_calls": 384,
-    "total_calls": 384,
-    "total_prompt_tokens": 0,
-    "total_completion_tokens": 0
+    "total_calls": 477,
+    "total_prompt_tokens": 14503,
+    "total_completion_tokens": 74660
   },
   "cost": {
     "by_model_purpose": {
       "meta/muse-spark-1.3-contributor|extraction_primary": 0.0,
       "google/gemini-3.8-flash|extraction_independent": 0.0,
-      "meta/muse-spark-1.3-contributor|verification_controller": 0.0
+      "meta/muse-spark-1.3-contributor|verification_controller": 0.016382
     },
-    "total_usd": 0.0,
+    "total_usd": 0.016382,
     "cache_hits": 384
   },
   "pipeline_errors": []

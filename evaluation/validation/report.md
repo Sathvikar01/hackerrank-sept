@@ -1,6 +1,6 @@
 # Evaluation report
 
-Candidate: `output_new.csv`
+Candidate: `output.csv`
 
 ## Hard targets
 

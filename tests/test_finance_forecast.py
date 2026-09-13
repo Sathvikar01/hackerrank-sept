@@ -266,6 +266,40 @@ class ForecastTests(unittest.TestCase):
             ForecastPolicy(variable_spending_enabled=True))
         self.assertEqual(result.minimum, D("100000"))
 
+    def test_fixed_unprotected_spending_is_not_reserved_as_variable(self):
+        profile = fixtures.profile(protected_categories=("groceries",))
+        events = [
+            fixtures.event(
+                event_id="event_01", status="settled", amount=D("200"),
+                category="dining", description="Dining out", flexibility="fixed",
+                event_date=date(2025, 12, 5), settlement_date=date(2025, 12, 5)),
+            fixtures.event(
+                event_id="event_02", status="settled", amount=D("100"),
+                category="transport", description="Ride hail", flexibility="fixed",
+                event_date=date(2025, 12, 10), settlement_date=date(2025, 12, 10)),
+        ]
+        result = project(
+            fixtures.scope(events=events, profile=profile),
+            ForecastPolicy(variable_spending_enabled=True))
+        self.assertEqual(result.minimum, D("100000"))
+
+    def test_protected_variable_spending_is_still_reserved(self):
+        profile = fixtures.profile(protected_categories=("groceries",))
+        events = [
+            fixtures.event(
+                event_id="event_01", status="settled", amount=D("200"),
+                category="groceries", description="Grocery run", flexibility="fixed",
+                event_date=date(2025, 12, 5), settlement_date=date(2025, 12, 5)),
+            fixtures.event(
+                event_id="event_02", status="settled", amount=D("100"),
+                category="groceries", description="Grocery run", flexibility="fixed",
+                event_date=date(2025, 12, 10), settlement_date=date(2025, 12, 10)),
+        ]
+        result = project(
+            fixtures.scope(events=events, profile=profile),
+            ForecastPolicy(variable_spending_enabled=True))
+        self.assertEqual(result.minimum, D("99100"))
+
     def test_recurring_income_is_projected_conservatively(self):
         history = [
             fixtures.event(

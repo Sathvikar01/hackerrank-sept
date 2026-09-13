@@ -85,9 +85,9 @@ class FinancialEngine:
         if capacity.earliest_full_payment_date is not None:
             explanation += (
                 f" A single safe full payment first becomes possible on "
-                f"{capacity.earliest_full_payment_date.isoformat()}, but that is after the "
-                f"desired completion date {scope.request.desired_completion_date.isoformat()}, "
-                f"so no eligible recommendation is available.")
+                f"{capacity.earliest_full_payment_date.isoformat()}, but no plan meets "
+                f"all payment preferences, schedule constraints, and the desired "
+                f"completion date {scope.request.desired_completion_date.isoformat()}.")
         return Decision(
             request_id=scope.request.request_id,
             amount_safe_to_pay=capacity.amount_safe_to_pay,

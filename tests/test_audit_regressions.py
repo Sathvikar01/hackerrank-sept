@@ -196,7 +196,9 @@ class RecurrenceTests(unittest.TestCase):
 
 class VariableSpendingTests(unittest.TestCase):
     def test_irregular_essentials_reserve_per_category(self):
-        scope = fixtures.scope(events=[
+        scope = fixtures.scope(
+            profile=fixtures.profile(protected_categories=("groceries",)),
+            events=[
             fixtures.event(
                 event_id="event_01", status="settled", amount=D("200"),
                 category="groceries", description="Fresh food shop",

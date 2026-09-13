@@ -8,18 +8,18 @@ All unavailable measurements are reported as `unavailable`; no usage values are 
 |---|---|---:|---:|---:|---:|
 | ZenMux | google/gemini-3.8-flash | 167 | 0 | 0 | 0.0 |
 | ZenMux | meta/muse-spark-1.3-contributor | 209 | 0 | 0 | 0.0 |
-| ZenMux | meta/muse-spark-1.3-contributor | 8 | 0 | 0 | 0.0 |
+| ZenMux | meta/muse-spark-1.3-contributor | 101 | 14503 | 74660 | 0.016382 |
 
 ## Run totals
 
-- Model calls: `384`
-- Input tokens: `0`
-- Output tokens: `0`
-- Total tokens: `0`
-- Average tokens per request: `0.0`
-- Estimated total cost: `0.0`
-- Estimated cost per request: `0.0`
-- Latency: `741400.0` ms
+- Model calls: `477`
+- Input tokens: `14503`
+- Output tokens: `74660`
+- Total tokens: `89163`
+- Average tokens per request: `356.652`
+- Estimated total cost: `0.016382`
+- Estimated cost per request: `6.5528e-05`
+- Latency: `392830.0` ms
 
 ## Measurement provenance
 

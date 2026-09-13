@@ -2659,3 +2659,1252 @@ Organizer-gold accuracy is effectively tied, while DUAL preserves genuine indepe
 The larger remaining issue is not model selection: both architectures perform poorly against organizer gold, especially on status, method, plan, amount, and first-seven-field exact match.
 
 user:
+Do a READ-ONLY audit for two things:
+
+1. Overfitting to the 25 organizer sample requests
+2. Generalization to unseen/hidden requests
+
+Do not modify code.
+
+## 1. OVERFITTING CHECK
+
+Inspect:
+
+* problem statement
+* AGENTS.md
+* finance/evidence pipeline
+* prompts
+* tests
+* git diff/history where useful
+* sample_requests.csv
+* dataset/requests.csv
+
+Look for any behavior specifically fitted to public examples, including:
+
+* request IDs / event IDs
+* exact dates or amounts
+* user-specific rules
+* description/category keyword hacks
+* thresholds chosen only because they match public gold
+* special cases introduced after inspecting sample failures
+* tests that encode sample answers instead of general rules
+* evaluator logic that rewards the current implementation circularly
+
+For every suspected case report:
+
+* code location
+* public example it appears fitted to
+* whether the rule is independently justified by the problem statement
+* hidden-score risk
+
+Also test whether removing/perturbing sample-specific identifiers changes behavior when it should not.
+
+## 2. GENERALIZATION CHECK
+
+There is no gold for request_26–request_275, so do NOT claim hidden accuracy.
+
+Evaluate robustness/generalization using specification-grounded checks.
+
+### Dataset slices
+
+Compare behavior across:
+
+* currencies
+* request types
+* high/low balances
+* high/low requested amounts
+* users with/without messages
+* users with/without images
+* blank image-backed amounts
+* pending/scheduled events
+* multiple recurring-income streams
+* flexible expenses
+* payment options
+* FX-required cases
+* affordable vs not-affordable outputs
+
+Report safety/error rates per slice and flag unusually weak slices.
+
+### Metamorphic tests
+
+Create TEMPORARY tests only; do not modify production files.
+
+Check invariants such as:
+
+* reordering CSV rows does not change decisions
+* renaming request/user/event IDs does not change financial decisions
+* equivalent description whitespace/casing does not materially change behavior
+* adding an irrelevant old transaction does not change the decision
+* adding a failed/cancelled/unrealized event does not change cash forecasts
+* adding a pending credit does not increase affordability
+* lowering current balance cannot increase safe amount
+* increasing minimum balance cannot increase safe amount
+* increasing requested amount cannot increase affordability
+* removing confirmed income cannot improve affordability
+* increasing an essential debit cannot improve affordability
+* a blank amount is never treated as zero
+* equivalent lifecycle representations reconcile consistently
+* all positive plans still replay safely
+
+### Distribution/generalization risks
+
+Find assumptions that work on the public 25 but may fail on hidden data:
+
+* recurrence heuristics
+* lifecycle rules
+* income grouping
+* essential-variable spending
+* attachment matching
+* image/message interpretation
+* FX handling
+* dates near the 90-day boundary
+* partial/installment plans
+* spending-change enumeration
+
+For each risk require:
+
+1. exact code location
+2. concrete unseen-style example
+3. whether it can cause unsafe output or only lower accuracy
+4. severity: HIGH / MEDIUM / LOW
+
+## Output only
+
+### OVERFITTING
+
+* PASS / CONCERNS / FAIL
+* confirmed issues
+
+### GENERALIZATION
+
+* PASS / CONCERNS / FAIL
+* slice results
+* metamorphic-test results
+* highest-risk unseen cases
+
+### BLOCKERS
+
+Only issues worth fixing before submission.
+
+### FINAL VERDICT
+
+Choose one:
+
+* GOOD TO PROCEED
+* FIX BEFORE SUBMISSION
+
+Do not recommend changes merely to improve public-gold match.
+
+response:
+## Overfitting + Generalization Audit — Grok 4.6 vs GLM 5.3
+
+### Grok 4.6
+
+**Overfitting: CONCERNS**
+
+* No hardcoded sample IDs, gold lookups, or request-specific branches.
+* ID renaming, row reordering, and whitespace/case perturbations did not change decisions.
+* Main concern is **sample-calibrated heuristics**, especially:
+
+  * description keyword regexes,
+  * recurrence thresholds,
+  * evaluator rules mirroring engine rules.
+* Old `public gold = 1.0` was confirmed to be a self-comparison and should not be treated as real accuracy.
+
+**Generalization: CONCERNS**
+
+* All 22/22 metamorphic invariants passed.
+* 76/250 recommendations are positive; all replay safely under the current deterministic engine.
+* Weak slices:
+
+  * image/blank-amount cases,
+  * travel/housing,
+  * some FX and scheduled-income cases.
+* Highest-risk issue: **stale recurring salary can continue being projected after multiple expected pay cycles were missed**.
+* Grok identified several current positive eval rows that may rely on such stale salary projections.
+* This can inflate affordability and potentially create an unsafe hidden prediction.
+
+**Grok verdict: FIX BEFORE SUBMISSION**
+Recommended fix: stop projecting income recurrence after sufficiently missed expected occurrences, while preserving fail-closed behavior.
+
+---
+
+### GLM 5.3
+
+**Overfitting: PASS**
+
+* No hardcoded public-sample IDs, values, dates, or outputs.
+* Tests use synthetic fixtures.
+* Existing keyword rules and forecasting constants were judged general/spec-grounded rather than sample-specific.
+
+**Generalization: PASS with medium risks**
+
+* 6/6 metamorphic checks passed.
+* Existing test suite: 228 passed, 2 skipped.
+* No major collapse across currencies/statuses/payment methods.
+* Blank amounts fail closed correctly.
+* Pending/scheduled/cancelled/failed/unrealized statuses are handled conservatively.
+* Main medium risks:
+
+  * description-text lifecycle heuristics,
+  * fixed 7–45 day recurrence cadence,
+  * essential-category keyword coverage,
+  * unusual hidden recurrence patterns.
+
+GLM did **not** flag stale salary continuation as a blocker.
+
+**GLM verdict: GOOD TO PROCEED**
+
+---
+
+### Agreement
+
+Both models agree:
+
+* No direct overfitting to the 25 public samples.
+* No hardcoded sample-specific decision logic.
+* Core monotonicity/metamorphic checks pass.
+* Current system is highly conservative and internally safe.
+* Public-gold self-comparison should not be treated as real model accuracy.
+* Remaining risks are mostly recurrence/evidence-generalization issues.
+
+### Main Disagreement
+
+**Grok 4.6:** stale recurring salary projection is a real safety blocker and should be fixed before submission.
+
+**GLM 5.3:** recurrence risks are medium-level generalization concerns, not blockers.
+
+So the only major unresolved question is:
+
+> Should a recurring income series stop being projected after one or more expected pay cycles are missing before the request date?
+
+user:
+Do a READ-ONLY targeted audit of one issue only:
+
+**Does the engine incorrectly continue projecting recurring salary after expected pay cycles were missed before the request date?**
+
+Do not modify code.
+
+Grok 4.6 claims this can create unsafe positive recommendations.
+
+Inspect:
+
+* problem statement
+* AGENTS.md
+* `code/finance/forecast.py`
+* current output/certificates
+* relevant event history/messages
+
+Focus on these eval requests Grok flagged:
+`request_29`, `request_61`, `request_201`, `request_213`, `request_237`, `request_241`, `request_265`
+
+For each request:
+
+1. Reconstruct the salary series used by `detect_recurrence`.
+2. Show historical salary dates and cadence.
+3. Show request date.
+4. Identify expected salary dates that were missed before the request date.
+5. Show which future salaries the engine still projects.
+6. Recompute the decision with that stale salary projection removed.
+7. State whether status, safe amount, method, or payment plan changes.
+8. Check messages/images for evidence that the salary actually continues.
+
+Then answer the spec question:
+
+* Does “forecast recurring income when history supports it” justify continuing a series after one or more expected occurrences are absent?
+* Would adding a missed-cadence termination rule be spec-grounded or an invented heuristic?
+* What termination rule, if any, can be justified without overfitting?
+
+Also search the full 250 requests for the same pattern:
+
+* recurring credit series
+* expected occurrence(s) missing before request date
+* engine still projects future income
+* positive recommendation depends materially on that income
+
+Output only:
+
+## SPEC INTERPRETATION
+
+## FLAGGED REQUESTS
+
+Table:
+request | missed cycles | projected stale income | output changes if removed | supporting evidence
+
+## FULL-DATASET IMPACT
+
+* affected requests
+* affected positive recommendations
+* potentially unsafe positives
+
+## VERDICT
+
+Choose exactly one:
+
+* KEEP CURRENT
+* PATCH
+
+If PATCH:
+
+* state the smallest general rule
+* list exact code/tests affected
+* do NOT implement it yet
+
+response:
+## Stale Salary Recurrence Audit — GLM 5.3
+
+### Finding
+
+**Confirmed bug: stale recurring salary can continue being projected after the income stream has clearly stopped.**
+
+Current recurrence logic validates cadence only from past settled payments, then keeps projecting forward from the last occurrence. It does **not** check whether one or more expected pay cycles were already missed before the request date.
+
+This conflicts with:
+
+* “Detect recurrence only when history supports it”
+* “Do not invent unsupported future income”
+
+### Impact
+
+GLM found:
+
+* 16 requests with at least one missed expected income occurrence.
+* 8 strong seasonal/contract-ended cases with about 2 missed monthly cycles.
+* Employer messages explicitly say the contracts ended.
+* 5 current positive recommendations materially rely on stale projected salary and flip to `not_affordable` when that income is removed:
+
+  * `request_29`
+  * `request_201`
+  * `request_213`
+  * `request_237`
+  * `request_265`
+
+Two more (`request_61`, `request_241`) contain stale salary projections but their final recommendation remains safe without them.
+
+`request_133` was already not affordable, but its safe amount also falls to zero when stale income is removed.
+
+### Important distinction
+
+A **one-missed-cycle rule would be too aggressive**.
+
+Eight weekly gig-income cases have only one missing expected payment, while messages indicate payouts are still pending/continuing.
+
+So the proposed rule is:
+
+> Suppress a recurring credit series only when at least 2 expected occurrences before the request date are missing, using the series’ detected cadence and existing matching tolerance.
+
+This targets terminated/stale income without killing noisy but still-active income streams.
+
+### Proposed Patch
+
+In `code/finance/forecast.py` recurrence detection:
+
+* after cadence is detected,
+* walk expected occurrences from the last settled payment toward the request date,
+* if ≥2 expected occurrences have no matching cash credit within `recurrence_match_days`,
+* stop projecting that credit series.
+
+Keep:
+
+* recurrence threshold = 3
+* one missed cycle allowed
+* existing deterministic/fail-closed behavior
+
+Add regression tests for:
+
+1. two missed monthly cycles → recurrence suppressed
+2. one missed weekly cycle → recurrence preserved
+3. an actual matching occurrence within tolerance → not counted as missed
+
+### Output Impact
+
+Expected changed rows after regeneration:
+
+* `request_29`
+* `request_133`
+* `request_201`
+* `request_213`
+* `request_237`
+* `request_265`
+
+`request_61` and `request_241` contain stale recurrence but final decisions remain unchanged.
+
+### Additional Observation
+
+The evidence pipeline failed to turn several explicit employer contract-termination messages into usable facts (`facts: []`), so the deterministic recurrence rule currently acts as the final safety net.
+
+### Verdict
+
+**PATCH BEFORE SUBMISSION**
+
+This is a spec-grounded safety fix, not public-gold tuning.
+
+user:
+Implement the confirmed stale recurring-credit fix only.
+Finance architecture is otherwise FROZEN. Do not change other recurrence rules, reserves, prompts, models, evaluator semantics, planning, or ranking.
+Change
+In code/finance/forecast.py:
+For a detected recurring credit series, before projecting future occurrences:
+step forward from the last settled occurrence using its detected cadence
+inspect expected occurrences strictly before request_date
+use existing recurrence_match_days tolerance
+if 2 or more expected occurrences are missing, suppress that credit recurrence
+1 missed occurrence must NOT terminate the series
+only actual matching cash-credit occurrences should count as present
+do not weaken pending-credit rules
+Keep:
+minimum recurrence occurrences = 3
+existing cadence detection
+calendar-month handling
+debit recurrence unchanged
+Mirror only the necessary logic in the independent evaluator if required for parity.
+Tests
+Add regression tests proving:
+two missed monthly salary cycles → no future recurrence
+one missed weekly cycle → recurrence remains
+matching credit within tolerance → occurrence is not missed
+debit recurrence behavior is unchanged
+existing recurrence tests still pass
+Validation
+Run:
+targeted recurrence tests
+full offline test suite
+full 250-request pipeline
+strict evaluator
+deterministic replay of every positive recommendation
+Compare BEFORE vs AFTER:
+schema violations
+hard-safety violations
+positive count
+replay-safe positives
+status/method distribution
+changed request IDs
+all changed output fields
+Specifically verify expected stale-income cases:
+request_29, request_61, request_133, request_201, request_213, request_237, request_241, request_265
+Do not manually force their outputs.
+Do NOT change the model configuration:
+Muse Spark 1.3 primary
+Gemini 3.8 Flash second extractor
+Muse Spark 1.3 controller
+Output
+CODE CHANGED
+TESTS
+BEFORE VS AFTER
+STALE-INCOME CASES
+REGRESSIONS
+VERDICT: KEEP PATCH / REVERT PATCH
+If any new safety failure or unrelated regression appears, do not make additional fixes; report it.
+
+response:
+## Stale Income Recurrence Fix
+
+### What changed
+
+Patched recurring-credit forecasting so stale income is no longer projected indefinitely.
+
+New rule:
+
+> If a recurring credit series has **2 or more expected occurrences missing before the request date**, suppress future recurrence projection.
+
+Details:
+
+* Uses the series’ detected cadence.
+* Uses existing `recurrence_match_days` tolerance.
+* One missed occurrence does **not** terminate the series.
+* Debit recurrence is unchanged.
+* Minimum recurrence history remains 3 occurrences.
+* Calendar-month behavior is unchanged.
+* Pending-credit cash rules are unchanged.
+
+The same rule was mirrored in the independent evaluator for parity.
+
+No changes were made to prompts, models, planning, ranking, reserves, or architecture.
+
+### Tests
+
+Added 5 stale-credit regression tests covering:
+
+* 2 missed monthly cycles → suppress recurrence
+* 1 missed weekly cycle → keep recurrence
+* matching credit within tolerance → not missed
+* debit recurrence unchanged
+* engine/evaluator parity
+
+Results:
+
+* 26/26 audit recurrence tests passed.
+* Full offline suite: 190/195.
+* Remaining 5 failures are pre-existing environment issues: missing `langgraph` and one baseline CLI failure.
+* No new test regressions.
+
+### Before → After
+
+* Schema violations: **0 → 0**
+* Hard-safety violations: **5 → 0**
+* Positive recommendations: **76 → 71**
+* Replay-safe positives: **71/71**
+* Pipeline failures: **0**
+* Extraction errors: **0**
+
+Exactly 6 output rows changed:
+
+* `request_29`
+* `request_133`
+* `request_201`
+* `request_213`
+* `request_237`
+* `request_265`
+
+Five previously positive recommendations became `not_affordable` because they depended on stale salary projections.
+
+`request_133` remained `not_affordable`, but its safe amount was corrected.
+
+`request_61` and `request_241` contained stale income but their final plans did not depend on it, so outputs stayed unchanged.
+
+### Regression check
+
+All 8 weekly gig-income cases with only one missed occurrence remained unchanged, confirming the ≥2 rule does not over-terminate noisy but active income streams.
+
+No new:
+
+* schema failures
+* minimum-balance failures
+* deadline failures
+* FX failures
+* spending-change violations
+
+### Verdict
+
+**KEEP PATCH — stale-income recurrence logic is now FROZEN.**
+
+This was a general spec-grounded safety correction, not public-gold tuning.
+
+Only final caveat: validation used cached model outputs and a temporary `/tmp` LangGraph stub because the environment lacked `langgraph`. Before submission, confirm the same behavior once in the real submission environment.
+
+user:
+You are performing a final implementation audit of this HackerRank Orchestrate repo.
+Do not redesign the architecture. Do not add new rules unless required to fix a concrete implementation bug.
+Current intended architecture:
+Muse Spark 1.3 = primary model.
+Gemini 3.8 Flash = independent second model where the architecture requires it.
+Deterministic code has final authority for reconciliation, financial calculations, safety checks, and final decisions.
+Model confidence/order must never override evidence or deterministic constraints.
+Ambiguous/material disagreements must remain unresolved or trigger verification rather than being guessed away.
+Audit the entire current implementation against:
+problem_statement.md
+AGENTS.md
+the architecture/spec files in the repo
+current evaluation framework/tests
+Check specifically for:
+implementation bugs or incorrect control flow
+Muse/Gemini routing mistakes
+cases where an LLM can bypass deterministic authority
+incorrect disagreement/reconciliation logic
+financial-engine or safety-rule errors
+evidence/provenance loss
+schema or output-contract violations
+cache correctness, stale-cache or unsafe-cache reuse
+retries/fallbacks that change semantics
+dead, duplicated, unreachable, or contradictory logic
+hardcoded assumptions that contradict the problem statement
+implementation that differs from the intended architecture
+regressions introduced by the latest patches
+Run the relevant tests and targeted probes needed to verify findings.
+Do not treat stylistic issues, refactors, naming, or speculative improvements as bugs.
+For every real issue, report:
+[BLOCKING | NON-BLOCKING] — short title
+File/function:
+What is wrong:
+Concrete failure scenario:
+Why it violates the spec/architecture:
+Minimal fix:
+If a finding cannot be demonstrated from code, tests, or a reproducible probe, do not report it as a confirmed bug.
+At the end output:
+FINAL VERDICT
+Blocking issues:
+Non-blocking issues:
+Tests/probes run:
+Architecture implementation: MATCHES / DOES NOT MATCH
+Ready for Astra generalisation review: YES / NO
+If blocking issues exist, fix only those confirmed implementation bugs, rerun the affected tests, and report the exact changes made.
+
+response:
+GLM 5.3 — Final Implementation Audit
+
+Verdict: 0 blocking implementation bugs by its current evaluator; architecture marked MATCHES; ready for Astra review.
+
+Validation:
+
+233 tests passed, 2 skipped.
+26 audit regression tests passed.
+Strict evaluator passed.
+Current output.csv: 250 rows, correct order/schema, 0 hard-safety violations.
+Deterministic reruns were byte-identical.
+Muse Spark primary + Gemini independent extraction routing is correct.
+No LLM bypass of deterministic financial authority was found.
+
+GLM still identified important non-blocking risks:
+
+Latest stale-credit fix, tests, regenerated output and evaluation artifacts are uncommitted; must commit before packaging.
+Failed primary extraction of consequential evidence does not reliably enter the unresolved/verification gate.
+Ambiguous/unresolved attachments may still allow positive recommendations without a deterministic sensitivity test.
+earliest_date_for_full_payment handling conflicts with literal AGENTS.md wording in some not_affordable cases.
+Some reconcile helpers are dead/duplicated.
+Dev orchestrator role labels differ from production Muse/Gemini roles, though production routing itself is correct.
+Final usage report shows zero tokens because the final replay was entirely cached.
+Frozen evaluator policy differs materially from official sample answers (18/25 sample rows violate the evaluator's stricter safety policy), leaving calibration risk.
+
+GLM considers the stale-credit recurrence patch itself correct and confirmed no current dataset regression.
+
+Decision
+
+Use Astra's architecture findings as the higher-priority patch specification, especially where Astra's targeted probes exposed concrete failures that GLM's existing evaluator did not classify as blocking.
+
+user:
+READ-ONLY final review of the current HackerRank Orchestrate solution. Do not modify files.
+
+Read:
+
+* `problem_statement.md`
+* `astra_architecture.md`
+* current rules/architecture implementation
+
+Answer only these questions:
+
+1. Does the current implementation still match `astra_architecture.md`? List only meaningful mismatches.
+2. What are the TOP  missing generalisation/edge-case protections, if any?
+3. Are any existing deterministic rules brittle, dataset-specific, contradictory, or likely to hurt unseen cases?
+4. Is Muse Spark 1.3 + Gemini 3.8 Flash disagreement/ambiguity handling correct, with deterministic logic retaining final authority?
+5. Inspect the cache at a high level: any correctness/staleness/keying issue, and are there obvious missed cache-hit opportunities?
+
+Be conservative. Do not propose dataset-specific rules or speculative complexity.
+
+For every recommended change give only:
+
+* Issue
+* General fix
+* Risk: LOW / MEDIUM / HIGH
+* MUST FIX or OPTIONAL
+
+Finish with:
+
+## VERDICT
+
+* Architecture match: YES / PARTIAL / NO
+* Must-fix items:
+* Optional improvements:
+* Freeze now: YES / NO
+
+response:
+Astra High — Architecture / Generalisation Review
+
+Verdict: PARTIAL architecture match. Do not freeze yet.
+
+Astra found 7 must-fix reliability gaps:
+
+Final verifier is not truly independent/strict enough; it can certify invalid plans. It must validate capacity, earliest date, eligibility, schedules, deadlines, permissions, and ranking.
+Incomplete/failed evidence can become effectively immaterial. Missing extraction, independent-review failures, and ambiguous attachments must remain unresolved and interact jointly during materiality analysis.
+Extracted evidence spans are not verified strongly enough against the original source. Enforce closed schemas and source-span/value grounding.
+Recurrence logic can recreate explicitly pending/contradicted salary income. Explicit lifecycle/date/scope evidence must override recurrence projection.
+earliest_date_for_full_payment can be incorrectly cleared when no eligible preferred plan exists.
+Payments outside the 90-day forecast can be ignored yet still certified. Any unevaluated payment must prevent certification.
+Muse/Gemini attachment claims are not always reconciled through the same order-independent interpretation process; competing values can collapse incorrectly. Verification rereads also reuse cached extraction instead of supplying genuinely new verification evidence/questions.
+
+Cache was generally healthy, but explicit version namespacing, atomic writes, per-key concurrency coordination, and content-based reuse were suggested as optional, not blocking.
+
+Astra specifically advised against further heuristic tuning of recurrence/lifecycle rules before submission.
+
+user:
+Implement the final reliability patch based on the Astra review and your own audit.
+
+Priority order:
+
+1. `problem_statement.md`
+2. `astra_architecture.md`
+3. Astra MUST-FIX findings below
+4. Existing evaluator/tests
+
+Do not redesign the architecture. Keep Muse Spark 1.3 + Gemini 3.8 Flash + deterministic final authority.
+
+Astra found these MUST-FIX issues:
+
+### 1. Final verifier is incomplete
+
+`code/finance/engine.py` verifier can certify plans without independently validating all required constraints.
+
+Fix it so certification explicitly validates, where applicable:
+
+* payment capacity
+* exact payment amounts/schedules
+* earliest safe date
+* payment-option eligibility
+* deadlines
+* spending-change permissions/limits
+* ranking/selected-plan correctness
+
+A plan must never be certified when any payment or constraint was not actually evaluated.
+
+### 2. Incomplete/unresolved evidence can become immaterial
+
+Extraction failure, missing independent review, ambiguous attachments, or incomplete coverage must remain unresolved when consequential.
+
+Fix materiality so:
+
+* incomplete consequential evidence remains unknown
+* interacting ambiguities are evaluated jointly when they can affect the same decision
+* positive recommendations are allowed only when safe across supported interpretations
+* extraction exceptions cannot silently remove evidence from consideration
+
+This includes your audit finding that primary extraction failures currently skip the unresolved/review gate.
+
+### 3. Evidence grounding/schema validation is insufficient
+
+Model-provided evidence spans are not themselves proof.
+
+Enforce:
+
+* closed extraction schema / reject unexpected properties
+* quoted/source evidence must actually exist in the original source
+* consequential extracted values must be supported by that source evidence
+* unsupported consequential claims remain unresolved rather than accepted
+
+### 4. Recurrence/lifecycle reconciliation bug
+
+Explicit pending/amended/cancelled/settled evidence must be reconciled before recurrence projection.
+
+Prevent:
+
+* stale or explicitly pending salary/income being recreated as a fresh forecast occurrence
+* duplicate/contradicted recurring income
+* extracted recurrence instructions being ignored by the live engine
+
+Preserve the already-correct stale-credit patch.
+
+### 5. Preserve earliest full-payment date
+
+If full payment becomes safely possible within the forecast period, preserve `earliest_date_for_full_payment` even when the selected/requested payment method is ineligible.
+
+Resolve any engine/evaluator mismatch consistently with the actual problem contract rather than hiding the date.
+
+### 6. Never certify payments outside evaluated horizon
+
+A plan containing payments beyond the simulated/verified horizon must not be certified merely because those payments were ignored.
+
+Either evaluate their safety correctly or reject/fail closed.
+
+### 7. Muse/Gemini disagreement handling
+
+Unlinked/new obligation claims must use the same order-independent reconciliation process as other consequential claims.
+
+Do not:
+
+* pick the first matching field
+* collapse conflicting values without preserving alternatives
+* let model ordering determine the result
+
+Targeted verification must be meaningfully independent: use the original evidence with a distinct verification question/check, not merely replay the same cached extraction.
+
+### Existing GLM findings to incorporate
+
+Also address these where covered above:
+
+* errored primary extractions must enter `unresolved`
+* unresolved attachments need deterministic dependency/sensitivity handling before positive certification
+
+Do NOT spend time on:
+
+* cache optimization/versioning unless required for correctness
+* dead-code cleanup
+* orchestrator dev-harness role labels
+* style/refactors
+* speculative heuristic tuning
+
+## Implementation process
+
+For each fix:
+
+1. reproduce the failure with a focused regression test/probe
+2. implement the smallest general fix
+3. run affected tests
+4. run the full suite/evaluator after all fixes
+
+Do not weaken the evaluator to make tests pass.
+Do not hardcode request IDs or dataset examples.
+Do not change correct outputs unless required by the general fix.
+
+At the end report only:
+
+## CHANGES
+
+* issue → files changed → fix
+
+## VERIFICATION
+
+* targeted regression tests
+* full test-suite result
+* strict evaluator result
+* output rows changed, if any, with the general reason
+
+## FINAL VERDICT
+
+* Astra MUST-FIX items resolved: X/7
+* Remaining blockers:
+* Architecture matches `astra_architecture.md`: YES / NO
+* Safe to regenerate/freeze `output.csv`: YES / NO
+
+Do not commit or regenerate the final submission artifacts unless all MUST-FIX items are resolved and tests pass.
+
+response:
+## Astra Reliability Patch — Implemented, Final Validation Pending
+
+Implemented all 7 Astra MUST-FIX items:
+
+* Hardened deterministic verifier for schedules, amounts, capacity, eligibility, deadlines, spending constraints, ranking, earliest date, and horizon coverage.
+* Fixed unresolved-evidence handling for extraction failures, missing reviews, ambiguous attachments, joint interpretations, and unquantified obligations.
+* Enforced closed schema and source-grounded consequential claims.
+* Fixed recurrence/lifecycle handling for cancelled, pending, stale, and `one_time` income.
+* Preserved `earliest_date_for_full_payment` when independently valid.
+* Made targeted verification independent using Gemini + a distinct verification prompt.
+* Made attachment reconciliation order-independent and preserved conflicting values as ambiguity.
+
+### Verification completed
+
+* Full suite before final matcher tightening: **260 passed, 2 skipped, 9 subtests passed**
+* Focused reliability tests: **27 passed**
+* Tests after final matcher change: **41 targeted tests passed**
+* Intermediate full pipeline: **250/250 requests, 0 failures**
+* Intermediate strict evaluator: **schema valid, hard-safety target met, exit 0**
+
+### Still required before freeze
+
+The final token-matcher tightening happened after the successful full run, so final validation is still pending:
+
+1. Rerun the full **260-test suite**
+2. Rerun the full **250-request pipeline**
+3. Run the strict evaluator on the new output
+4. Review the final row diff
+5. If clean, regenerate/replace final `output.csv` and evaluation artifacts
+6. Commit the final submission state
+
+**Current status: implementation complete, but NOT YET FROZEN or submission-ready until the final full rerun passes.**
+
+user:
+Perform the final validation of the current HackerRank Orchestrate implementation.
+
+Do not redesign the architecture, add new rules, tune heuristics, or refactor working code.
+
+The Astra reliability patch is already implemented. The only remaining concern is that the final token-matcher tightening happened after the last successful full run.
+
+Run these steps in order:
+
+1. Run the complete test suite.
+
+   * Confirm all expected tests pass.
+   * If a test fails, diagnose whether it is a genuine regression from the matcher change.
+   * Fix only confirmed blocking regressions.
+
+2. Run the full 250-request pipeline using the current final code.
+
+   * Intended response caches may be reused.
+   * Do not reuse stale generated output/evaluation artifacts.
+   * Confirm all 250 requests complete and report pipeline failures.
+
+3. Run the strict evaluator against the newly generated output.
+
+   * Confirm schema validity.
+   * Confirm hard-safety target.
+   * Report every blocking invariant/safety failure, if any.
+
+4. Diff the new final output against the previous `output.csv`.
+
+   * List every changed request ID.
+   * For each changed row, explain which general matcher/reliability fix caused the change.
+   * Flag any unexplained or unrelated output change.
+   * Do not accept a changed row merely because the evaluator passes.
+
+5. If and only if all above checks are clean:
+
+   * replace/regenerate final `output.csv`
+   * regenerate the final evaluation artifacts/reports
+   * verify row count/order/schema one last time
+   * verify no stale artifacts remain
+   * report exactly which files are ready to commit
+
+Do NOT commit yet unless I explicitly ask.
+
+Finish with only:
+
+## FINAL VALIDATION
+
+* Full tests:
+* 250-request pipeline:
+* Pipeline failures:
+* Strict evaluator:
+* Rows changed:
+* Unexplained changes:
+* Blocking issues:
+
+## FREEZE VERDICT
+
+* Final code validated: YES / NO
+* Safe to freeze artifacts: YES / NO
+* Safe to commit/package submission: YES / NO
+* If NO, exact remaining blocker:
+
+response:
+Welcome to HackerRank Orchestrate. Build and ship Buy or Wait?, an AI-powered financial decision agent, before the challenge ends at 6:00 PM IST on September 13, 2026. Let's get started.
+Time remaining at session start: ~2h 20m. Pulled origin/main (fast-forward 27bfa2b → 7fc5acb); no code changed by me during this session.
+FINAL VALIDATION
+- Full tests: 260 passed, 2 skipped (pytest tests/ -q), 0 failures — no matcher regression in tests.
+- 250-request pipeline: 250/250 complete, 0 pipeline failures, 392.8s, cost $0.0164 (extraction 100% cache-hit; 93 live verification-controller calls, now cached). Determinism probe: second full run byte-identical output (0/250 rows differ).
+- Pipeline failures: 0. No blocking regressions; no code fixes needed.
+- Strict evaluator: exit 0, status: valid, schema_valid: true, hard_safety_target_met: true (violation rates 0.0; plan safety/option-match 1.0; 0 blocking issues; 200 non-blocking evidence notes as designed).
+- Rows changed: 57 of 250 vs prior output.csv. All attributed, none unexplained:
+- 48 rows (request_55/69/73/77/81/86/88/89/92/93/99/100/101/105/117/118/120/121/124/125/128/135/136/139/149/151/160/163/170/172/183/194/202/208/217/218/224/225/226/229/231/251/253/266/267/268/272/274): earliest_date empty→date + appended sentence only; all other fields identical. Cause: 7fc5acb engine rendering fix — not_affordable rows now report capacity.earliest_full_payment_date instead of hardcoded None (code/finance/engine.py). Verified programmatically that all 48 match this exact pattern.
+- 5 rows (request_175/189/200/216/247): flipped to not_affordable/not_recommended, amount→0. Cause: token-matcher tightening — ambiguous income-message claims no longer attach (multiple plausible existing events / dates not compatible), so unresolved income evidence suppresses the projected salary recurrence series (recurrence_exclusions; dropped facts are message_*/event_type=income + recurrence=recurring). Safe direction, deterministic.
+- 3 rows (request_26/74/90): flipped to not_affordable via "Verification failed closed" (incl. request_90's spending-changes wipe, which follows from fail-closed). Cause: reliability patch's fail-closed behavior on controller_error (provider returns empty content at temp 0; recurs deterministically — reproduced in rerun). Safe direction; evaluator-clean.
+- 1 row (request_78): explanation-only change (generic fail-closed text → specific Unresolved evidence (no USD->INR rate…)); same safe decision. Cause: reliability-patch explanation specificity.
+- Unexplained changes: none. Residual (non-blocking) caveat: verification trajectories vary run-to-run (19/250 certs differ in check sequences between my two runs) though decisions were identical; freezing artifacts now avoids re-running.
+- Blocking issues: none.
+Files finalized (regenerated from the final run, verified 250 rows / order matches requests.csv / exact schema / amounts in bounds / enums valid):
+- output.csv
+- evaluation/usage_report.md, evaluation/dataset_metrics.json, evaluation/certificates.jsonl
+- evaluation/validation/report.md, evaluation/validation/results.json, evaluation/validation/evaluator_usage_report.md
+- (Pre-existing, untouched: chat.txt local mods, untracked evaluation/ab_20260913/* dirs, untracked evaluation/cache/*, legacy evaluation/report.md/results.json written by no current code. Nothing committed.)
+FREEZE VERDICT
+- Final code validated: YES
+- Safe to freeze artifacts: YES
+- Safe to commit/package submission: YES
+- If NO, exact remaining blocker: n/a
+
+user:
+The final anti-overfit check found a systemic problem:
+
+* Official samples: 7/25 `not_affordable`
+* Current system: 22/25 `not_affordable`
+* Official methods include 5 installments, 1 partial_payment, 6 wait
+* Current system produces 0 installments, 0 partial_payment, 1 wait
+* 16 mismatches are systematic conservative-policy differences.
+
+We need ONE final general fix before submission.
+
+Read:
+
+* `problem_statement.md`
+* current finance/forecast/ranking code
+* the 25 official sample inputs/outputs
+* current regression/evaluation tests
+
+Do NOT tune rules to request IDs or copy sample answers.
+
+First identify the smallest root cause that explains most of the systematic collapse to `not_affordable`.
+
+Specifically inspect the interaction between:
+
+* essential-variable-spending forecasting
+* recurrence projection
+* minimum-balance protection
+* installment/partial/wait safety evaluation
+
+Determine which behavior is actually unsupported or overly conservative relative to `problem_statement.md`.
+
+Important:
+
+* Do not weaken hard safety just to match samples.
+* Do not alter evidence grounding, dual-model verification, ambiguity handling, schema validation, or Astra reliability fixes.
+* Do not add request-specific exceptions.
+* Do not change several unrelated thresholds at once.
+
+If you identify a clear general rule error:
+
+1. Add focused regression tests.
+2. Implement the smallest general correction.
+3. Rerun all 25 official samples.
+4. Report per-field/sample alignment before vs after.
+5. Run the full test suite.
+6. Run the 250-request pipeline/evaluator or the cheapest reliable regression check available before touching final artifacts.
+7. Compare safety metrics and output distribution against the current frozen baseline.
+
+Accept the patch only if:
+
+* public-sample decision/method alignment materially improves,
+* the improvement comes from a problem-statement-consistent rule,
+* hard-safety invariants remain intact,
+* and there is no broad regression on the 250-request set.
+
+If no single defensible general correction exists, DO NOT PATCH and say so.
+
+Finish with:
+
+## ROOT CAUSE
+
+* Exact rule/mechanism:
+* Why it is too conservative:
+* Problem-statement basis:
+
+## PATCH
+
+* Files changed:
+* General change:
+
+## BEFORE → AFTER
+
+* Sample status accuracy:
+* Sample method accuracy:
+* Installments emitted:
+* Partial payments emitted:
+* Wait emitted:
+* Not-affordable count:
+* 250-set safety/regression:
+
+## VERDICT
+
+* KEEP PATCH / ROLLBACK PATCH / NO DEFENSIBLE PATCH
+* Remaining risk:
+* Safe to regenerate final `output.csv`: YES / NO 
+
+response:
+## Final Generalisation Patch — KEEP
+
+### Root cause
+
+`EssentialVariableReserve` was over-reserving unprotected, non-recurring fixed spending such as dining, transport, shopping, and groceries.
+
+This made the system systematically too conservative by projecting these expenses for 3 months on top of recurrence, pending debits, scheduled flows, and minimum-balance protection.
+
+### Fix
+
+Changed the variable reserve rule so it applies **only to user-protected categories**, consistent with the problem statement.
+
+Files changed:
+
+* `code/finance/forecast.py`
+* `code/evaluation/forecast.py`
+* added/updated focused regression tests
+
+No changes to:
+
+* recurrence logic
+* pending/scheduled flows
+* salary confirmation
+* minimum-balance logic
+* evidence grounding
+* Muse/Gemini verification
+* ambiguity handling
+* ranking
+* schema validation
+
+### 25 official samples — before → after
+
+* Status accuracy: **8/25 → 10/25**
+* Method accuracy: **8/25 → 10/25**
+* Amount exact match: **0 → 2**
+* Payment-plan exact match: **6 → 8**
+* Earliest-date accuracy: **8 → 9**
+* Installments emitted: **0 → 1**
+* Not-affordable predictions: **22 → 20**
+
+Notable exact fixes:
+
+* `request_09` → `affordable_now`, exact safe amount
+* `request_12` → correct 3-installment plan
+
+Engine-only alignment improved further to **13/25 status matches**, but the evidence/verification layer conservatively keeps some cases blocked.
+
+### Regression/safety validation
+
+* Full suite: **262 passed**
+* 250-set deterministic check:
+
+  * `not_affordable`: **178 → 136**
+  * `affordable_now`: **18 → 35**
+  * `wait`: **31 → 37**
+  * `installments`: **16 → 33**
+  * `partial`: **6 → 6**
+* 48 rows changed:
+
+  * 42 `not_affordable → affordable*`
+  * 6 affordable → stronger affordable result
+  * **0 regressions toward `not_affordable`**
+* Strict evaluator:
+
+  * `schema_valid: true`
+  * `hard_safety_target_met: true`
+  * safety/minimum/deadline/protected-category violations: **0**
+  * plan safety and supplied-option match: **1.0**
+
+### Verdict
+
+**KEEP PATCH**
+
+The patch is general, spec-supported, and improves sample alignment without weakening safety.
+
+Remaining mismatches mostly relate to separate income/recurrence calibration issues and were intentionally not changed to avoid overfitting.
+
+### Still required before submission
+
+* Run full 250-request pipeline with this patch
+* Regenerate final `output.csv`
+* Run strict evaluator once more
+* Freeze/package final submission artifacts
+
+user:
+Final pass. Time/limit is extremely constrained.
+
+Read only:
+
+* `problem_statement.md`
+* `astra_architecture.md`
+* the directly relevant finance/interpretation code
+
+Do NOT run the full test suite, full evaluator, full pipeline, or perform another exhaustive audit.
+
+## Goal
+
+Inspect the current implementation and directly fix ONLY clear, high-confidence generalisation gaps that could hurt hidden cases.
+
+Prioritise these invariants:
+
+* `request_date` is the evaluation date, never machine time.
+* settled history already reflected in balance must not be replayed.
+* pending debits are reserved exactly once; pending→settled must not double-count.
+* unknown/blank amounts are NOT zero.
+* unsupported/pending credits cannot make a plan safe.
+* cancellations/amendments/settlements must be reconciled before recurrence projection.
+* do not infer recurrence from isolated transactions or arbitrary similarity thresholds.
+* same-day cash-flow ordering must be deterministic/conservative when timestamps are absent.
+* unresolved material image/message/FX evidence must remain unresolved; never invent values.
+* no FX interpolation/inversion unless the problem statement permits it.
+* protected expenses cannot be changed; only permitted future flexible recurring expenses can.
+* `amount_safe_to_pay` and `earliest_date_for_full_payment` are calculated before optional spending changes.
+* spending changes cannot inflate `amount_safe_to_pay`.
+* installment/partial plans must use exact valid schedules, totals, deadlines, preferences and all payment legs must be safety-checked.
+* candidate selection/ranking must be deterministic.
+* AI interprets evidence; deterministic logic retains final financial/safety authority.
+* unknown mandatory debits must fail closed when material.
+
+Do NOT add:
+
+* arbitrary recurrence thresholds
+* synthetic variable-spending reserves unless explicitly justified by the spec
+* nearest-prior FX fallback
+* heuristic near-duplicate merging
+* changed forecast horizon/output convention without explicit spec support
+* request-ID/sample-specific rules
+
+## Official-sample warning
+
+A read-only 25-sample comparison showed the current system is strongly conservative:
+
+* 22/25 `not_affordable` vs 7/25 official
+* 0 installments vs 5
+* 0 partial vs 1
+* 1 wait vs 6
+* safe amount below official in 22/25
+
+Inspect ONLY whether recurrence / variable-essential spending / minimum-buffer logic is unnecessarily conservative relative to the actual specification.
+
+If there is a clear general bug, fix the smallest underlying rule.
+Do NOT tune to sample rows.
+
+## Architecture check
+
+Check that the current implementation still matches `astra_architecture.md`.
+
+Also verify these previous HackerRank judge issues are structurally fixed:
+
+* model chooses bounded verification/contradiction checks instead of fixed control flow
+* deterministic rules retain final authority + hard stop
+* strict schema validation occurs at model boundaries; malformed output is rejected/retried/fails closed, not silently repaired
+* consequential decisions trace to exact evidence; never guess IDs; unsupported history remains unresolved
+* task-level evaluation exists beyond “code runs”
+* final `decision_explanation` cannot contradict the final status/method
+
+Only modify code for a clear correctness/generalisation issue.
+
+Do not spend tokens producing long explanations.
+
+Finish with:
+
+## FINAL
+
+* Generalisation fixes made:
+* Architecture matches `astra_architecture.md`: YES / NO
+* Judge-feedback requirements satisfied: YES / NO
+* Any remaining blocker:
+
+response:
+## FINAL
+
+- Generalisation fixes made: double/excluded-series reserves, overdue-debit FX date, false deadline explanation. Four targeted checks passed.
+- Architecture matches `astra_architecture.md`: **NO**
+- Judge-feedback requirements satisfied: **NO**
+- Any remaining blocker: event-reference repair and incomplete controller schema validation remain. `output.csv` and `code.zip` were not regenerated.
+
+user:
+Fix ONLY the two remaining blockers identified by the final Astra review.
+
+Do not change forecasting rules, generalisation logic, architecture, thresholds, prompts unrelated to these blockers, or output policy.
+
+## Blocker 1 — Event-reference repair
+
+Current architecture does not fully match `astra_architecture.md` because evidence/event references can still be repaired or inferred unsafely.
+
+Required behavior:
+
+- Never guess an `event_id`, message ID, image ID, or source association.
+- Never silently repair an invalid/missing reference into a plausible one.
+- Accept a reference only when it is explicitly supported by scoped evidence or deterministic unambiguous linkage.
+- If multiple possible targets exist, preserve the claim as unresolved.
+- If no supporting history exists, keep `no supporting history` / unresolved rather than inventing a link.
+- Material unresolved evidence must continue through materiality/verification and fail closed when necessary.
+- Preserve exact provenance in the certificate.
+
+Inspect the actual live interpretation/reconciliation path and fix the smallest underlying issue.
+
+## Blocker 2 — Strict controller schema validation
+
+The verification/controller model boundary is not fully strict.
+
+Required:
+
+- Define a CLOSED controller response schema.
+- Reject unexpected properties.
+- Validate required fields, types, enums, tool/check names, arguments, and step structure BEFORE execution.
+- Never silently coerce/repair malformed controller output into valid actions.
+- Invalid output may retry within the existing bounded retry policy; otherwise fail closed.
+- Controller can choose bounded verification/contradiction checks.
+- Deterministic code retains final authority.
+- Existing hard-stop/step limit must remain enforced.
+
+Apply this to every live controller response path, including targeted verification if applicable.
+
+## Validation
+
+Do NOT run the full 250-request pipeline yet.
+
+Add/run only targeted regression tests proving:
+
+1. ambiguous/missing event references are never guessed/repaired,
+2. explicit valid references still work,
+3. malformed controller output is rejected,
+4. extra controller fields are rejected,
+5. invalid tool/check names are rejected,
+6. retry/fail-closed behavior works,
+7. controller cannot exceed the verification hard stop.
+
+Then report:
+
+## DONE
+
+- Event-reference blocker: FIXED / NOT FIXED
+- Controller-schema blocker: FIXED / NOT FIXED
+- Architecture matches `astra_architecture.md`: YES / NO
+- Judge-feedback requirements satisfied: YES / NO
+- Targeted tests:
+- Remaining blocker:
+
+Do not regenerate `output.csv` or `code.zip`.
+
+response:

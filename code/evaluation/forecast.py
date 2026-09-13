@@ -35,10 +35,13 @@ def _salary(event: dict) -> bool:
 
 
 def _essential(event: dict, profile: dict) -> bool:
+    # Variable reserve covers protected categories only (parity with
+    # finance.forecast: amount_safe_to_pay is defined while covering
+    # protected expenses; unprotected recurring spend is projected via
+    # recurrence detection).
     category = event.get("category", "").lower()
     protected = set(profile.get("expense_categories_to_protect", "").lower().split("|"))
-    return (category in protected or event.get("flexibility") == "fixed" or
-            bool(re.search(r"grocer|food|transport|rent|utilit|medical|health|childcare|school|insurance|loan", category)))
+    return category in protected
 
 
 def _cadence(entries: list[tuple[dict, date, Decimal]]) -> int | None:

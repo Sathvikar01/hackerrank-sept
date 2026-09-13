@@ -111,13 +111,12 @@ def _confirmed_salary(event: FinancialEvent) -> bool:
 
 
 def _essential_event(event: FinancialEvent, profile) -> bool:
-    category = event.category.lower()
-    if category in {item.lower() for item in profile.protected_categories}:
-        return True
-    if event.flexibility == "fixed":
-        return True
-    return bool(re.search(
-        r"grocer|food|transport|rent|utilit|medical|health|childcare|school|insurance|loan", category))
+    # Variable reserve covers protected categories only: amount_safe_to_pay
+    # is defined while covering protected expenses, and unprotected
+    # recurring spend is already projected via recurrence detection.
+    return event.category.lower() in {
+        item.lower() for item in profile.protected_categories
+    }
 
 
 def _reconcile_events(events: Sequence[FinancialEvent]) -> tuple[FinancialEvent, ...]:
@@ -245,6 +244,14 @@ class EssentialVariableReserve:
                 continue
             key = series_key(event)
             group = (event.category, event.currency)
+            # Match recurrence's inclusive historical boundary. Same-day
+            # settled cash is already in the opening balance, but still
+            # establishes cadence and must not also become a variable reserve.
+            if event.status == "settled" and day <= start:
+                if (day >= cutoff and not _one_time_event(event)
+                        and key not in scope.recurrence_exclusions):
+                    series_events[key].append(event)
+                continue
             if day < start:
                 if event.status in {"pending", "scheduled"}:
                     day = start
@@ -460,7 +467,7 @@ def collect_flows(
         if amount is None:
             continue
         converted = scope.rate_book.convert(
-            amount, event.currency, scope.profile.home_currency, day,
+            amount, event.currency, scope.profile.home_currency, occurrence_day,
             allow_inverse=policy.allow_inverse_rates)
         signed = -converted if event.direction == "debit" else converted
         flows.append(CashFlow(day, signed, f"event:{event.event_id}", event.event_id, key))
