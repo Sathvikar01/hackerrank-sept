@@ -88,6 +88,10 @@ class RequestScope:
     options: tuple[PaymentOption, ...]
     rate_book: RateBook
     dataset_root: Path
+    recurrence_exclusions: frozenset[tuple[str, str, str]] = frozenset()
+    """Series keys (category, description, currency) whose recurrence projection
+    is suppressed by reconciled evidence (for example an extracted one_time
+    instruction or an unresolved income announcement)."""
 
     def image_path(self, image_id: str) -> Path:
         return Path(self.dataset_root) / "media" / "images" / f"{image_id}.png"

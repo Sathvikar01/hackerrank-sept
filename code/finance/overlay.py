@@ -50,6 +50,7 @@ def apply_overrides(
         options=scope.options,
         rate_book=scope.rate_book,
         dataset_root=scope.dataset_root,
+        recurrence_exclusions=scope.recurrence_exclusions,
     )
 
 

@@ -99,7 +99,9 @@ def message(message_id: str = "message_01", **overrides) -> Message:
         related_event_id=None,
         sent_at=datetime(2026, 1, 1, 9, 0, 0),
         source_type="employer",
-        text="Sample message",
+        text=("Sample message: ZAR 50000 amended to ZAR 5000 then ZAR 500, "
+              "totals 828 and 100 and 120, status cancelled and scheduled, "
+              "Aug-2019 pay period."),
     )
     data.update(overrides)
     return Message(**data)

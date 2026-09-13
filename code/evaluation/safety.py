@@ -216,8 +216,8 @@ def evaluate_row_safety(row: dict[str, str], request: dict[str, str], context: E
         result.issues.append(SafetyIssue("status_method_mismatch", "affordable_with_plan requires a completing payment method", request_id))
     if status == "affordable_later" and method != "wait":
         result.issues.append(SafetyIssue("status_method_mismatch", "affordable_later requires wait", request_id))
-    if status == "not_affordable" and (method != "not_recommended" or plan or row.get("earliest_date_for_full_payment", "")):
-        result.issues.append(SafetyIssue("not_affordable_plan", "not_affordable requires no plan and no earliest date", request_id))
+    if status == "not_affordable" and (method != "not_recommended" or plan):
+        result.issues.append(SafetyIssue("not_affordable_plan", "not_affordable requires no plan", request_id))
 
     if method == "full_payment":
         if "full_payment" not in accepted:
@@ -301,11 +301,16 @@ def evaluate_row_safety(row: dict[str, str], request: dict[str, str], context: E
         earliest = next((day for day in sorted(capacity) if capacity[day] >= requested), None)
         if safe_amount != expected_safe:
             result.issues.append(SafetyIssue("safe_amount_mismatch", f"baseline safe amount is {expected_safe}", request_id))
+        expected_date = earliest.isoformat() if earliest else ""
         if status != "not_affordable":
-            expected_date = earliest.isoformat() if earliest else ""
             if row.get("earliest_date_for_full_payment", "") != expected_date:
                 result.issues.append(SafetyIssue("earliest_date_mismatch", f"baseline earliest full-payment date is {expected_date or 'none'}", request_id))
-        elif _has_safe_completion(request, context, current, minimum, expected_safe, earliest):
+        elif row.get("earliest_date_for_full_payment", "") and row.get("earliest_date_for_full_payment", "") != expected_date:
+            # A safe full-payment date within the forecast is preserved even when
+            # the deadline makes every plan ineligible; it must still be the
+            # first such date.
+            result.issues.append(SafetyIssue("earliest_date_mismatch", f"baseline earliest full-payment date is {expected_date}", request_id))
+        if status == "not_affordable" and _has_safe_completion(request, context, current, minimum, expected_safe, earliest):
             result.issues.append(SafetyIssue("false_not_affordable", "an eligible safe plan completes the request", request_id))
 
     if positive:

@@ -103,11 +103,12 @@ class PipelineTests(unittest.TestCase):
     def test_unresolved_attachment_is_recorded_not_dropped(self):
         with tempfile.TemporaryDirectory() as directory:
             message = ff.message(
-                message_id="message_01", text="There may be a small charge soon.")
+                message_id="message_01",
+                text="There may be a small charge of 123 soon.")
             root = fx.simple_dataset(Path(directory), messages=[message])
             payload = fx.claims_json([
                 fx.claim_payload(field="amount", value=123, lifecycle="inform",
-                                 event_ref=None, evidence="a small charge"),
+                                 event_ref=None, evidence="a small charge of 123"),
             ])
             pipeline, _, _ = self._pipeline(
                 root, {"message_01": payload}, {"message_01": payload})
@@ -277,9 +278,21 @@ class PipelineTests(unittest.TestCase):
             root = fx.simple_dataset(Path(directory), messages=[message])
             pipeline, _, _ = self._pipeline(root, {"message_01": "not json"})
             result = pipeline.run("request_01")
-            self.assertEqual(result.decision.affordability_status, "affordable_now")
+            # An unreadable source never silently disappears: the extraction
+            # failure stays unresolved and blocks positive certification.
             self.assertTrue(any(
                 "message_01" in error for error in result.certificate.extraction_errors))
+            self.assertTrue(any(
+                "primary extraction failed for message:message_01" in note
+                for note in result.certificate.unresolved))
+            self.assertEqual(
+                result.decision.recommended_payment_method, "not_recommended")
+            self.assertEqual(
+                result.decision.affordability_status, "not_affordable")
+            self.assertTrue(any(
+                "positive recommendation blocked" in note
+                or "unresolved extraction errors remain" in note
+                for note in result.certificate.unresolved))
 
     def test_verify_failure_fails_closed(self):
         with tempfile.TemporaryDirectory() as directory:

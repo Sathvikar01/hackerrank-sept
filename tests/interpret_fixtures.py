@@ -29,8 +29,8 @@ class FakeChatClient:
 
     def complete(self, *, model: str, system: str, user: str, images: Sequence[str] = (),
                  max_tokens: int = 4096) -> ChatResponse:
-        self.calls.append({"model": model, "user": user, "images": tuple(images),
-                           "max_tokens": max_tokens})
+        self.calls.append({"model": model, "system": system, "user": user,
+                           "images": tuple(images), "max_tokens": max_tokens})
         if self.fail:
             raise ProviderError("scripted provider failure")
         if self.fail_times > 0:
@@ -60,15 +60,17 @@ def claim_payload(
     value=50000,
     lifecycle: str = "amend",
     event_ref: str | None = "event_01",
-    evidence: str = "amended amount",
+    evidence: str | None = None,
     confidence: float | None = 0.9,
 ) -> dict:
+    # The evidence span must actually occur in the source; when a test does not
+    # provide one, the claimed value itself is quoted as the span.
     payload = {
         "field": field,
         "value": value,
         "lifecycle": lifecycle,
         "event_ref": event_ref,
-        "evidence_span": evidence,
+        "evidence_span": evidence if evidence is not None else str(value),
     }
     if confidence is not None:
         payload["confidence"] = confidence

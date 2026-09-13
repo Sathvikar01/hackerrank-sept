@@ -38,6 +38,18 @@ CONSEQUENTIAL_LIFECYCLES = frozenset({"confirm", "amend", "cancel", "delay", "ne
 
 _EVENT_ID_RE = re.compile(r"^event_\d+$")
 
+ALLOWED_CLAIM_KEYS = frozenset({
+    "event_ref", "field", "value", "lifecycle", "evidence_span", "evidence",
+    "confidence",
+})
+
+_DATE_SUPPORT_FORMATS = (
+    "%b %d, %Y", "%B %d, %Y", "%d %B %Y", "%d %b %Y",
+    "%Y/%m/%d", "%m/%d/%Y", "%d/%m/%Y", "%d-%m-%Y", "%m-%d-%Y",
+)
+
+_TOKEN_RE = re.compile(r"[a-z0-9]+")
+
 
 @dataclass(frozen=True)
 class ModelCallRecord:
@@ -172,10 +184,11 @@ def parse_claims(
     user_id: str,
     request_id: str | None,
     observed_at: date,
+    source_text: str | None = None,
 ) -> tuple[ExtractedClaim, ...]:
     claims, rejected = parse_claims_with_rejections(
         payload, source_kind=source_kind, source_id=source_id, user_id=user_id,
-        request_id=request_id, observed_at=observed_at)
+        request_id=request_id, observed_at=observed_at, source_text=source_text)
     if rejected:
         raise ExtractionError(str(rejected[0]["reason"]))
     return claims
@@ -189,18 +202,28 @@ def parse_claims_with_rejections(
     user_id: str,
     request_id: str | None,
     observed_at: date,
+    source_text: str | None = None,
 ) -> tuple[tuple[ExtractedClaim, ...], tuple[Mapping[str, Any], ...]]:
     data = payload if isinstance(payload, Mapping) else parse_model_json(payload)
     items = data.get("claims")
     if not isinstance(items, list):
         raise ExtractionError("model output must contain a claims list")
+    unexpected_top = sorted(set(data) - {"claims"})
     claims: list[ExtractedClaim] = []
     rejected: list[Mapping[str, Any]] = []
+    if unexpected_top:
+        rejected.append({
+            "index": None,
+            "field": None,
+            "event_ref": None,
+            "reason": f"model output contains unsupported properties: {unexpected_top}",
+        })
     for index, item in enumerate(items):
         try:
             claim = _build_claim(
                 item, index, source_kind=source_kind, source_id=source_id,
-                user_id=user_id, request_id=request_id, observed_at=observed_at)
+                user_id=user_id, request_id=request_id, observed_at=observed_at,
+                source_text=source_text)
         except ExtractionError as error:
             rejected.append({
                 "index": index,
@@ -223,9 +246,14 @@ def _build_claim(
     user_id: str,
     request_id: str | None,
     observed_at: date,
+    source_text: str | None = None,
 ) -> ExtractedClaim | None:
     if not isinstance(item, Mapping):
         raise ExtractionError(f"claim {index} is not an object")
+    unexpected = sorted(set(item) - ALLOWED_CLAIM_KEYS)
+    if unexpected:
+        raise ExtractionError(
+            f"claim {index}: unsupported properties {unexpected}")
     field = item.get("field")
     if field not in CLAIM_FIELDS:
         raise ExtractionError(f"claim {index}: unsupported field {field!r}")
@@ -243,6 +271,14 @@ def _build_claim(
     evidence = item.get("evidence_span", item.get("evidence"))
     if not isinstance(evidence, str) or not evidence.strip():
         raise ExtractionError(f"claim {index}: evidence_span is required")
+    evidence = evidence.strip()
+    if source_text is not None:
+        if not _span_in_source(evidence, source_text):
+            raise ExtractionError(
+                f"claim {index}: evidence span is not present in the source")
+        if not _value_supported(field, value, source_text):
+            raise ExtractionError(
+                f"claim {index}: {field} value is not supported by the source evidence")
     confidence = item.get("confidence")
     if confidence is not None:
         try:
@@ -265,16 +301,91 @@ def _build_claim(
         field=field,
         value=value,
         lifecycle=lifecycle,
-        evidence=evidence.strip(),
+        evidence=evidence,
         confidence=confidence,
         observed_at=observed_at,
         provenance=Provenance(
             source="messages.csv" if source_kind == "message" else "images.csv",
             record_id=source_id,
             locator="message_text" if source_kind == "message" else "image_region",
-            excerpt=evidence.strip()[:300],
+            excerpt=evidence[:300],
         ),
     )
+
+
+def _normalize_ws(text: str) -> str:
+    return " ".join(text.split())
+
+
+def _span_in_source(evidence: str, source_text: str) -> bool:
+    if evidence in source_text:
+        return True
+    lowered = source_text.lower()
+    if evidence.lower() in lowered:
+        return True
+    return _normalize_ws(evidence).lower() in _normalize_ws(source_text).lower()
+
+
+def _stem(token: str) -> str:
+    if len(token) > 3 and token.endswith("ies"):
+        return token[:-3] + "y"
+    if len(token) > 3 and token.endswith("s") and not token.endswith("ss"):
+        return token[:-1]
+    if len(token) > 4 and token.endswith("es"):
+        return token[:-2]
+    return token
+
+
+def _words_supported(value: str, source_text: str) -> bool:
+    value_tokens = {
+        _stem(token) for token in _TOKEN_RE.findall(value.lower()) if token
+    }
+    if not value_tokens:
+        return False
+    text_tokens = {
+        _stem(token) for token in _TOKEN_RE.findall(source_text.lower())
+    }
+    return value_tokens <= text_tokens
+
+
+def _value_supported(field: str, value: Any, source_text: str) -> bool:
+    """A consequential extracted value must be supported by the source text.
+
+    The check is an anti-fabrication guard, not a parser: the value's textual
+    form (or an equivalent date rendering) must occur in the source.
+    """
+    lowered = source_text.lower()
+    if field in {"category", "description"}:
+        return _words_supported(str(value), source_text)
+    if field == "direction":
+        # Direction is a semantic classification of a grounded span (for
+        # example "you will be charged" implies debit), not a quoted value;
+        # consequential direction claims always receive an independent review.
+        return True
+    if field in {"status", "event_type", "currency", "recurrence",
+                "linked_event_id"}:
+        return str(value).lower() in lowered
+    if field == "amount":
+        compact = source_text.replace(",", "").replace(" ", "")
+        plain = format(value, "f")
+        if plain in compact:
+            return True
+        if plain.endswith(".00") and plain[:-3] in compact:
+            return True
+        return plain.replace(".", "") in compact
+    if field in {"event_date", "settlement_date"}:
+        if value.isoformat() in source_text:
+            return True
+        for fmt in _DATE_SUPPORT_FORMATS:
+            try:
+                rendered = value.strftime(fmt)
+            except ValueError:
+                continue
+            if rendered in source_text:
+                return True
+        return (str(value.day) in source_text
+                and value.strftime("%B")[:3].lower() in lowered)
+    return True
 
 
 def _coerce_value(field: str, raw: Any) -> Any:

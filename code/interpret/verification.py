@@ -241,9 +241,17 @@ def _unresolved_notes(state: VerificationState) -> tuple[str, ...]:
 
 def default_tools(scope, claims: Sequence[ExtractedClaim], *,
                   extractor: EvidenceExtractor | None = None,
+                  verification_extractor: EvidenceExtractor | None = None,
                   attachment_outcomes: Sequence = ()) -> Mapping[str, Any]:
     def find_event(action: Mapping[str, Any]):
         return scope.event_by_id(str(action.get("event_id", "")))
+
+    def _verification_question(action: Mapping[str, Any], default: str) -> str:
+        for key in ("question", "uncertainty", "reason"):
+            value = action.get(key)
+            if isinstance(value, str) and value.strip():
+                return value.strip()[:500]
+        return default
 
     def missing_field_check(action: Mapping[str, Any]) -> Mapping[str, Any]:
         event = find_event(action)
@@ -310,10 +318,20 @@ def default_tools(scope, claims: Sequence[ExtractedClaim], *,
             "text": message.text[:500],
             "sent_at": message.sent_at.isoformat(),
         }
-        if extractor is not None:
+        reader = verification_extractor or extractor
+        if reader is not None:
             try:
-                extraction: Extraction = extractor.extract_message(scope, message)
+                # A distinct verification question and prompt: never a cached
+                # replay of the original extraction.
+                extraction: Extraction = reader.extract_message(
+                    scope, message,
+                    question=_verification_question(
+                        action,
+                        "Report exactly which financial facts this message states, "
+                        "with amounts, dates, currencies, and the transaction or "
+                        "series it refers to."))
                 payload["claims"] = list(extraction.claims)
+                payload["rejected"] = list(extraction.rejected)
             except ExtractionError as error:
                 payload["error"] = str(error)
         return payload
@@ -324,15 +342,21 @@ def default_tools(scope, claims: Sequence[ExtractedClaim], *,
             (item for item in scope.images if item.image_id == source_id), None)
         if link is None:
             return {"result": "unknown image"}
-        if extractor is None:
+        reader = verification_extractor or extractor
+        if reader is None:
             return {"result": "no extractor configured"}
         try:
-            extraction = extractor.extract_image(
+            extraction = reader.extract_image(
                 scope, link,
-                event_ref=action.get("event_ref") or link.related_event_id)
+                event_ref=action.get("event_ref") or link.related_event_id,
+                question=_verification_question(
+                    action,
+                    "Report exactly which labeled amounts, currencies, dates, and "
+                    "document fields this image shows."))
         except ExtractionError as error:
             return {"status": "tool_error", "error": str(error)}
-        return {"image_id": link.image_id, "claims": list(extraction.claims)}
+        return {"image_id": link.image_id, "claims": list(extraction.claims),
+                "rejected": list(extraction.rejected)}
 
     def inspect_attachment_candidates(action: Mapping[str, Any]) -> Mapping[str, Any]:
         claim_id = str(action.get("claim_id", ""))

@@ -186,6 +186,31 @@ def _projected_dates(entries: Sequence[FinancialEvent], cadence: int, start: dat
     return projected
 
 
+def _expected_before_start(
+    entries: Sequence[FinancialEvent], cadence: int, request_date: date
+) -> list[date]:
+    """Occurrences the series cadence places strictly before request_date,
+    after the last settled occurrence."""
+    earliest = min(event.effective_date for event in entries)
+    return _projected_dates(
+        entries, cadence, earliest, request_date - timedelta(days=1))
+
+
+def _missed_expected_credits(
+    scope: RequestScope, expected: Sequence[date], key: tuple[str, str, str], tolerance: int
+) -> int:
+    actual = [
+        event.effective_date for event in _reconcile_events(scope.events)
+        if event.is_cash and event.direction == "credit"
+        and event.status in {"settled", "pending", "scheduled"}
+        and event.category == key[0] and event.currency == key[2]
+        and event.effective_date is not None
+    ]
+    return sum(
+        1 for day in expected
+        if not any(abs((existing - day).days) <= tolerance for existing in actual))
+
+
 class VariableSpendingModel(Protocol):
     def reserve_flows(
         self,
@@ -261,6 +286,23 @@ class EssentialVariableReserve:
         return [(day, amount, currency) for (day, currency), amount in sorted(reserves.items())]
 
 
+def _credit_series_cancelled(scope: RequestScope, key: tuple[str, str, str],
+                            last_settled: date) -> bool:
+    """An explicitly cancelled credit occurrence at or after the last settled
+    occurrence ends the income projection: the series must not be recreated
+    as fresh forecast income."""
+    for event in _reconcile_events(scope.events):
+        if not event.is_cash or event.direction != "credit":
+            continue
+        if event.status != "cancelled":
+            continue
+        if event.category != key[0] or event.currency != key[2]:
+            continue
+        if event.effective_date >= last_settled:
+            return True
+    return False
+
+
 def detect_recurrence(
     scope: RequestScope,
     policy: ForecastPolicy,
@@ -293,16 +335,29 @@ def detect_recurrence(
     end = policy.end_date(start)
     series: list[RecurrenceSeries] = []
     for key, items in sorted(groups.items()):
+        if key in scope.recurrence_exclusions:
+            continue
         ordered = sorted(items, key=lambda event: (event.effective_date, event.event_id))
         if len({event.effective_date for event in ordered}) < policy.recurrence_min_occurrences:
             continue
         cadence = _cadence(ordered)
         if cadence is None:
             continue
+        direction = ordered[0].direction
+        if direction == "credit":
+            if _credit_series_cancelled(
+                    scope, key, ordered[-1].effective_date):
+                continue
+            expected_before = _expected_before_start(ordered, cadence, start)
+            missed = _missed_expected_credits(
+                scope, expected_before, key, policy.recurrence_match_days)
+            if missed >= 2:
+                # Two or more expected pay cycles absent before the request
+                # date: history no longer supports continuation.
+                continue
         projected = _projected_dates(ordered, cadence, start, end)
         if not projected:
             continue
-        direction = ordered[0].direction
         if direction == "credit":
             typical = min(event.amount for event in ordered if event.amount is not None)
         else:
@@ -366,10 +421,21 @@ def collect_flows(
             day = event.effective_date
         elif event.status == "pending":
             if event.direction == "credit":
+                # A pending credit is not cash, but its occurrence still covers
+                # the series slot so recurrence must not recreate it as fresh
+                # forecast income.
+                if start <= event.effective_date <= end:
+                    occurrences[(event.category, "*", event.currency)].append(
+                        event.effective_date)
                 continue
             day = event.effective_date
         elif event.status == "scheduled":
             if event.direction == "credit" and not _confirmed_salary(event):
+                # Unconfirmed scheduled income is not cash and must not be
+                # recreated by recurrence projection either.
+                if start <= event.effective_date <= end:
+                    occurrences[(event.category, "*", event.currency)].append(
+                        event.effective_date)
                 continue
             day = event.effective_date
         else:
@@ -400,6 +466,8 @@ def collect_flows(
         flows.append(CashFlow(day, signed, f"event:{event.event_id}", event.event_id, key))
 
     for item in detect_recurrence(scope, policy, as_of=start):
+        if item.key in scope.recurrence_exclusions:
+            continue
         change = change_targets.get(item.key)
         if change is not None and change.kind == "stop":
             continue

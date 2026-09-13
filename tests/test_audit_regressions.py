@@ -348,5 +348,94 @@ class EngineEvaluatorParityTests(unittest.TestCase):
             self.assertEqual(capacity.earliest_full_payment_date, expected_earliest)
 
 
+class StaleCreditRecurrenceTests(unittest.TestCase):
+    """A recurring credit whose expected pay cycles are absent before the
+    request date must not be projected once two or more cycles are missing."""
+
+    @staticmethod
+    def _salary(index, day, **overrides):
+        data = dict(
+            event_id=f"event_{index:02d}", status="settled", direction="credit",
+            event_type="income", category="salary", description="Payroll credit",
+            amount=D("1000"), event_date=day, settlement_date=day)
+        data.update(overrides)
+        return fixtures.event(**data)
+
+    def test_two_missed_monthly_salary_cycles_suppress_recurrence(self):
+        history = [self._salary(index, day) for index, day in enumerate(
+            [date(2025, 8, 15), date(2025, 9, 15), date(2025, 10, 15)], start=1)]
+        scope = fixtures.scope(
+            request=fixtures.request(
+                request_date=date(2026, 1, 5), desired_completion_date=date(2026, 3, 5)),
+            events=history)
+        self.assertEqual(detect_recurrence(scope, POLICY), ())
+
+    def test_one_missed_weekly_cycle_keeps_recurrence(self):
+        history = [self._salary(index, day) for index, day in enumerate(
+            [date(2026, 5, 5), date(2026, 5, 12), date(2026, 5, 19), date(2026, 5, 26)],
+            start=1)]
+        scope = fixtures.scope(
+            request=fixtures.request(
+                request_date=date(2026, 6, 3), desired_completion_date=date(2026, 8, 3)),
+            events=history)
+        series = detect_recurrence(scope, POLICY)
+        self.assertEqual(len(series), 1)
+        self.assertIn(date(2026, 6, 9), series[0].projected_dates)
+
+    def test_matching_credit_within_tolerance_is_not_missed(self):
+        history = [self._salary(index, day) for index, day in enumerate(
+            [date(2025, 9, 15), date(2025, 10, 15), date(2025, 11, 15)], start=1)]
+        history.append(self._salary(
+            4, date(2025, 12, 13), status="scheduled"))
+        scope = fixtures.scope(
+            request=fixtures.request(
+                request_date=date(2026, 2, 5), desired_completion_date=date(2026, 4, 5)),
+            events=history)
+        series = detect_recurrence(scope, POLICY)
+        self.assertEqual(len(series), 1)
+        self.assertIn(date(2026, 2, 15), series[0].projected_dates)
+
+    def test_debit_recurrence_unchanged_by_missed_cycles(self):
+        history = [
+            fixtures.event(
+                event_id=f"event_{index:02d}", status="settled", amount=D("1000"),
+                category="rent", description="Apartment rent",
+                event_date=day, settlement_date=day)
+            for index, day in enumerate(
+                [date(2025, 9, 15), date(2025, 10, 15), date(2025, 11, 15)], start=1)
+        ]
+        scope = fixtures.scope(
+            request=fixtures.request(
+                request_date=date(2026, 2, 5), desired_completion_date=date(2026, 4, 5)),
+            events=history)
+        series = detect_recurrence(scope, POLICY)
+        self.assertEqual(len(series), 1)
+        self.assertIn(date(2026, 2, 15), series[0].projected_dates)
+
+    def test_engine_and_evaluator_suppress_stale_salary_agree(self):
+        events = [self._salary(index, day) for index, day in enumerate(
+            [date(2025, 8, 15), date(2025, 9, 15), date(2025, 10, 15)], start=1)]
+        events.append(fixtures.event(
+            event_id="event_04", status="pending", amount=D("500"),
+            category="utilities", description="Overdue utility bill",
+            event_date=date(2025, 10, 20), settlement_date=date(2025, 10, 20)))
+        with tempfile.TemporaryDirectory() as directory:
+            root = fixtures.write_dataset(
+                Path(directory),
+                profiles=[fixtures.profile()],
+                requests=[fixtures.request(
+                    request_date=date(2026, 1, 5), desired_completion_date=date(2026, 3, 5))],
+                events=events)
+            dataset = Dataset.load(root)
+            rows = load_csv(root / "requests.csv")
+            context = load_context(root, rows)
+            scope = dataset.scope("request_01")
+            self.assertEqual(detect_recurrence(scope, POLICY), ())
+            engine = totals(collect_flows(scope, POLICY))
+            evaluator = build_forecast(rows[0], context)
+            self.assertEqual(sorted(evaluator.problems), [])
+            self.assertEqual(engine, totals(evaluator.flows))
+
+
 if __name__ == "__main__":
     unittest.main()

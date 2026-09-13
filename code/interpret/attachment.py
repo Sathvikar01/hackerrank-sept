@@ -131,6 +131,28 @@ def attach_claims(
     return tuple(outcomes)
 
 
+def _distinct_group_values(group, field: str) -> tuple[Any, ...]:
+    seen: list[Any] = []
+    for claim in group:
+        if claim.field == field and claim.value not in seen:
+            seen.append(claim.value)
+    return tuple(seen)
+
+
+def _conflicting_anchor_fields(group) -> tuple[str, ...]:
+    """Fields for which the source itself carries more than one value.
+
+    Conflicting values must stay ambiguous: the first matching claim must never
+    silently decide the outcome.
+    """
+    conflicting = []
+    for field in ("amount", "currency", "event_date", "settlement_date",
+                  "direction"):
+        if len(_distinct_group_values(group, field)) > 1:
+            conflicting.append(field)
+    return tuple(conflicting)
+
+
 def _attach_group(
     scope: RequestScope,
     group: list[ExtractedClaim],
@@ -138,6 +160,12 @@ def _attach_group(
 ) -> list[AttachmentOutcome]:
     lifecycle = _group_lifecycle(group)
     explicit = _explicit_event_ids(group, scope)
+    conflicting = _conflicting_anchor_fields(group)
+    if conflicting:
+        return [_ambiguous(
+            claim, (),
+            f"conflicting values within the source for: {', '.join(conflicting)}")
+            for claim in group]
     if explicit:
         if len(explicit) == 1:
             return [_attached(claim, explicit[0], "explicit event reference")
@@ -299,6 +327,11 @@ def _explicit_event_ids(group: Sequence[ExtractedClaim],
 
 def _build_obligation(group: Sequence[ExtractedClaim]) -> NewObligation:
     def value(field: str):
+        distinct = _distinct_group_values(group, field)
+        if len(distinct) > 1:
+            # Conflicting values keep the obligation incomplete; the first
+            # matching claim must not decide the outcome.
+            return None
         return next((claim.value for claim in group if claim.field == field), None)
 
     claim = group[0]

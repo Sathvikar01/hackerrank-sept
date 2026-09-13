@@ -245,6 +245,11 @@ def _installment_candidates(
             reasons.append("user does not consider installments")
         entries = installment_entries(option, policy)
         months = installment_months(entries, policy)
+        horizon_end = policy.end_date(request.request_date)
+        if any(not (request.request_date <= entry.payment_date <= horizon_end)
+               for entry in entries):
+            reasons.append(
+                "installment schedule extends beyond the evaluated forecast horizon")
         if profile.max_installment_months is None:
             reasons.append("max_installment_months is blank")
         elif months > profile.max_installment_months:

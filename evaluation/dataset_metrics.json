@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-09-13T08:37:10",
-  "dataset_dir": "C:\\Users\\arsat\\Downloads\\hackerrank-sept\\dataset",
+  "generated_at": "2026-09-13T07:54:24",
+  "dataset_dir": "/projects/challenge/dataset",
   "requests": 250,
   "pipeline_failures": 0,
-  "runtime_s": 12.31,
-  "requests_per_second": 20.3052,
+  "runtime_s": 15.85,
+  "requests_per_second": 15.7693,
   "primary_model": "meta/muse-spark-1.3-contributor",
   "second_model": "google/gemini-3.8-flash",
   "controller_model": "meta/muse-spark-1.3-contributor",
   "decisions": {
     "affordable_later|wait": 30,
-    "affordable_now|full_payment": 22,
+    "affordable_now|full_payment": 18,
     "affordable_with_plan|full_payment": 1,
-    "affordable_with_plan|installments": 17,
+    "affordable_with_plan|installments": 16,
     "affordable_with_plan|partial_payment": 6,
-    "not_affordable|not_recommended": 174
+    "not_affordable|not_recommended": 179
   },
   "materiality": {
     "attachment_immaterial": 132,

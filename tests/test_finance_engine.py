@@ -121,7 +121,13 @@ class EngineTests(unittest.TestCase):
             self.assertEqual(decision.affordability_status, "not_affordable")
             self.assertEqual(decision.recommended_payment_method, "not_recommended")
             self.assertEqual(decision.payment_plan, "none")
-            self.assertIsNone(decision.earliest_date_for_full_payment)
+            # The first safe full-payment date within the forecast is preserved
+            # even though the deadline makes every plan ineligible.
+            self.assertEqual(
+                decision.earliest_date_for_full_payment, date(2026, 1, 10))
+            self.assertIn(
+                "first becomes possible on 2026-01-10",
+                decision.decision_explanation)
             self.assertEqual(decision.amount_safe_to_pay, D("2000"))
 
     def test_installment_plan_with_spending_change_flows_through_the_engine(self):

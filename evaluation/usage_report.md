@@ -1,8 +1,8 @@
 # Usage Report — Buy or Wait? Pipeline Run
 
-Generated: 2026-09-13T08:37:10
-Dataset: `C:\Users\arsat\Downloads\hackerrank-sept\dataset`
-Requests: 250 | Runtime: 12.31s (20.3052 req/s) | Pipeline failures: 0
+Generated: 2026-09-13T07:54:24
+Dataset: `/projects/challenge/dataset`
+Requests: 250 | Runtime: 15.85s (15.7693 req/s) | Pipeline failures: 0
 
 ## Models
 
@@ -75,9 +75,9 @@ Top unresolved/ambiguous reasons:
 | Status | Method | Count |
 |---|---|---|
 | affordable_later | wait | 30 |
-| affordable_now | full_payment | 22 |
+| affordable_now | full_payment | 18 |
 | affordable_with_plan | full_payment | 1 |
-| affordable_with_plan | installments | 17 |
+| affordable_with_plan | installments | 16 |
 | affordable_with_plan | partial_payment | 6 |
-| not_affordable | not_recommended | 174 |
+| not_affordable | not_recommended | 179 |
 

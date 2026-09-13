@@ -75,6 +75,66 @@ def _projected_dates(entries, cadence, start, end):
             yield cursor
 
 
+def _expected_before(entries, cadence, request_date):
+    """Occurrences the cadence places strictly before the request date,
+    after the last settled occurrence."""
+    earliest = min(day for _, day, _ in entries)
+    last = max(day for _, day, _ in entries)
+    monthly = 28 <= cadence <= 31 and (
+        len({day.day for _, day, _ in entries}) == 1
+        or all(day.day == calendar.monthrange(day.year, day.month)[1] for _, day, _ in entries))
+    cursor, result = last, []
+    while cursor < request_date:
+        if monthly:
+            month_index = cursor.year * 12 + cursor.month
+            year, month = divmod(month_index, 12)
+            month += 1
+            anchor = 31 if all(day.day == calendar.monthrange(day.year, day.month)[1] for _, day, _ in entries) else last.day
+            cursor = date(year, month, min(anchor, calendar.monthrange(year, month)[1]))
+        else:
+            cursor += timedelta(days=cadence)
+        if earliest <= cursor < request_date:
+            result.append(cursor)
+    return result
+
+
+def _missed_expected_credits(events, expected, key):
+    actual = []
+    for event in events:
+        if (event.get("direction") != "credit"
+                or event.get("status") not in {"settled", "pending", "scheduled"}
+                or event.get("category", "").lower() != key[0]
+                or event.get("currency", "") != key[2]):
+            continue
+        try:
+            actual.append(parse_date(event.get("settlement_date", "")))
+        except ValueError:
+            continue
+    return sum(
+        1 for day in expected
+        if not any(abs((existing - day).days) <= 3 for existing in actual))
+
+
+def _credit_series_cancelled(events: list[dict], key, last_settled) -> bool:
+    """An explicitly cancelled credit occurrence at or after the last settled
+    occurrence ends the income projection (mirrors the live engine)."""
+    for event in events:
+        if event.get("direction") != "credit" or event.get("status") != "cancelled":
+            continue
+        if event.get("category", "").lower() != key[0] or event.get("currency", "") != key[2]:
+            continue
+        try:
+            day = parse_date(event.get("settlement_date", ""))
+        except ValueError:
+            try:
+                day = parse_date(event.get("event_date", ""))
+            except ValueError:
+                continue
+        if day >= last_settled:
+            return True
+    return False
+
+
 def _reconcile(events: list[dict]) -> list[dict]:
     """Only explicit lifecycle markers suppress cash; a link by itself does not."""
     by_id = {event.get("event_id"): event for event in events}
@@ -159,8 +219,16 @@ def build_forecast(request: dict, context, changes: list[ChangeAction] | tuple =
         if status not in {"settled", "pending", "scheduled", "cancelled"}:
             result.problems.append(("invalid_context", f"{event.get('event_id')}: unknown cash status"))
             continue
-        # Exclude speculative/pending credits before even attempting amount or FX parsing.
+        # Exclude speculative/pending credits from cash, but their occurrence
+        # still covers the series slot so recurrence must not recreate the
+        # pending credit as fresh forecast income.
         if direction == "credit" and (status == "pending" or (status == "scheduled" and not _salary(event))):
+            try:
+                pending_day = parse_date(event.get("settlement_date", ""))
+            except ValueError:
+                continue
+            if start <= pending_day <= end:
+                concrete[series_key(event)].append(pending_day)
             continue
         try:
             day = parse_date(event.get("settlement_date", ""))
@@ -206,6 +274,16 @@ def build_forecast(request: dict, context, changes: list[ChangeAction] | tuple =
         cadence = _cadence(entries)
         if cadence is None:
             continue
+        if key[1] == "credit":
+            if _credit_series_cancelled(events, key, entries[-1][1]):
+                # An explicitly cancelled credit occurrence at or after the last
+                # settled one ends the income projection.
+                continue
+            if _missed_expected_credits(
+                    events, _expected_before(entries, cadence, start), key) >= 2:
+                # Two or more expected pay cycles absent before the request date:
+                # history no longer supports continuation.
+                continue
         projected.add(key)
         amount = min(value for _, _, value in entries) if key[1] == "credit" else max(value for _, _, value in entries)
         covered = list(concrete.get(key, []))
