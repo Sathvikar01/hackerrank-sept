@@ -1,0 +1,72 @@
+{
+  "generated_at": "2026-09-13T12:00:06",
+  "dataset_dir": "C:\\Users\\arsat\\Downloads\\hackerrank-sept\\evaluation\\ab_20260913\\gold25_dataset",
+  "requests": 25,
+  "pipeline_failures": 0,
+  "runtime_s": 176.36,
+  "requests_per_second": 0.1418,
+  "primary_model": "meta/muse-spark-1.3-contributor",
+  "second_model": "meta/muse-spark-1.3-contributor",
+  "controller_model": "meta/muse-spark-1.3-contributor",
+  "decisions": {
+    "affordable_later|wait": 1,
+    "affordable_now|full_payment": 1,
+    "affordable_with_plan|full_payment": 1,
+    "affordable_with_plan|installments": 1,
+    "not_affordable|not_recommended": 21
+  },
+  "materiality": {
+    "attachment_immaterial": 9,
+    "attachment_none": 16,
+    "immaterial": 25
+  },
+  "attachments": {
+    "ambiguous": 18,
+    "new_obligation": 28,
+    "unresolved": 30
+  },
+  "attachment_unresolved_reasons": {
+    "multiple plausible existing events": 18,
+    "no amount or explicit event reference to anchor attachment": 12,
+    "amount and currency match but the dates are not compatible": 10,
+    "new obligation is incomplete: date": 8
+  },
+  "verification_gated": 0,
+  "verification_failed": 0,
+  "conservative_decisions": 0,
+  "extraction_errors": 0,
+  "rejected_claims": 3,
+  "usage": {
+    "rows": [
+      {
+        "model": "meta/muse-spark-1.3-contributor",
+        "purpose": "extraction_independent",
+        "calls": 17,
+        "cache_hits": 16,
+        "prompt_tokens": 509,
+        "completion_tokens": 4260
+      },
+      {
+        "model": "meta/muse-spark-1.3-contributor",
+        "purpose": "extraction_primary",
+        "calls": 22,
+        "cache_hits": 0,
+        "prompt_tokens": 19180,
+        "completion_tokens": 93444
+      }
+    ],
+    "cached_calls": 16,
+    "total_calls": 39,
+    "total_prompt_tokens": 19689,
+    "total_completion_tokens": 97704
+  },
+  "cost": {
+    "by_model_purpose": {
+      "meta/muse-spark-1.3-contributor|extraction_primary": 0.020607,
+      "meta/muse-spark-1.3-contributor|extraction_independent": 0.000903
+    },
+    "total_usd": 0.02151,
+    "cache_hits": 16
+  },
+  "pipeline_errors": []
+}

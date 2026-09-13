@@ -1,0 +1,87 @@
+{
+  "generated_at": "2026-09-13T12:16:23",
+  "dataset_dir": "C:\\Users\\arsat\\Downloads\\hackerrank-sept\\dataset",
+  "requests": 250,
+  "pipeline_failures": 0,
+  "runtime_s": 823.96,
+  "requests_per_second": 0.3034,
+  "primary_model": "meta/muse-spark-1.3-contributor",
+  "second_model": "meta/muse-spark-1.3-contributor",
+  "controller_model": "meta/muse-spark-1.3-contributor",
+  "decisions": {
+    "affordable_later|wait": 30,
+    "affordable_now|full_payment": 22,
+    "affordable_with_plan|installments": 17,
+    "affordable_with_plan|partial_payment": 6,
+    "not_affordable|not_recommended": 175
+  },
+  "materiality": {
+    "attachment_immaterial": 133,
+    "attachment_material": 5,
+    "attachment_none": 112,
+    "immaterial": 244,
+    "material": 6
+  },
+  "attachments": {
+    "ambiguous": 288,
+    "new_obligation": 492,
+    "unresolved": 408
+  },
+  "attachment_unresolved_reasons": {
+    "multiple plausible existing events": 288,
+    "no amount or explicit event reference to anchor attachment": 132,
+    "amount and currency match but the dates are not compatible": 80,
+    "new obligation is incomplete: date": 58,
+    "amount does not match any event and the evidence carries no date, category, or d": 40,
+    "amount matches an event but the currency is incompatible": 40,
+    "matching events exist but the lifecycle is incompatible": 30,
+    "no existing event matches the evidence": 28
+  },
+  "verification_gated": 6,
+  "verification_failed": 1,
+  "conservative_decisions": 0,
+  "extraction_errors": 0,
+  "rejected_claims": 0,
+  "usage": {
+    "rows": [
+      {
+        "model": "meta/muse-spark-1.3-contributor",
+        "purpose": "extraction_independent",
+        "calls": 172,
+        "cache_hits": 169,
+        "prompt_tokens": 1505,
+        "completion_tokens": 14106
+      },
+      {
+        "model": "meta/muse-spark-1.3-contributor",
+        "purpose": "extraction_primary",
+        "calls": 209,
+        "cache_hits": 0,
+        "prompt_tokens": 120696,
+        "completion_tokens": 875187
+      },
+      {
+        "model": "meta/muse-spark-1.3-contributor",
+        "purpose": "verification_controller",
+        "calls": 5,
+        "cache_hits": 0,
+        "prompt_tokens": 750,
+        "completion_tokens": 3558
+      }
+    ],
+    "cached_calls": 169,
+    "total_calls": 386,
+    "total_prompt_tokens": 122951,
+    "total_completion_tokens": 892851
+  },
+  "cost": {
+    "by_model_purpose": {
+      "meta/muse-spark-1.3-contributor|extraction_primary": 0.187107,
+      "meta/muse-spark-1.3-contributor|extraction_independent": 0.002972,
+      "meta/muse-spark-1.3-contributor|verification_controller": 0.000787
+    },
+    "total_usd": 0.190866,
+    "cache_hits": 169
+  },
+  "pipeline_errors": []
+}

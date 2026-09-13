@@ -1,0 +1,73 @@
+{
+  "generated_at": "2026-09-13T12:01:35",
+  "dataset_dir": "C:\\Users\\arsat\\Downloads\\hackerrank-sept\\evaluation\\ab_20260913\\gold25_dataset",
+  "requests": 25,
+  "pipeline_failures": 0,
+  "runtime_s": 264.88,
+  "requests_per_second": 0.0944,
+  "primary_model": "meta/muse-spark-1.3-contributor",
+  "second_model": "google/gemini-3.8-flash",
+  "controller_model": "meta/muse-spark-1.3-contributor",
+  "decisions": {
+    "affordable_later|wait": 1,
+    "affordable_now|full_payment": 1,
+    "affordable_with_plan|full_payment": 1,
+    "affordable_with_plan|installments": 1,
+    "not_affordable|not_recommended": 21
+  },
+  "materiality": {
+    "attachment_immaterial": 10,
+    "attachment_none": 15,
+    "immaterial": 24,
+    "material": 1
+  },
+  "attachments": {
+    "ambiguous": 18,
+    "new_obligation": 22,
+    "unresolved": 37
+  },
+  "attachment_unresolved_reasons": {
+    "no amount or explicit event reference to anchor attachment": 19,
+    "multiple plausible existing events": 18,
+    "amount and currency match but the dates are not compatible": 10,
+    "new obligation is incomplete: date": 8
+  },
+  "verification_gated": 1,
+  "verification_failed": 0,
+  "conservative_decisions": 0,
+  "extraction_errors": 0,
+  "rejected_claims": 0,
+  "usage": {
+    "rows": [
+      {
+        "model": "google/gemini-3.8-flash",
+        "purpose": "extraction_independent",
+        "calls": 18,
+        "cache_hits": 0,
+        "prompt_tokens": 14790,
+        "completion_tokens": 31334
+      },
+      {
+        "model": "meta/muse-spark-1.3-contributor",
+        "purpose": "extraction_primary",
+        "calls": 22,
+        "cache_hits": 0,
+        "prompt_tokens": 19180,
+        "completion_tokens": 90154
+      }
+    ],
+    "cached_calls": 0,
+    "total_calls": 40,
+    "total_prompt_tokens": 33970,
+    "total_completion_tokens": 121488
+  },
+  "cost": {
+    "by_model_purpose": {
+      "meta/muse-spark-1.3-contributor|extraction_primary": 0.019949,
+      "google/gemini-3.8-flash|extraction_independent": 0.128595
+    },
+    "total_usd": 0.148544,
+    "cache_hits": 0
+  },
+  "pipeline_errors": []
+}

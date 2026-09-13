@@ -1,0 +1,1161 @@
+{
+  "candidate": "output.csv",
+  "comparisons": {},
+  "failures": [
+    {
+      "categories": [
+        "State reconstruction",
+        "Payment eligibility",
+        "Plan construction",
+        "Forecasting",
+        "Explanation"
+      ],
+      "issues": [
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "affordability_status",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "recommended_payment_method",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "payment_plan",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "earliest_date_for_full_payment",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_01"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Forecasting",
+        "Message interpretation",
+        "Payment eligibility",
+        "Plan construction",
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_01: relevant message evidence requires factual interpretation",
+          "request_id": "request_02"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "affordability_status",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "recommended_payment_method",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "payment_plan",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "earliest_date_for_full_payment",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_02"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Forecasting",
+        "Message interpretation",
+        "Payment eligibility",
+        "Plan construction",
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_01: relevant image evidence requires factual interpretation",
+          "request_id": "request_03"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_02: relevant message evidence requires factual interpretation",
+          "request_id": "request_03"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "affordability_status",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "recommended_payment_method",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "payment_plan",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "earliest_date_for_full_payment",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_03"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Forecasting",
+        "Message interpretation",
+        "Payment eligibility",
+        "Plan construction",
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_03: relevant message evidence requires factual interpretation",
+          "request_id": "request_04"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "affordability_status",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "recommended_payment_method",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "payment_plan",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "earliest_date_for_full_payment",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_04"
+    },
+    {
+      "categories": [
+        "State reconstruction",
+        "Payment eligibility",
+        "Plan construction",
+        "Forecasting",
+        "Explanation"
+      ],
+      "issues": [
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "affordability_status",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "recommended_payment_method",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "payment_plan",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "earliest_date_for_full_payment",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_05"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Forecasting",
+        "Message interpretation",
+        "Payment eligibility",
+        "Plan construction",
+        "Spending changes",
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_04: relevant message evidence requires factual interpretation",
+          "request_id": "request_06"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "affordability_status",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "recommended_payment_method",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "payment_plan",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "earliest_date_for_full_payment",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "spending_changes_needed",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_06"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Forecasting",
+        "Message interpretation",
+        "Payment eligibility",
+        "Plan construction",
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_05: relevant message evidence requires factual interpretation",
+          "request_id": "request_07"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "affordability_status",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "recommended_payment_method",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "payment_plan",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "earliest_date_for_full_payment",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_07"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Forecasting",
+        "Message interpretation",
+        "Payment eligibility",
+        "Plan construction",
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_06: relevant message evidence requires factual interpretation",
+          "request_id": "request_08"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "affordability_status",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "recommended_payment_method",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "payment_plan",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "earliest_date_for_full_payment",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_08"
+    },
+    {
+      "categories": [
+        "State reconstruction",
+        "Payment eligibility",
+        "Plan construction",
+        "Forecasting",
+        "Explanation"
+      ],
+      "issues": [
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "affordability_status",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "recommended_payment_method",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "payment_plan",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "earliest_date_for_full_payment",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_09"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Message interpretation",
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_07: relevant message evidence requires factual interpretation",
+          "request_id": "request_10"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_10"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Forecasting",
+        "Message interpretation",
+        "Payment eligibility",
+        "Plan construction",
+        "Spending changes",
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_08: relevant message evidence requires factual interpretation",
+          "request_id": "request_11"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "affordability_status",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "recommended_payment_method",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "payment_plan",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "earliest_date_for_full_payment",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "spending_changes_needed",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_11"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_09: relevant message evidence requires factual interpretation",
+          "request_id": "request_12"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_12"
+    },
+    {
+      "categories": [
+        "State reconstruction",
+        "Payment eligibility",
+        "Plan construction",
+        "Forecasting",
+        "Explanation"
+      ],
+      "issues": [
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "affordability_status",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "recommended_payment_method",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "payment_plan",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "earliest_date_for_full_payment",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_13"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Message interpretation",
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_10: relevant message evidence requires factual interpretation",
+          "request_id": "request_14"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_14"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Message interpretation",
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_11: relevant message evidence requires factual interpretation",
+          "request_id": "request_15"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_15"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Forecasting",
+        "Message interpretation",
+        "Payment eligibility",
+        "Plan construction",
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_1442: cash amount is unavailable",
+          "request_id": "request_16"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_02: relevant image evidence requires factual interpretation",
+          "request_id": "request_16"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_12: relevant message evidence requires factual interpretation",
+          "request_id": "request_16"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "affordability_status",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "recommended_payment_method",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "payment_plan",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "earliest_date_for_full_payment",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_16"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Forecasting",
+        "Message interpretation",
+        "Payment eligibility",
+        "Plan construction",
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_1545: cash amount is unavailable",
+          "request_id": "request_17"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_03: relevant image evidence requires factual interpretation",
+          "request_id": "request_17"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "affordability_status",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "recommended_payment_method",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "payment_plan",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "earliest_date_for_full_payment",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_17"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Message interpretation",
+        "Plan construction",
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_13: relevant message evidence requires factual interpretation",
+          "request_id": "request_18"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "payment_plan",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_18"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Forecasting",
+        "Message interpretation",
+        "Payment eligibility",
+        "Plan construction",
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_1700: cash amount is unavailable",
+          "request_id": "request_19"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_04: relevant image evidence requires factual interpretation",
+          "request_id": "request_19"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "affordability_status",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "recommended_payment_method",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "payment_plan",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "earliest_date_for_full_payment",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_19"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Forecasting",
+        "Message interpretation",
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_1786: cash amount is unavailable",
+          "request_id": "request_20"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_05: relevant image evidence requires factual interpretation",
+          "request_id": "request_20"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_14: relevant message evidence requires factual interpretation",
+          "request_id": "request_20"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_20"
+    },
+    {
+      "categories": [
+        "State reconstruction",
+        "Plan construction",
+        "Spending changes",
+        "Explanation"
+      ],
+      "issues": [
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "payment_plan",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "spending_changes_needed",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_21"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Forecasting",
+        "Message interpretation",
+        "Payment eligibility",
+        "Plan construction",
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_15: relevant message evidence requires factual interpretation",
+          "request_id": "request_22"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "affordability_status",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "recommended_payment_method",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "payment_plan",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "earliest_date_for_full_payment",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_22"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Forecasting",
+        "Message interpretation",
+        "Payment eligibility",
+        "Plan construction",
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_16: relevant message evidence requires factual interpretation",
+          "request_id": "request_23"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "affordability_status",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "recommended_payment_method",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "payment_plan",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "earliest_date_for_full_payment",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_23"
+    },
+    {
+      "categories": [
+        "Explanation",
+        "Message interpretation",
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_17: relevant message evidence requires factual interpretation",
+          "request_id": "request_24"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_24"
+    },
+    {
+      "categories": [
+        "State reconstruction",
+        "Explanation"
+      ],
+      "issues": [
+        {
+          "code": "gold_mismatch",
+          "field": "amount_safe_to_pay",
+          "message": "candidate differs from explicit gold fixture"
+        },
+        {
+          "code": "gold_mismatch",
+          "field": "decision_explanation",
+          "message": "candidate differs from explicit gold fixture"
+        }
+      ],
+      "request_id": "request_25"
+    }
+  ],
+  "hard_targets": {
+    "hard_safety_target_met": true,
+    "hard_safety_violation_rate": 0.0,
+    "schema_target_met": true,
+    "schema_violation_rate": 0.0
+  },
+  "metrics": {
+    "amount": {
+      "exact_accuracy": 0.04,
+      "max_absolute_error": 10202959.71,
+      "mean_absolute_error": 1028164.5388,
+      "mean_relative_absolute_error": 2.288580366269314,
+      "median_absolute_error": 10565.43,
+      "relative_error_coverage": 1.0
+    },
+    "complete_row": {
+      "exact_match_rate": 0.0,
+      "explanation_consistency_rate": "unavailable",
+      "explanation_groundedness_rate": "unavailable",
+      "explanation_present_rate": 1.0
+    },
+    "earliest_date": {
+      "correct_empty_date_rate": 0.8571428571428571,
+      "exact_accuracy": 0.36,
+      "mean_absolute_date_error_days": 0.0
+    },
+    "partial_payment": {
+      "constraint_pass_rate": "unavailable"
+    },
+    "payment_method": {
+      "accuracy": 0.36,
+      "macro_f1": 0.2595238095238095
+    },
+    "payment_plan": {
+      "exact_match_rate": 0.28,
+      "safety_valid_rate": 1.0,
+      "supplied_option_match_rate": 1.0,
+      "syntax_valid_rate": 1.0
+    },
+    "safety": {
+      "deadline_violation_rate": 0.0,
+      "minimum_balance_violation_rate": 0.0,
+      "safety_invariant_violation_rate": 0.0,
+      "schema_violation_rate": 0.0,
+      "unresolved_fx_positive_violation_rate": 0.0,
+      "unsupported_income_expense_violation_rate": "unavailable"
+    },
+    "spending_changes": {
+      "at_most_three_actions_rate": 1.0,
+      "exact_action_set_accuracy": 0.88,
+      "floor_compliance_rate": 1.0,
+      "protected_category_violation_rate": 0.0,
+      "syntax_validity_rate": 1.0,
+      "target_eligibility_rate": 1.0
+    },
+    "status": {
+      "accuracy": 0.36,
+      "macro_f1": 0.2694805194805195
+    },
+    "structured": {
+      "first_seven_field_exact_accuracy": 0.04
+    }
+  },
+  "policy": {
+    "evidence": "Relevant unparsed messages/images prevent verified acceptance. No regex text is promoted into income; no model or OCR calls are made.",
+    "forecast": "Independent conservative projection: 90 days inclusive; same-day essential debits before credits, candidate payments after recorded daily cash flows.",
+    "limits": "Forecast assumptions are explicit evaluator policy, not a claim of equivalence to hidden ground truth. Public label self-comparison only verifies comparison mechanics.",
+    "metrics": "Groundedness, substantive explanation consistency and unsupported-claim detection are unavailable. Relative error excludes zero-gold rows and reports coverage.",
+    "precision": "Safe-now capacity is floored to two decimal places; monetary plan comparisons use exact decimals. Installment duration uses elapsed days divided by 30.",
+    "recurrence": "At least two historical occurrences with stable 7-45 day cadence; monthly series use calendar dates. Concrete occurrences replace forecasts.",
+    "variable": "Essential variable spending uses the maximum historical 30-day total over the preceding 90 days, reserved at the start of each forecast month."
+  },
+  "usage": {
+    "average_tokens_per_request": 4695.72,
+    "cache_hits": 16,
+    "estimated_cost_per_request": 0.0008604000000000001,
+    "estimated_total_cost": 0.02151,
+    "input_tokens": 19689,
+    "latency_ms": 176360.0,
+    "model_calls": 39,
+    "output_tokens": 97704,
+    "provenance": "evaluation\\ab_20260913\\muse_only_gold25\\dataset_metrics.json",
+    "providers": [
+      {
+        "cache_hits": 16,
+        "calls": 17,
+        "estimated_cost": 0.000903,
+        "input_tokens": 509,
+        "model": "meta/muse-spark-1.3-contributor",
+        "output_tokens": 4260,
+        "provider": "ZenMux",
+        "purpose": "extraction_independent"
+      },
+      {
+        "cache_hits": 0,
+        "calls": 22,
+        "estimated_cost": 0.020607,
+        "input_tokens": 19180,
+        "model": "meta/muse-spark-1.3-contributor",
+        "output_tokens": 93444,
+        "provider": "ZenMux",
+        "purpose": "extraction_primary"
+      }
+    ],
+    "request_count": 25,
+    "total_tokens": 117393
+  },
+  "validation": {
+    "issue_count": 0,
+    "issues": [],
+    "valid": true
+  }
+}
