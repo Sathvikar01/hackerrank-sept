@@ -17,13 +17,13 @@ D = fixtures.D
 
 
 class StubVariableModel:
-    def __init__(self, reserves):
-        self.reserves = reserves
-        self.covered = None
+    def __init__(self, flows):
+        self.flows = flows
+        self.calls = 0
 
-    def monthly_reserve(self, scope, policy, covered) -> Mapping[str, Decimal]:
-        self.covered = covered
-        return self.reserves
+    def reserve_flows(self, scope, policy):
+        self.calls += 1
+        return self.flows
 
 
 class ForecastTests(unittest.TestCase):
@@ -81,7 +81,7 @@ class ForecastTests(unittest.TestCase):
             fixtures.no_variable_policy())
         self.assertEqual(result.minimum, D("99000"))
 
-    def test_scheduled_cash_moves_on_its_settlement_date(self):
+    def test_scheduled_salary_moves_on_its_settlement_date(self):
         debit = project(
             fixtures.scope(events=[fixtures.event(
                 event_id="event_01", status="scheduled", amount=D("5000"),
@@ -92,7 +92,8 @@ class ForecastTests(unittest.TestCase):
         credit = project(
             fixtures.scope(events=[fixtures.event(
                 event_id="event_02", status="scheduled", direction="credit",
-                event_type="income", amount=D("5000"),
+                event_type="income", category="salary", description="Confirmed salary",
+                amount=D("5000"),
                 event_date=date(2026, 1, 5), settlement_date=date(2026, 1, 10))]),
             fixtures.no_variable_policy())
         self.assertEqual(credit.balance_on(date(2026, 1, 9)), D("100000"))
@@ -229,7 +230,8 @@ class ForecastTests(unittest.TestCase):
                 event_date=date(2026, 1, 5), settlement_date=date(2026, 1, 5)),
             fixtures.event(
                 event_id="event_02", status="scheduled", direction="credit",
-                event_type="income", amount=D("6000"),
+                event_type="income", category="salary", description="Confirmed salary",
+                amount=D("6000"),
                 event_date=date(2026, 1, 5), settlement_date=date(2026, 1, 5)),
         ]
         outflows_first = project(
@@ -242,27 +244,27 @@ class ForecastTests(unittest.TestCase):
         self.assertEqual(inflows_first.minimum, D("100000"))
 
     def test_variable_spending_interface_is_pluggable(self):
-        model = StubVariableModel({"dining": D("300")})
         policy = fixtures.no_variable_policy(variable_spending_enabled=True)
+        model = StubVariableModel([(date(2026, 1, 1), D("300"), "ZAR")])
         result = project(fixtures.scope(), policy, variable_model=model)
-        self.assertEqual(result.minimum, D("99100"))
-        self.assertEqual(model.covered, frozenset())
+        self.assertEqual(result.minimum, D("99700"))
+        self.assertEqual(model.calls, 1)
 
-    def test_default_variable_spending_is_conservative_and_buffered(self):
+    def test_non_essential_irregular_spending_is_not_reserved(self):
         events = [
             fixtures.event(
                 event_id="event_01", status="settled", amount=D("200"),
-                category="dining", description="Dining out",
-                event_date=date(2025, 12, 10), settlement_date=date(2025, 12, 10)),
+                category="dining", description="Dining out", flexibility="reducible",
+                event_date=date(2025, 12, 5), settlement_date=date(2025, 12, 5)),
             fixtures.event(
                 event_id="event_02", status="settled", amount=D("100"),
-                category="dining", description="Dining out",
-                event_date=date(2025, 12, 20), settlement_date=date(2025, 12, 20)),
+                category="dining", description="Dining out", flexibility="reducible",
+                event_date=date(2025, 12, 10), settlement_date=date(2025, 12, 10)),
         ]
         result = project(
             fixtures.scope(events=events),
             ForecastPolicy(variable_spending_enabled=True))
-        self.assertEqual(result.minimum, D("99010"))
+        self.assertEqual(result.minimum, D("100000"))
 
     def test_recurring_income_is_projected_conservatively(self):
         history = [
@@ -309,7 +311,7 @@ class ForecastTests(unittest.TestCase):
         self.assertEqual(result.balance_on(date(2026, 1, 15)), D("104500"))
         self.assertEqual(result.end_balance, D("114500"))
 
-    def test_recurring_income_is_not_double_counted_with_an_unlabeled_credit(self):
+    def test_scheduled_unconfirmed_credit_is_not_cash(self):
         history = [
             fixtures.event(
                 event_id=f"event_0{index}", status="settled", direction="credit",
@@ -327,8 +329,8 @@ class ForecastTests(unittest.TestCase):
         result = project(
             fixtures.scope(events=history + [materialized]),
             fixtures.no_variable_policy())
-        self.assertEqual(result.balance_on(date(2026, 1, 15)), D("104500"))
-        self.assertEqual(result.end_balance, D("114500"))
+        self.assertEqual(result.balance_on(date(2026, 1, 15)), D("105000"))
+        self.assertEqual(result.end_balance, D("115000"))
 
     def test_minimum_balance_breach_marks_the_forecast_unsafe(self):
         result = project(

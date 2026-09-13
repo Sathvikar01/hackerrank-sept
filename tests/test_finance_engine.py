@@ -146,7 +146,8 @@ class EngineTests(unittest.TestCase):
                     desired_completion_date=date(2026, 3, 31))],
                 events=history + [fixtures.event(
                     event_id="event_01", user_id="user_01", status="scheduled",
-                    direction="credit", event_type="income", amount=D("40000"),
+                    direction="credit", event_type="income", category="salary",
+                    description="Confirmed salary", amount=D("40000"),
                     event_date=date(2026, 1, 10), settlement_date=date(2026, 1, 10))],
                 options=[fixtures.option(
                     option_id="payment_option_01", request_id="request_01",
@@ -160,7 +161,7 @@ class EngineTests(unittest.TestCase):
             self.assertEqual(decision.affordability_status, "affordable_with_plan")
             self.assertEqual(decision.spending_changes_needed, "stop:event_13")
             self.assertEqual(decision.amount_safe_to_pay, D("6000"))
-            self.assertEqual(decision.earliest_date_for_full_payment, date(2026, 1, 11))
+            self.assertEqual(decision.earliest_date_for_full_payment, date(2026, 1, 10))
             certificate = engine.verify(decision)
             self.assertTrue(certificate.checks)
             self.assertGreaterEqual(

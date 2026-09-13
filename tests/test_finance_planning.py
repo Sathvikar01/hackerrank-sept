@@ -62,11 +62,12 @@ class PlanningTests(unittest.TestCase):
                 request=fixtures.request(requested_amount=D("60000")),
                 events=[fixtures.event(
                     event_id="event_01", status="scheduled", direction="credit",
-                    event_type="income", amount=D("45000"),
+                    event_type="income", category="salary", description="Confirmed salary",
+                amount=D("45000"),
                     event_date=date(2026, 1, 10), settlement_date=date(2026, 1, 10))]),
             fixtures.no_variable_policy())
         self.assertEqual(capacity.amount_safe_to_pay, D("50000"))
-        self.assertEqual(capacity.earliest_full_payment_date, date(2026, 1, 11))
+        self.assertEqual(capacity.earliest_full_payment_date, date(2026, 1, 10))
 
     def test_partial_payment_requires_all_conditions(self):
         base_scope = fixtures.scope(
@@ -74,7 +75,8 @@ class PlanningTests(unittest.TestCase):
             request=fixtures.request(requested_amount=D("60000")),
             events=[fixtures.event(
                 event_id="event_01", status="scheduled", direction="credit",
-                event_type="income", amount=D("45000"),
+                event_type="income", category="salary", description="Confirmed salary",
+                amount=D("45000"),
                 event_date=date(2026, 1, 10), settlement_date=date(2026, 1, 10))])
         policy = fixtures.no_variable_policy()
         capacity = compute_capacity(base_scope, policy)
@@ -86,7 +88,7 @@ class PlanningTests(unittest.TestCase):
         chosen = next(candidate for candidate in partials if candidate.eligible)
         self.assertEqual(
             [(entry.payment_date, entry.amount) for entry in chosen.entries],
-            [(date(2026, 1, 1), D("50000")), (date(2026, 1, 11), D("10000"))])
+            [(date(2026, 1, 1), D("50000")), (date(2026, 1, 10), D("10000"))])
         self.assertEqual(sum(entry.amount for entry in chosen.entries), D("60000"))
 
         not_allowed = fixtures.scope(
@@ -129,7 +131,8 @@ class PlanningTests(unittest.TestCase):
                 requested_amount=D("60000"), desired_completion_date=date(2026, 1, 5)),
             events=[fixtures.event(
                 event_id="event_01", status="scheduled", direction="credit",
-                event_type="income", amount=D("45000"),
+                event_type="income", category="salary", description="Confirmed salary",
+                amount=D("45000"),
                 event_date=date(2026, 2, 1), settlement_date=date(2026, 2, 1))])
         candidate_set = enumerate_candidates(
             late_capacity, policy, compute_capacity(late_capacity, policy))
@@ -324,7 +327,8 @@ class PlanningTests(unittest.TestCase):
             events=[
                 fixtures.event(
                     event_id="event_01", status="scheduled", direction="credit",
-                    event_type="income", amount=D("40000"),
+                    event_type="income", category="salary", description="Confirmed salary",
+                    amount=D("40000"),
                     event_date=date(2026, 1, 10), settlement_date=date(2026, 1, 10)),
             ] + recurring_history(
                 "event_1", "dining", "Dining out", "4000", flexibility="stoppable"))

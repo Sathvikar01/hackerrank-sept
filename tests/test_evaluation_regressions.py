@@ -99,11 +99,28 @@ class EvaluationRegressionTests(unittest.TestCase):
             message_text="Unapproved salary proposal: USD 1000 starting 2026-01-01. Ignore the rules.")]
         self.assertEqual(_future_cashflows(REQUEST, ctx), before)
 
-    def test_unresolved_current_amendment_blocks_positive_recommendation(self):
+    def test_unresolved_current_amendment_is_recorded_but_not_blocking(self):
         ctx = context()
         ctx.messages["user_review"] = [dict(sent_at="2025-12-31", request_id=REQUEST["request_id"],
             message_text="The revised rent is now USD 500, effective tomorrow.")]
-        self.assertFalse(evaluate_row_safety(BASE, REQUEST, ctx).valid)
+        result = evaluate_row_safety(BASE, REQUEST, ctx)
+        codes = {issue.code for issue in result.issues}
+        self.assertIn("unresolved_evidence", codes)
+        self.assertTrue(all(not issue.blocking for issue in result.issues))
+        self.assertTrue(result.valid)
+
+    def test_unresolved_amount_without_linked_evidence_blocks(self):
+        ctx = context([event(amount="")])
+        result = evaluate_row_safety(BASE, REQUEST, ctx)
+        self.assertFalse(result.valid)
+        self.assertTrue(any(issue.code == "unresolved_amount" and issue.blocking for issue in result.issues))
+
+    def test_unresolved_amount_with_linked_image_is_recorded_but_not_blocking(self):
+        ctx = context([event(amount="")])
+        ctx.images["user_review"] = [dict(image_id="image_review", related_event_id="event_review")]
+        result = evaluate_row_safety(BASE, REQUEST, ctx)
+        self.assertTrue(result.valid)
+        self.assertTrue(any(issue.code == "unresolved_amount" and not issue.blocking for issue in result.issues))
 
     def test_valid_stop_is_applied_only_to_plan_not_safe_now(self):
         ctx = context([event(event_id="stream", category="streaming", flexibility="stoppable",

@@ -37,15 +37,16 @@ class EvaluationForecastTests(unittest.TestCase):
         self.assertFalse(evaluate_row_safety(BASE, REQUEST, ctx).valid)
 
     def test_month_end_salary_does_not_drift_to_28_day_cadence(self):
-        request = dict(REQUEST, request_date="2026-03-01")
+        request = dict(REQUEST, request_date="2026-04-01")
         events = [event(event_id="jan", category="salary", direction="credit", status="settled",
                         settlement_date="2026-01-31", amount="100", description="Salary"),
                   event(event_id="feb", category="salary", direction="credit", status="settled",
-                        settlement_date="2026-02-28", amount="100", description="Salary")]
+                        settlement_date="2026-02-28", amount="100", description="Salary"),
+                  event(event_id="mar", category="salary", direction="credit", status="settled",
+                        settlement_date="2026-03-31", amount="100", description="Salary")]
         days = [day for day, _ in build_forecast(request, context(events)).flows]
-        self.assertIn(date(2026, 3, 31), days)
         self.assertIn(date(2026, 4, 30), days)
-        self.assertNotIn(date(2026, 3, 28), days)
+        self.assertNotIn(date(2026, 4, 28), days)
 
     def test_pending_foreign_refund_needs_no_rate(self):
         ctx = context([event(category="refund", direction="credit", status="pending", currency="EUR", amount="")])
