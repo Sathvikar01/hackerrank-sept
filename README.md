@@ -138,6 +138,59 @@ If you use API keys or secrets, read them from environment variables. Never hard
 
 Your `output.csv` will be compared against hidden ground-truth values.
 
+### Local validation
+
+Run the independent offline evaluator before submission:
+
+```bash
+python code/evaluation/main.py --candidate output.csv --strict
+```
+
+It writes `results.json`, `report.md`, and `evaluator_usage_report.md` under
+`evaluation/validation/`. It preserves the dataset runner's submission report at
+`evaluation/usage_report.md`, including when `--artifact-dir evaluation` is explicitly used.
+To include measured runner usage in the evaluator's separate report:
+
+```bash
+python code/evaluation/main.py --candidate output.csv --strict --usage-metadata evaluation/dataset_metrics.json
+```
+
+Exit codes: `0` completed successfully, `1` invalid candidate schema, `2` input error,
+and `3` a mandatory validation failure in strict mode. Without `--strict`, inspect
+the JSON `status` and `hard_targets`: successful report generation does not imply
+a valid financial recommendation. Every eligibility, schedule, amount/date,
+protected-spending, balance, or unresolved-required-evidence issue blocks strict acceptance.
+
+The forecast uses exact dated FX, settled credits and confirmed scheduled salary,
+reserved debits, supported recurrence reconciled with concrete occurrences, and
+conservative essential-variable reserves. Safe-now amounts use the baseline;
+recommended plans use the forecast after valid spending changes. Reports state
+the recurrence, horizon, same-day ordering, and precision assumptions. These are
+local validation policies, not hidden ground-truth labels.
+
+This evaluator makes no model or OCR calls. Relevant unparsed messages/images are
+reported as `unresolved_evidence`; missing cash amounts are unresolved rather than
+zero. It cannot independently establish their financial effect and therefore does
+not approve affected rows. Explanation presence is measured, while substantive
+groundedness, explanation consistency, and unsupported-claim detection remain
+`unavailable`. Relative error excludes zero-valued gold denominators and includes
+a coverage fraction. Payment-option matching is measured even without gold.
+
+For an explicit public-label comparison:
+
+```bash
+python code/evaluation/main.py --candidate dataset/sample_requests.csv --gold dataset/sample_requests.csv --strict --artifact-dir evaluation/public_validation
+```
+
+Comparing these labels to themselves gives structured exact accuracy of 1.0. It
+does not bypass independent safety checks, resolve evidence, or prove that the
+prediction engine reproduces the samples. A conservative policy disagreement or
+unresolved evidence can cause this command to return `3`; inspect row issues.
+
+Run offline tests with `python -m unittest discover -s tests -v` (live model tests
+are opt-in through `RUN_LIVE_MODEL_TESTS=1`). The evaluation regressions include
+complete safe plans as well as deliberately invalid counterexamples.
+
 The scoring will consider:
 
 - accuracy of `amount_safe_to_pay`
