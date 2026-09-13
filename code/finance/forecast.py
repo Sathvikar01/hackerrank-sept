@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import calendar
+import re
 from collections import defaultdict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import date, timedelta
-from decimal import Decimal, ROUND_CEILING, ROUND_DOWN, ROUND_HALF_UP, ROUND_UP
-from typing import Mapping, Protocol, Sequence
+from decimal import Decimal, ROUND_DOWN, ROUND_HALF_UP, ROUND_UP
+from typing import Protocol, Sequence
 
 from .contracts import (
     BalancePoint,
@@ -25,6 +27,10 @@ ROUNDING_MODES = {
 
 SAME_DAY_ORDERS = frozenset({"outflows_first", "inflows_first"})
 INSTALLMENT_MONTH_SEMANTICS = frozenset({"days_30", "calendar_months"})
+ONE_TIME_PATTERN = re.compile(
+    r"arrear|one.time|bonus|commission|prize|lottery|refund|unrealized|internal transfer")
+SPECULATIVE_SALARY_PATTERN = re.compile(
+    r"unapproved|unconfirmed|tentative|propos|not confirmed|not approved|estimate")
 
 
 @dataclass(frozen=True)
@@ -34,7 +40,6 @@ class ForecastPolicy:
     recurrence_min_occurrences: int = 3
     recurrence_lookback_days: int = 183
     recurrence_match_days: int = 3
-    recurrence_tolerance: Decimal = Decimal("0.25")
     same_day_order: str = "outflows_first"
     installment_month_semantics: str = "days_30"
     installment_month_days: int = 30
@@ -43,7 +48,6 @@ class ForecastPolicy:
     allow_inverse_rates: bool = False
     variable_spending_enabled: bool = True
     variable_spending_lookback_days: int = 90
-    variable_spending_buffer: Decimal = Decimal("0.10")
     max_change_combinations: int = 200
 
     def __post_init__(self) -> None:
@@ -94,80 +98,167 @@ class RecurrenceSeries:
     direction: str = "debit"
 
 
-def _same_series(flow_key: tuple[str, str, str] | None, item: RecurrenceSeries) -> bool:
-    if flow_key is None:
-        return False
-    if item.direction == "credit":
-        return flow_key[0] == item.key[0] and flow_key[2] == item.key[2]
-    return flow_key == item.key
+def _one_time_event(event: FinancialEvent) -> bool:
+    return bool(ONE_TIME_PATTERN.search(f"{event.description or ''} {event.category}".lower()))
 
 
-def _occurrence_is_covered(
-    flow: CashFlow,
-    item: RecurrenceSeries,
-    day: date,
-    policy: ForecastPolicy,
-) -> bool:
-    if abs((flow.day - day).days) > policy.recurrence_match_days:
+def _confirmed_salary(event: FinancialEvent) -> bool:
+    if event.category.lower() != "salary" or event.direction != "credit":
         return False
-    if _same_series(flow.series_key, item):
+    if _one_time_event(event):
+        return False
+    return not SPECULATIVE_SALARY_PATTERN.search((event.description or "").lower())
+
+
+def _essential_event(event: FinancialEvent, profile) -> bool:
+    category = event.category.lower()
+    if category in {item.lower() for item in profile.protected_categories}:
         return True
-    # Income confirmed by a message can be materialized as an explicit event
-    # whose category does not carry the recurring series label. That explicit
-    # credit already represents the occurrence; projecting the series on top
-    # of it would overstate available cash.
-    return (
-        item.direction == "credit"
-        and flow.amount > 0
-        and flow.event_id is not None
-        and flow.series_key is not None
-        and flow.series_key[2] == item.key[2]
-    )
+    if event.flexibility == "fixed":
+        return True
+    return bool(re.search(
+        r"grocer|food|transport|rent|utilit|medical|health|childcare|school|insurance|loan", category))
+
+
+def _reconcile_events(events: Sequence[FinancialEvent]) -> tuple[FinancialEvent, ...]:
+    by_id = {event.event_id: event for event in events}
+    suppressed: set[str] = set()
+    for event in events:
+        linked = by_id.get(event.linked_event_id) if event.linked_event_id else None
+        if linked is None:
+            continue
+        description = (event.description or "").lower()
+        combined = f"{description} {(linked.description or '').lower()}"
+        if ("internal transfer" in combined and re.search(r"same.holder", combined)
+                and {event.direction, linked.direction} == {"credit", "debit"}
+                and all(getattr(event, key) == getattr(linked, key)
+                        for key in ("user_id", "amount", "currency", "settlement_date"))
+                and all(item.status in {"settled", "scheduled"} for item in (event, linked))):
+            suppressed.update((event.event_id, linked.event_id))
+        elif "duplicate" in description and all(
+                getattr(event, key) == getattr(linked, key)
+                for key in ("amount", "currency", "direction")):
+            if event.status == "settled" and linked.status == "pending":
+                suppressed.add(linked.event_id)
+            else:
+                suppressed.add(event.event_id)
+        elif event.status in {"settled", "cancelled"} and re.search(
+                r"replace|cancel|settlement|authorization", description):
+            if linked.status in {"pending", "scheduled"}:
+                suppressed.add(linked.event_id)
+    return tuple(event for event in events if event.event_id not in suppressed)
+
+
+def _cadence(entries: Sequence[FinancialEvent]) -> int | None:
+    dates = sorted({event.effective_date for event in entries})
+    if len(dates) < 2:
+        return None
+    gaps = [(later - earlier).days for earlier, later in zip(dates, dates[1:])]
+    if not gaps:
+        return None
+    cadence = sorted(gaps)[len(gaps) // 2]
+    if not 7 <= cadence <= 45:
+        return None
+    tolerance = max(3, cadence // 4)
+    if any(abs(gap - cadence) > tolerance for gap in gaps):
+        return None
+    return cadence
+
+
+def _projected_dates(entries: Sequence[FinancialEvent], cadence: int, start: date, end: date) -> list[date]:
+    dates = [event.effective_date for event in entries]
+    last = max(dates)
+    month_ends = all(day.day == calendar.monthrange(day.year, day.month)[1] for day in dates)
+    monthly = 28 <= cadence <= 31 and (len({day.day for day in dates}) == 1 or month_ends)
+    cursor = last
+    projected: list[date] = []
+    while cursor <= end:
+        if monthly:
+            month_index = cursor.year * 12 + cursor.month
+            year, month = divmod(month_index, 12)
+            month += 1
+            anchor = 31 if month_ends else last.day
+            cursor = date(year, month, min(anchor, calendar.monthrange(year, month)[1]))
+        else:
+            cursor += timedelta(days=cadence)
+        if start <= cursor <= end:
+            projected.append(cursor)
+    return projected
 
 
 class VariableSpendingModel(Protocol):
-    def monthly_reserve(
+    def reserve_flows(
         self,
         scope: RequestScope,
         policy: ForecastPolicy,
-        covered_series: frozenset[tuple[str, str, str]],
-    ) -> Mapping[str, Decimal]:
+    ) -> Sequence[tuple[date, Decimal, str]]:
         ...
 
 
-class RecentMaxVariableSpending:
-    def monthly_reserve(
+class EssentialVariableReserve:
+    def reserve_flows(
         self,
         scope: RequestScope,
         policy: ForecastPolicy,
-        covered_series: frozenset[tuple[str, str, str]],
-    ) -> Mapping[str, Decimal]:
+    ) -> Sequence[tuple[date, Decimal, str]]:
         start = scope.request.request_date
-        cutoff = start - timedelta(days=policy.variable_spending_lookback_days)
-        totals: dict[tuple[str, str], Decimal] = defaultdict(lambda: Decimal(0))
-        for event in scope.events:
-            if event.status != "settled" or not event.is_cash or event.direction != "debit":
+        cutoff = start - timedelta(days=policy.recurrence_lookback_days)
+        end = policy.end_date(start)
+        series_events: dict[tuple[str, str, str], list[FinancialEvent]] = defaultdict(list)
+        concrete: dict[tuple[str, str], list[tuple[date, Decimal]]] = defaultdict(list)
+        for event in _reconcile_events(scope.events):
+            if not event.is_cash or event.status in {"failed", "cancelled", "unrealized"}:
+                continue
+            if event.status not in {"settled", "pending", "scheduled"}:
+                continue
+            if event.direction == "credit":
                 continue
             if event.amount is None:
                 continue
-            if event.event_date < cutoff or event.event_date > start:
+            day = event.effective_date
+            if day > end:
                 continue
-            if series_key(event) in covered_series:
+            key = series_key(event)
+            group = (event.category, event.currency)
+            if day < start:
+                if event.status in {"pending", "scheduled"}:
+                    day = start
+                elif event.status == "settled" and not _one_time_event(event) and day >= cutoff:
+                    series_events[key].append(event)
+                    continue
+                else:
+                    continue
+            if not (event.status == "settled" and day == start):
+                concrete[group].append((day, event.amount))
+
+        uncovered: list[FinancialEvent] = []
+        for key, entries in series_events.items():
+            distinct = {event.effective_date for event in entries}
+            if len(distinct) >= policy.recurrence_min_occurrences and _cadence(entries) is not None:
                 continue
-            day = event.event_date
-            converted = scope.rate_book.convert(
-                event.amount, event.currency, scope.profile.home_currency, day,
-                allow_inverse=policy.allow_inverse_rates)
-            totals[(event.category, f"{day.year}-{day.month:02d}")] += converted
-        by_category: dict[str, Decimal] = {}
-        for (category, _month), total in totals.items():
-            if total > by_category.get(category, Decimal(0)):
-                by_category[category] = total
-        reserves: dict[str, Decimal] = {}
-        for category, monthly in sorted(by_category.items()):
-            buffered = monthly * (Decimal(1) + policy.variable_spending_buffer)
-            reserves[category] = buffered.quantize(Decimal("0.01"), rounding=ROUND_CEILING)
-        return reserves
+            uncovered.extend(entries)
+
+        buckets: dict[tuple[str, str], dict[int, Decimal]] = defaultdict(lambda: defaultdict(lambda: Decimal(0)))
+        for event in uncovered:
+            if not _essential_event(event, scope.profile):
+                continue
+            age = (start - event.effective_date).days
+            if 1 <= age <= policy.variable_spending_lookback_days and event.amount is not None:
+                buckets[(event.category, event.currency)][(age - 1) // 30] += event.amount
+
+        reserves: dict[tuple[date, str], Decimal] = defaultdict(lambda: Decimal(0))
+        for group, ages in sorted(buckets.items()):
+            if not ages:
+                continue
+            reserve = max(ages.values())
+            for offset in (0, 30, 60):
+                day = start + timedelta(days=offset)
+                known = sum((amount for existing, amount in concrete.get(group, ())
+                             if day <= existing < day + timedelta(days=30)), Decimal(0))
+                amount = max(Decimal(0), reserve - known)
+                if amount > 0:
+                    reserves[(day, group[1])] += amount
+        return [(day, amount, currency) for (day, currency), amount in sorted(reserves.items())]
 
 
 def detect_recurrence(
@@ -180,16 +271,20 @@ def detect_recurrence(
     as_of = as_of or start
     cutoff = as_of - timedelta(days=policy.recurrence_lookback_days)
     groups: dict[tuple[str, str, str], list[FinancialEvent]] = defaultdict(list)
-    for event in scope.events:
+    for event in _reconcile_events(scope.events):
         if event.status != "settled" or not event.is_cash:
             continue
         if event.amount is None:
             continue
-        if event.event_date < cutoff or event.event_date > as_of:
+        if event.effective_date < cutoff or event.effective_date > as_of:
             continue
         if event.direction == "debit":
+            if _one_time_event(event):
+                continue
             key = series_key(event)
         elif event.direction == "credit" and event.event_type == "income":
+            if _one_time_event(event):
+                continue
             key = (event.category, "*", event.currency)
         else:
             continue
@@ -199,38 +294,25 @@ def detect_recurrence(
     series: list[RecurrenceSeries] = []
     for key, items in sorted(groups.items()):
         ordered = sorted(items, key=lambda event: (event.effective_date, event.event_id))
-        dates = [event.effective_date for event in ordered]
-        if len(dates) < policy.recurrence_min_occurrences:
+        if len({event.effective_date for event in ordered}) < policy.recurrence_min_occurrences:
             continue
-        intervals = [(later - earlier).days for earlier, later in zip(dates, dates[1:])]
-        if not intervals:
+        cadence = _cadence(ordered)
+        if cadence is None:
             continue
-        median = sorted(intervals)[len(intervals) // 2]
-        if median < 7:
-            continue
-        tolerance = Decimal(median) * policy.recurrence_tolerance
-        if any(abs(Decimal(interval - median)) > tolerance for interval in intervals):
+        projected = _projected_dates(ordered, cadence, start, end)
+        if not projected:
             continue
         direction = ordered[0].direction
         if direction == "credit":
             typical = min(event.amount for event in ordered if event.amount is not None)
         else:
             typical = max(event.amount for event in ordered if event.amount is not None)
-        last = dates[-1]
-        projected: list[date] = []
-        cursor = last + timedelta(days=median)
-        while cursor <= end:
-            if cursor > as_of:
-                projected.append(cursor)
-            cursor += timedelta(days=median)
-        if not projected:
-            continue
         series.append(RecurrenceSeries(
             key=key,
             event_ids=tuple(event.event_id for event in ordered),
-            interval_days=median,
+            interval_days=cadence,
             typical_amount=typical,
-            last_occurrence=last,
+            last_occurrence=ordered[-1].effective_date,
             projected_dates=tuple(projected),
             direction=direction,
         ))
@@ -246,6 +328,7 @@ def collect_flows(
 ) -> tuple[CashFlow, ...]:
     start = scope.request.request_date
     end = policy.end_date(start)
+    events = _reconcile_events(scope.events)
     change_targets: dict[tuple[str, str, str], ChangeAction] = {}
     for change in sorted(changes, key=lambda item: item.event_id):
         target = scope.event_by_id(change.event_id)
@@ -254,9 +337,11 @@ def collect_flows(
         change_targets.setdefault(series_key(target), change)
 
     flows: list[CashFlow] = []
-    covered: set[tuple[str, str, str]] = set()
+    occurrences: dict[tuple[str, str, str], list[date]] = defaultdict(list)
 
-    def apply_change(key: tuple[str, str, str], amount: Decimal) -> Decimal | None:
+    def apply_change(event: FinancialEvent, key: tuple[str, str, str], amount: Decimal) -> Decimal | None:
+        if event.status == "pending":
+            return amount
         change = change_targets.get(key)
         if change is None:
             return amount
@@ -264,10 +349,16 @@ def collect_flows(
             return None
         return change.new_amount
 
-    for event in scope.events:
+    for event in events:
         if not event.is_cash:
             continue
-        if event.status in {"failed", "cancelled", "unrealized"}:
+        if event.status == "cancelled":
+            day = event.effective_date
+            if day is not None and start <= day <= end:
+                key = (event.category, "*", event.currency) if event.direction == "credit" else series_key(event)
+                occurrences[key].append(day)
+            continue
+        if event.status in {"failed", "unrealized"}:
             continue
         if event.status == "settled":
             if event.effective_date <= start:
@@ -276,19 +367,30 @@ def collect_flows(
         elif event.status == "pending":
             if event.direction == "credit":
                 continue
-            day = event.event_date
+            day = event.effective_date
         elif event.status == "scheduled":
+            if event.direction == "credit" and not _confirmed_salary(event):
+                continue
             day = event.effective_date
         else:
             continue
-        if day < start or day > end:
+        if day > end:
             continue
+        occurrence_day = day
+        if day < start and event.status in {"pending", "scheduled"}:
+            if event.direction == "credit":
+                continue
+            day = start
+        if day < start:
+            continue
+        key = series_key(event)
+        occurrence_key = (event.category, "*", event.currency) if event.direction == "credit" else key
+        if start <= occurrence_day <= end:
+            occurrences[occurrence_key].append(occurrence_day)
         if event.amount is None:
             raise MissingAmountError(
                 f"{event.event_id}: cash event has no amount; a missing amount is not zero")
-        key = series_key(event)
-        amount = apply_change(key, event.amount)
-        covered.add(key)
+        amount = apply_change(event, key, event.amount)
         if amount is None:
             continue
         converted = scope.rate_book.convert(
@@ -300,19 +402,19 @@ def collect_flows(
     for item in detect_recurrence(scope, policy, as_of=start):
         change = change_targets.get(item.key)
         if change is not None and change.kind == "stop":
-            covered.add(item.key)
             continue
         base = change.new_amount if change is not None else item.typical_amount
         if base is None:
             continue
-        covered.add(item.key)
         currency = item.key[2]
         sign = -1 if item.direction == "debit" else 1
+        covered = list(occurrences.get(item.key, ()))
         for day in item.projected_dates:
-            if any(
-                _occurrence_is_covered(flow, item, day, policy)
-                for flow in flows
-            ):
+            match = next(
+                (index for index, existing in enumerate(covered)
+                 if abs((existing - day).days) <= policy.recurrence_match_days), None)
+            if match is not None:
+                covered.pop(match)
                 continue
             converted = scope.rate_book.convert(
                 base, currency, scope.profile.home_currency, day,
@@ -321,20 +423,15 @@ def collect_flows(
                 day, sign * converted, f"recurrence:{item.key[0]}", None, item.key))
 
     if policy.variable_spending_enabled:
-        model = variable_model or RecentMaxVariableSpending()
-        reserves = model.monthly_reserve(scope, policy, frozenset(covered))
-        if reserves:
-            month_days = policy.installment_month_days
-            horizon = policy.horizon_days
-            occurrences = max(1, -(-horizon // month_days))
-            for index in range(occurrences):
-                day = start + timedelta(days=index * month_days)
-                if day > end:
-                    break
-                for category, amount in sorted(reserves.items()):
-                    flows.append(CashFlow(
-                        day, -amount, f"variable:{category}", None,
-                        (category, "*", scope.profile.home_currency)))
+        model = variable_model or EssentialVariableReserve()
+        for day, amount, currency in model.reserve_flows(scope, policy):
+            if amount <= 0:
+                continue
+            converted = scope.rate_book.convert(
+                amount, currency, scope.profile.home_currency, day,
+                allow_inverse=policy.allow_inverse_rates)
+            flows.append(CashFlow(
+                day, -converted, "variable:reserve", None, None))
 
     return tuple(flows)
 
@@ -354,14 +451,12 @@ def project(
         if start <= entry.payment_date <= end:
             flows.append(CashFlow(entry.payment_date, -entry.amount, "plan", None, None))
 
-    def order(flow: CashFlow) -> int:
+    def order(flow: CashFlow) -> tuple[int, str, str, Decimal]:
         debit_first = 0 if flow.amount < 0 else 1
-        return 1 - debit_first if policy.same_day_order == "inflows_first" else debit_first
+        priority = 1 - debit_first if policy.same_day_order == "inflows_first" else debit_first
+        return (2 if flow.label == "plan" else priority, flow.label, flow.event_id or "", flow.amount)
 
-    ordered = sorted(
-        flows,
-        key=lambda flow: (flow.day, order(flow), flow.label, flow.event_id or "", flow.amount),
-    )
+    ordered = sorted(flows, key=lambda flow: (flow.day, *order(flow)))
 
     balance = scope.profile.current_available_balance
     start_balance = balance
@@ -394,3 +489,35 @@ def project(
         end_balance=balance,
         safe=minimum >= required,
     )
+
+
+def capacity_schedule(
+    current: Decimal,
+    minimum: Decimal,
+    start: date,
+    flows: Sequence[tuple[date, Decimal]],
+    *,
+    horizon_days: int = 90,
+    include_horizon_end: bool = True,
+) -> dict[date, Decimal]:
+    by_day: dict[date, list[Decimal]] = defaultdict(list)
+    for day, amount in flows:
+        by_day[day].append(amount)
+    span = horizon_days if include_horizon_end else horizon_days - 1
+    balance = current
+    prefix_safe = current >= minimum
+    days: list[tuple[date, Decimal, Decimal, bool]] = []
+    for offset in range(span + 1):
+        day = start + timedelta(days=offset)
+        low = balance
+        for amount in sorted(by_day[day]):
+            balance += amount
+            low = min(low, balance)
+        prefix_safe = prefix_safe and low >= minimum
+        days.append((day, balance, low, prefix_safe))
+    future_low = balance
+    schedule: dict[date, Decimal] = {}
+    for day, balance, low, prefix_safe in reversed(days):
+        schedule[day] = max(Decimal(0), min(balance, future_low) - minimum) if prefix_safe else Decimal(0)
+        future_low = min(future_low, low)
+    return schedule

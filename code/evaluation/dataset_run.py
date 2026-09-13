@@ -114,7 +114,7 @@ def main(argv: list[str] | None = None) -> int:
             max_tokens=1024)
 
     dataset = Dataset.load(Path(args.dataset_dir))
-    engine = FinancialEngine(dataset, ForecastPolicy(variable_spending_enabled=False))
+    engine = FinancialEngine(dataset, ForecastPolicy(variable_spending_enabled=True))
     pipeline = EvidencePipeline(
         dataset, engine, primary=primary, second=second, controller=controller)
 

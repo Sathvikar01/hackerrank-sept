@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import date, timedelta
-from decimal import Decimal
+from decimal import Decimal, ROUND_DOWN
 from itertools import combinations, product
 from typing import Sequence
 
@@ -16,6 +16,8 @@ from .forecast import (
     ForecastPolicy,
     ForecastResult,
     VariableSpendingModel,
+    capacity_schedule,
+    collect_flows,
     detect_recurrence,
     project,
 )
@@ -71,21 +73,18 @@ def compute_capacity(
 ) -> Capacity:
     start = scope.request.request_date
     requested = scope.request.requested_amount
+    flows = collect_flows(scope, policy, variable_model=variable_model)
     baseline = project(scope, policy, variable_model=variable_model)
-    room = baseline.minimum - scope.profile.minimum_balance_to_keep
-    if room < 0:
-        room = Decimal(0)
-    safe = min(room, requested)
-    earliest: date | None = None
-    day = start
-    end = policy.end_date(start)
-    while day <= end:
-        result = project(
-            scope, policy, plan=(PlanEntry(day, requested),), variable_model=variable_model)
-        if result.safe:
-            earliest = day
-            break
-        day += timedelta(days=1)
+    schedule = capacity_schedule(
+        scope.profile.current_available_balance,
+        scope.profile.minimum_balance_to_keep,
+        start,
+        [(flow.day, flow.amount) for flow in flows],
+        horizon_days=policy.horizon_days,
+        include_horizon_end=policy.include_horizon_end,
+    )
+    safe = min(requested, schedule[start]).quantize(Decimal("0.01"), rounding=ROUND_DOWN)
+    earliest = next((day for day in sorted(schedule) if schedule[day] >= requested), None)
     return Capacity(safe, earliest, baseline)
 
 
