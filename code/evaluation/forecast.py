@@ -42,9 +42,11 @@ def _essential(event: dict, profile: dict) -> bool:
 
 
 def _cadence(entries: list[tuple[dict, date, Decimal]]) -> int | None:
-    if len(entries) < 2:
+    if len(entries) < 3:
         return None
     dates = sorted({day for _, day, _ in entries})
+    if len(dates) < 3:
+        return None
     gaps = [(right - left).days for left, right in zip(dates, dates[1:])]
     if not gaps:
         return None
@@ -197,34 +199,49 @@ def build_forecast(request: dict, context, changes: list[ChangeAction] | tuple =
             concrete_amounts[key].append((day, amount))
             add(event, day, amount)
 
+    projected: set[tuple[str, str, str, str]] = set()
     for key, entries in sorted(history.items()):
         entries.sort(key=lambda item: (item[1], item[0].get("event_id", "")))
         exemplar = entries[-1][0]
         cadence = _cadence(entries)
-        if cadence is not None:
-            amount = min(value for _, _, value in entries) if key[1] == "credit" else max(value for _, _, value in entries)
-            covered = list(concrete.get(key, []))
-            for day in _projected_dates(entries, cadence, start, end):
-                match = next((i for i, existing in enumerate(covered) if abs((existing - day).days) <= 3), None)
-                if match is not None:
-                    covered.pop(match)
-                    continue
-                add(dict(exemplar, status="scheduled"), day, amount)
-        elif key[1] == "debit" and _essential(exemplar, profile):
-            # Irregular essentials: maximum observed 30-day bucket, reserved in advance.
-            buckets = defaultdict(lambda: Decimal(0))
-            for _, day, amount in entries:
-                age = (start - day).days
-                if 1 <= age <= 90:
-                    buckets[(age - 1) // 30] += amount
-            if not buckets:
+        if cadence is None:
+            continue
+        projected.add(key)
+        amount = min(value for _, _, value in entries) if key[1] == "credit" else max(value for _, _, value in entries)
+        covered = list(concrete.get(key, []))
+        for day in _projected_dates(entries, cadence, start, end):
+            match = next((i for i, existing in enumerate(covered) if abs((existing - day).days) <= 3), None)
+            if match is not None:
+                covered.pop(match)
                 continue
-            reserve = max(buckets.values())
-            for offset in (0, 30, 60):
-                day = start + timedelta(days=offset)
-                known = sum((amount for existing, amount in concrete_amounts[key]
-                             if day <= existing < day + timedelta(days=30)), Decimal(0))
-                add(dict(exemplar, status="scheduled"), day, max(Decimal(0), reserve - known))
+            add(dict(exemplar, status="scheduled"), day, amount)
+
+    uncovered: dict[tuple[str, str], list[tuple[dict, date, Decimal]]] = defaultdict(list)
+    for key, entries in history.items():
+        if key in projected or key[1] != "debit":
+            continue
+        for item in entries:
+            if _essential(item[0], profile):
+                uncovered[(key[0], key[2])].append(item)
+    for group, entries in sorted(uncovered.items()):
+        # Irregular essentials: maximum observed 30-day bucket per category, reserved in advance.
+        buckets = defaultdict(lambda: Decimal(0))
+        for _, day, amount in entries:
+            age = (start - day).days
+            if 1 <= age <= 90:
+                buckets[(age - 1) // 30] += amount
+        if not buckets:
+            continue
+        reserve = max(buckets.values())
+        exemplar = entries[-1][0]
+        for offset in (0, 30, 60):
+            day = start + timedelta(days=offset)
+            known = sum(
+                (amount for known_key, rows in concrete_amounts.items()
+                 if (known_key[0], known_key[2]) == group
+                 for existing, amount in rows if day <= existing < day + timedelta(days=30)),
+                Decimal(0))
+            add(dict(exemplar, status="scheduled"), day, max(Decimal(0), reserve - known))
     result.flows.sort(key=lambda item: (item[0], item[1]))
     result.problems = sorted(set(result.problems))
     return result

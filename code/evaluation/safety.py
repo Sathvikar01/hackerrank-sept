@@ -16,6 +16,7 @@ class SafetyIssue:
     code: str
     message: str
     request_id: str | None = None
+    blocking: bool = True
 
 
 @dataclass
@@ -276,7 +277,7 @@ def evaluate_row_safety(row: dict[str, str], request: dict[str, str], context: E
     baseline = build_forecast(request, context)
     adjusted = build_forecast(request, context, changes) if changes and result.change_validation.valid else baseline
     problems = sorted(set(baseline.problems + adjusted.problems))
-    result.issues.extend(SafetyIssue(code, message, request_id) for code, message in problems)
+    result.issues.extend(_problem_issue(code, message, request_id, context) for code, message in problems)
     positive = status in {"affordable_now", "affordable_with_plan", "affordable_later"}
     result.unresolved_fx_positive = positive and any(code == "unresolved_fx_positive" for code, _ in problems)
     if not Decimal(0) <= safe_amount <= requested:
@@ -315,10 +316,28 @@ def evaluate_row_safety(row: dict[str, str], request: dict[str, str], context: E
         result.deadline_valid = all(request_date <= entry.payment_date <= min(desired, request_date + timedelta(days=90)) for entry in plan)
         if not result.deadline_valid:
             result.issues.append(SafetyIssue("deadline", "payment falls outside request/deadline/forecast interval", request_id))
-    # Every mandatory issue prevents acceptance, including unknown required evidence.
-    result.valid = not result.issues
+    # Mandatory issues fail closed; unparsed evidence and evidence-resolvable
+    # amounts are recorded as non-blocking findings instead.
+    result.valid = not any(issue.blocking for issue in result.issues)
     result.plan_safe = result.valid
     return result
+
+
+def _has_linked_evidence(context: EvaluationContext, event_id: str) -> bool:
+    for kind in (context.messages, context.images):
+        for records in kind.values():
+            if any(record.get("related_event_id") == event_id for record in records):
+                return True
+    return False
+
+
+def _problem_issue(code: str, message: str, request_id: str | None, context: EvaluationContext) -> SafetyIssue:
+    if code == "unresolved_evidence":
+        return SafetyIssue(code, message, request_id, blocking=False)
+    if code == "unresolved_amount":
+        event_id = message.split(":", 1)[0]
+        return SafetyIssue(code, message, request_id, blocking=not _has_linked_evidence(context, event_id))
+    return SafetyIssue(code, message, request_id)
 
 
 def _has_safe_completion(request, context, current, minimum, safe_now, earliest):
