@@ -1,0 +1,3058 @@
+{
+  "candidate": "output.csv",
+  "comparisons": {},
+  "failures": [
+    {
+      "categories": [
+        "Forecasting",
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_9421: cash amount is unavailable",
+          "request_id": "request_101"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_14: relevant image evidence requires factual interpretation",
+          "request_id": "request_101"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_75: relevant message evidence requires factual interpretation",
+          "request_id": "request_101"
+        }
+      ],
+      "request_id": "request_101"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_76: relevant message evidence requires factual interpretation",
+          "request_id": "request_102"
+        }
+      ],
+      "request_id": "request_102"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_77: relevant message evidence requires factual interpretation",
+          "request_id": "request_103"
+        }
+      ],
+      "request_id": "request_103"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_78: relevant message evidence requires factual interpretation",
+          "request_id": "request_104"
+        }
+      ],
+      "request_id": "request_104"
+    },
+    {
+      "categories": [
+        "Forecasting",
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_9806: cash amount is unavailable",
+          "request_id": "request_105"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_15: relevant image evidence requires factual interpretation",
+          "request_id": "request_105"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_79: relevant message evidence requires factual interpretation",
+          "request_id": "request_105"
+        }
+      ],
+      "request_id": "request_105"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_80: relevant message evidence requires factual interpretation",
+          "request_id": "request_106"
+        }
+      ],
+      "request_id": "request_106"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_81: relevant message evidence requires factual interpretation",
+          "request_id": "request_107"
+        }
+      ],
+      "request_id": "request_107"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_82: relevant message evidence requires factual interpretation",
+          "request_id": "request_108"
+        }
+      ],
+      "request_id": "request_108"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_83: relevant message evidence requires factual interpretation",
+          "request_id": "request_110"
+        }
+      ],
+      "request_id": "request_110"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_84: relevant message evidence requires factual interpretation",
+          "request_id": "request_111"
+        }
+      ],
+      "request_id": "request_111"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_85: relevant message evidence requires factual interpretation",
+          "request_id": "request_112"
+        }
+      ],
+      "request_id": "request_112"
+    },
+    {
+      "categories": [
+        "Forecasting",
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_10521: cash amount is unavailable",
+          "request_id": "request_113"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_16: relevant image evidence requires factual interpretation",
+          "request_id": "request_113"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_86: relevant message evidence requires factual interpretation",
+          "request_id": "request_113"
+        }
+      ],
+      "request_id": "request_113"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_87: relevant message evidence requires factual interpretation",
+          "request_id": "request_114"
+        }
+      ],
+      "request_id": "request_114"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_88: relevant message evidence requires factual interpretation",
+          "request_id": "request_115"
+        }
+      ],
+      "request_id": "request_115"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_89: relevant message evidence requires factual interpretation",
+          "request_id": "request_117"
+        }
+      ],
+      "request_id": "request_117"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_90: relevant message evidence requires factual interpretation",
+          "request_id": "request_118"
+        }
+      ],
+      "request_id": "request_118"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_91: relevant message evidence requires factual interpretation",
+          "request_id": "request_119"
+        }
+      ],
+      "request_id": "request_119"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_92: relevant message evidence requires factual interpretation",
+          "request_id": "request_120"
+        }
+      ],
+      "request_id": "request_120"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_93: relevant message evidence requires factual interpretation",
+          "request_id": "request_122"
+        }
+      ],
+      "request_id": "request_122"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_94: relevant message evidence requires factual interpretation",
+          "request_id": "request_123"
+        }
+      ],
+      "request_id": "request_123"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_95: relevant message evidence requires factual interpretation",
+          "request_id": "request_125"
+        }
+      ],
+      "request_id": "request_125"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_96: relevant message evidence requires factual interpretation",
+          "request_id": "request_126"
+        }
+      ],
+      "request_id": "request_126"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_97: relevant message evidence requires factual interpretation",
+          "request_id": "request_127"
+        }
+      ],
+      "request_id": "request_127"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_98: relevant message evidence requires factual interpretation",
+          "request_id": "request_128"
+        }
+      ],
+      "request_id": "request_128"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_99: relevant message evidence requires factual interpretation",
+          "request_id": "request_129"
+        }
+      ],
+      "request_id": "request_129"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_100: relevant message evidence requires factual interpretation",
+          "request_id": "request_130"
+        }
+      ],
+      "request_id": "request_130"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_101: relevant message evidence requires factual interpretation",
+          "request_id": "request_131"
+        }
+      ],
+      "request_id": "request_131"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_102: relevant message evidence requires factual interpretation",
+          "request_id": "request_132"
+        }
+      ],
+      "request_id": "request_132"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_103: relevant message evidence requires factual interpretation",
+          "request_id": "request_133"
+        }
+      ],
+      "request_id": "request_133"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_104: relevant message evidence requires factual interpretation",
+          "request_id": "request_135"
+        }
+      ],
+      "request_id": "request_135"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_105: relevant message evidence requires factual interpretation",
+          "request_id": "request_137"
+        }
+      ],
+      "request_id": "request_137"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_106: relevant message evidence requires factual interpretation",
+          "request_id": "request_138"
+        }
+      ],
+      "request_id": "request_138"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_107: relevant message evidence requires factual interpretation",
+          "request_id": "request_140"
+        }
+      ],
+      "request_id": "request_140"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_108: relevant message evidence requires factual interpretation",
+          "request_id": "request_141"
+        }
+      ],
+      "request_id": "request_141"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_109: relevant message evidence requires factual interpretation",
+          "request_id": "request_142"
+        }
+      ],
+      "request_id": "request_142"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_110: relevant message evidence requires factual interpretation",
+          "request_id": "request_143"
+        }
+      ],
+      "request_id": "request_143"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_111: relevant message evidence requires factual interpretation",
+          "request_id": "request_144"
+        }
+      ],
+      "request_id": "request_144"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_112: relevant message evidence requires factual interpretation",
+          "request_id": "request_145"
+        }
+      ],
+      "request_id": "request_145"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_113: relevant message evidence requires factual interpretation",
+          "request_id": "request_147"
+        }
+      ],
+      "request_id": "request_147"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_114: relevant message evidence requires factual interpretation",
+          "request_id": "request_148"
+        }
+      ],
+      "request_id": "request_148"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_115: relevant message evidence requires factual interpretation",
+          "request_id": "request_150"
+        }
+      ],
+      "request_id": "request_150"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_116: relevant message evidence requires factual interpretation",
+          "request_id": "request_151"
+        }
+      ],
+      "request_id": "request_151"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_117: relevant message evidence requires factual interpretation",
+          "request_id": "request_152"
+        }
+      ],
+      "request_id": "request_152"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_118: relevant message evidence requires factual interpretation",
+          "request_id": "request_153"
+        }
+      ],
+      "request_id": "request_153"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_119: relevant message evidence requires factual interpretation",
+          "request_id": "request_154"
+        }
+      ],
+      "request_id": "request_154"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_120: relevant message evidence requires factual interpretation",
+          "request_id": "request_155"
+        }
+      ],
+      "request_id": "request_155"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_121: relevant message evidence requires factual interpretation",
+          "request_id": "request_156"
+        }
+      ],
+      "request_id": "request_156"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_122: relevant message evidence requires factual interpretation",
+          "request_id": "request_157"
+        }
+      ],
+      "request_id": "request_157"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_123: relevant message evidence requires factual interpretation",
+          "request_id": "request_159"
+        }
+      ],
+      "request_id": "request_159"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_124: relevant message evidence requires factual interpretation",
+          "request_id": "request_160"
+        }
+      ],
+      "request_id": "request_160"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_125: relevant message evidence requires factual interpretation",
+          "request_id": "request_161"
+        }
+      ],
+      "request_id": "request_161"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_126: relevant message evidence requires factual interpretation",
+          "request_id": "request_162"
+        }
+      ],
+      "request_id": "request_162"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_127: relevant message evidence requires factual interpretation",
+          "request_id": "request_163"
+        }
+      ],
+      "request_id": "request_163"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_128: relevant message evidence requires factual interpretation",
+          "request_id": "request_164"
+        }
+      ],
+      "request_id": "request_164"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_129: relevant message evidence requires factual interpretation",
+          "request_id": "request_165"
+        }
+      ],
+      "request_id": "request_165"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_130: relevant message evidence requires factual interpretation",
+          "request_id": "request_166"
+        }
+      ],
+      "request_id": "request_166"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_131: relevant message evidence requires factual interpretation",
+          "request_id": "request_167"
+        }
+      ],
+      "request_id": "request_167"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_132: relevant message evidence requires factual interpretation",
+          "request_id": "request_168"
+        }
+      ],
+      "request_id": "request_168"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_133: relevant message evidence requires factual interpretation",
+          "request_id": "request_169"
+        }
+      ],
+      "request_id": "request_169"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_134: relevant message evidence requires factual interpretation",
+          "request_id": "request_170"
+        }
+      ],
+      "request_id": "request_170"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_135: relevant message evidence requires factual interpretation",
+          "request_id": "request_171"
+        }
+      ],
+      "request_id": "request_171"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_136: relevant message evidence requires factual interpretation",
+          "request_id": "request_172"
+        }
+      ],
+      "request_id": "request_172"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_137: relevant message evidence requires factual interpretation",
+          "request_id": "request_173"
+        }
+      ],
+      "request_id": "request_173"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_138: relevant message evidence requires factual interpretation",
+          "request_id": "request_175"
+        }
+      ],
+      "request_id": "request_175"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_139: relevant message evidence requires factual interpretation",
+          "request_id": "request_176"
+        }
+      ],
+      "request_id": "request_176"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_140: relevant message evidence requires factual interpretation",
+          "request_id": "request_177"
+        }
+      ],
+      "request_id": "request_177"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_141: relevant message evidence requires factual interpretation",
+          "request_id": "request_178"
+        }
+      ],
+      "request_id": "request_178"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_142: relevant message evidence requires factual interpretation",
+          "request_id": "request_179"
+        }
+      ],
+      "request_id": "request_179"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_143: relevant message evidence requires factual interpretation",
+          "request_id": "request_180"
+        }
+      ],
+      "request_id": "request_180"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_144: relevant message evidence requires factual interpretation",
+          "request_id": "request_182"
+        }
+      ],
+      "request_id": "request_182"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_145: relevant message evidence requires factual interpretation",
+          "request_id": "request_183"
+        }
+      ],
+      "request_id": "request_183"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_146: relevant message evidence requires factual interpretation",
+          "request_id": "request_184"
+        }
+      ],
+      "request_id": "request_184"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_147: relevant message evidence requires factual interpretation",
+          "request_id": "request_185"
+        }
+      ],
+      "request_id": "request_185"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_148: relevant message evidence requires factual interpretation",
+          "request_id": "request_186"
+        }
+      ],
+      "request_id": "request_186"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_149: relevant message evidence requires factual interpretation",
+          "request_id": "request_187"
+        }
+      ],
+      "request_id": "request_187"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_150: relevant message evidence requires factual interpretation",
+          "request_id": "request_188"
+        }
+      ],
+      "request_id": "request_188"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_151: relevant message evidence requires factual interpretation",
+          "request_id": "request_189"
+        }
+      ],
+      "request_id": "request_189"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_152: relevant message evidence requires factual interpretation",
+          "request_id": "request_191"
+        }
+      ],
+      "request_id": "request_191"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_153: relevant message evidence requires factual interpretation",
+          "request_id": "request_193"
+        }
+      ],
+      "request_id": "request_193"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_154: relevant message evidence requires factual interpretation",
+          "request_id": "request_194"
+        }
+      ],
+      "request_id": "request_194"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_155: relevant message evidence requires factual interpretation",
+          "request_id": "request_195"
+        }
+      ],
+      "request_id": "request_195"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_156: relevant message evidence requires factual interpretation",
+          "request_id": "request_197"
+        }
+      ],
+      "request_id": "request_197"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_157: relevant message evidence requires factual interpretation",
+          "request_id": "request_198"
+        }
+      ],
+      "request_id": "request_198"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_158: relevant message evidence requires factual interpretation",
+          "request_id": "request_199"
+        }
+      ],
+      "request_id": "request_199"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_159: relevant message evidence requires factual interpretation",
+          "request_id": "request_200"
+        }
+      ],
+      "request_id": "request_200"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_160: relevant message evidence requires factual interpretation",
+          "request_id": "request_201"
+        }
+      ],
+      "request_id": "request_201"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_161: relevant message evidence requires factual interpretation",
+          "request_id": "request_202"
+        }
+      ],
+      "request_id": "request_202"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_162: relevant message evidence requires factual interpretation",
+          "request_id": "request_204"
+        }
+      ],
+      "request_id": "request_204"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_163: relevant message evidence requires factual interpretation",
+          "request_id": "request_208"
+        }
+      ],
+      "request_id": "request_208"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_164: relevant message evidence requires factual interpretation",
+          "request_id": "request_210"
+        }
+      ],
+      "request_id": "request_210"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_165: relevant message evidence requires factual interpretation",
+          "request_id": "request_212"
+        }
+      ],
+      "request_id": "request_212"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_166: relevant message evidence requires factual interpretation",
+          "request_id": "request_213"
+        }
+      ],
+      "request_id": "request_213"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_167: relevant message evidence requires factual interpretation",
+          "request_id": "request_214"
+        }
+      ],
+      "request_id": "request_214"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_168: relevant message evidence requires factual interpretation",
+          "request_id": "request_215"
+        }
+      ],
+      "request_id": "request_215"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_169: relevant message evidence requires factual interpretation",
+          "request_id": "request_216"
+        }
+      ],
+      "request_id": "request_216"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_170: relevant message evidence requires factual interpretation",
+          "request_id": "request_219"
+        }
+      ],
+      "request_id": "request_219"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_171: relevant message evidence requires factual interpretation",
+          "request_id": "request_220"
+        }
+      ],
+      "request_id": "request_220"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_172: relevant message evidence requires factual interpretation",
+          "request_id": "request_221"
+        }
+      ],
+      "request_id": "request_221"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_173: relevant message evidence requires factual interpretation",
+          "request_id": "request_222"
+        }
+      ],
+      "request_id": "request_222"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_174: relevant message evidence requires factual interpretation",
+          "request_id": "request_224"
+        }
+      ],
+      "request_id": "request_224"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_175: relevant message evidence requires factual interpretation",
+          "request_id": "request_225"
+        }
+      ],
+      "request_id": "request_225"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_176: relevant message evidence requires factual interpretation",
+          "request_id": "request_226"
+        }
+      ],
+      "request_id": "request_226"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_177: relevant message evidence requires factual interpretation",
+          "request_id": "request_227"
+        }
+      ],
+      "request_id": "request_227"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_178: relevant message evidence requires factual interpretation",
+          "request_id": "request_228"
+        }
+      ],
+      "request_id": "request_228"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_179: relevant message evidence requires factual interpretation",
+          "request_id": "request_229"
+        }
+      ],
+      "request_id": "request_229"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_180: relevant message evidence requires factual interpretation",
+          "request_id": "request_230"
+        }
+      ],
+      "request_id": "request_230"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_181: relevant message evidence requires factual interpretation",
+          "request_id": "request_232"
+        }
+      ],
+      "request_id": "request_232"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_182: relevant message evidence requires factual interpretation",
+          "request_id": "request_233"
+        }
+      ],
+      "request_id": "request_233"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_183: relevant message evidence requires factual interpretation",
+          "request_id": "request_234"
+        }
+      ],
+      "request_id": "request_234"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_184: relevant message evidence requires factual interpretation",
+          "request_id": "request_235"
+        }
+      ],
+      "request_id": "request_235"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_185: relevant message evidence requires factual interpretation",
+          "request_id": "request_236"
+        }
+      ],
+      "request_id": "request_236"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_186: relevant message evidence requires factual interpretation",
+          "request_id": "request_237"
+        }
+      ],
+      "request_id": "request_237"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_187: relevant message evidence requires factual interpretation",
+          "request_id": "request_238"
+        }
+      ],
+      "request_id": "request_238"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_188: relevant message evidence requires factual interpretation",
+          "request_id": "request_240"
+        }
+      ],
+      "request_id": "request_240"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_189: relevant message evidence requires factual interpretation",
+          "request_id": "request_241"
+        }
+      ],
+      "request_id": "request_241"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_190: relevant message evidence requires factual interpretation",
+          "request_id": "request_242"
+        }
+      ],
+      "request_id": "request_242"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_191: relevant message evidence requires factual interpretation",
+          "request_id": "request_245"
+        }
+      ],
+      "request_id": "request_245"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_192: relevant message evidence requires factual interpretation",
+          "request_id": "request_246"
+        }
+      ],
+      "request_id": "request_246"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_193: relevant message evidence requires factual interpretation",
+          "request_id": "request_247"
+        }
+      ],
+      "request_id": "request_247"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_194: relevant message evidence requires factual interpretation",
+          "request_id": "request_248"
+        }
+      ],
+      "request_id": "request_248"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_195: relevant message evidence requires factual interpretation",
+          "request_id": "request_249"
+        }
+      ],
+      "request_id": "request_249"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_196: relevant message evidence requires factual interpretation",
+          "request_id": "request_250"
+        }
+      ],
+      "request_id": "request_250"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_197: relevant message evidence requires factual interpretation",
+          "request_id": "request_252"
+        }
+      ],
+      "request_id": "request_252"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_198: relevant message evidence requires factual interpretation",
+          "request_id": "request_253"
+        }
+      ],
+      "request_id": "request_253"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_199: relevant message evidence requires factual interpretation",
+          "request_id": "request_254"
+        }
+      ],
+      "request_id": "request_254"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_200: relevant message evidence requires factual interpretation",
+          "request_id": "request_256"
+        }
+      ],
+      "request_id": "request_256"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_201: relevant message evidence requires factual interpretation",
+          "request_id": "request_259"
+        }
+      ],
+      "request_id": "request_259"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_18: relevant message evidence requires factual interpretation",
+          "request_id": "request_26"
+        }
+      ],
+      "request_id": "request_26"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_202: relevant message evidence requires factual interpretation",
+          "request_id": "request_261"
+        }
+      ],
+      "request_id": "request_261"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_203: relevant message evidence requires factual interpretation",
+          "request_id": "request_262"
+        }
+      ],
+      "request_id": "request_262"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_204: relevant message evidence requires factual interpretation",
+          "request_id": "request_263"
+        }
+      ],
+      "request_id": "request_263"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_205: relevant message evidence requires factual interpretation",
+          "request_id": "request_264"
+        }
+      ],
+      "request_id": "request_264"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_206: relevant message evidence requires factual interpretation",
+          "request_id": "request_265"
+        }
+      ],
+      "request_id": "request_265"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_207: relevant message evidence requires factual interpretation",
+          "request_id": "request_266"
+        }
+      ],
+      "request_id": "request_266"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_208: relevant message evidence requires factual interpretation",
+          "request_id": "request_267"
+        }
+      ],
+      "request_id": "request_267"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_209: relevant message evidence requires factual interpretation",
+          "request_id": "request_268"
+        }
+      ],
+      "request_id": "request_268"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_210: relevant message evidence requires factual interpretation",
+          "request_id": "request_269"
+        }
+      ],
+      "request_id": "request_269"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_19: relevant message evidence requires factual interpretation",
+          "request_id": "request_27"
+        }
+      ],
+      "request_id": "request_27"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_211: relevant message evidence requires factual interpretation",
+          "request_id": "request_271"
+        }
+      ],
+      "request_id": "request_271"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_212: relevant message evidence requires factual interpretation",
+          "request_id": "request_272"
+        }
+      ],
+      "request_id": "request_272"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_213: relevant message evidence requires factual interpretation",
+          "request_id": "request_273"
+        }
+      ],
+      "request_id": "request_273"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_214: relevant message evidence requires factual interpretation",
+          "request_id": "request_274"
+        }
+      ],
+      "request_id": "request_274"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_215: relevant message evidence requires factual interpretation",
+          "request_id": "request_275"
+        }
+      ],
+      "request_id": "request_275"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_20: relevant message evidence requires factual interpretation",
+          "request_id": "request_28"
+        }
+      ],
+      "request_id": "request_28"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_21: relevant message evidence requires factual interpretation",
+          "request_id": "request_29"
+        }
+      ],
+      "request_id": "request_29"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_22: relevant message evidence requires factual interpretation",
+          "request_id": "request_32"
+        }
+      ],
+      "request_id": "request_32"
+    },
+    {
+      "categories": [
+        "Forecasting",
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_3051: cash amount is unavailable",
+          "request_id": "request_33"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_06: relevant image evidence requires factual interpretation",
+          "request_id": "request_33"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_23: relevant message evidence requires factual interpretation",
+          "request_id": "request_33"
+        }
+      ],
+      "request_id": "request_33"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_24: relevant message evidence requires factual interpretation",
+          "request_id": "request_34"
+        }
+      ],
+      "request_id": "request_34"
+    },
+    {
+      "categories": [
+        "Forecasting",
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_3231: cash amount is unavailable",
+          "request_id": "request_35"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_07: relevant image evidence requires factual interpretation",
+          "request_id": "request_35"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_25: relevant message evidence requires factual interpretation",
+          "request_id": "request_35"
+        }
+      ],
+      "request_id": "request_35"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_26: relevant message evidence requires factual interpretation",
+          "request_id": "request_36"
+        }
+      ],
+      "request_id": "request_36"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_27: relevant message evidence requires factual interpretation",
+          "request_id": "request_37"
+        }
+      ],
+      "request_id": "request_37"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_28: relevant message evidence requires factual interpretation",
+          "request_id": "request_38"
+        }
+      ],
+      "request_id": "request_38"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_29: relevant message evidence requires factual interpretation",
+          "request_id": "request_40"
+        }
+      ],
+      "request_id": "request_40"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_30: relevant message evidence requires factual interpretation",
+          "request_id": "request_42"
+        }
+      ],
+      "request_id": "request_42"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_31: relevant message evidence requires factual interpretation",
+          "request_id": "request_43"
+        }
+      ],
+      "request_id": "request_43"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_32: relevant message evidence requires factual interpretation",
+          "request_id": "request_44"
+        }
+      ],
+      "request_id": "request_44"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_33: relevant message evidence requires factual interpretation",
+          "request_id": "request_45"
+        }
+      ],
+      "request_id": "request_45"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_34: relevant message evidence requires factual interpretation",
+          "request_id": "request_47"
+        }
+      ],
+      "request_id": "request_47"
+    },
+    {
+      "categories": [
+        "Forecasting",
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_4535: cash amount is unavailable",
+          "request_id": "request_48"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_08: relevant image evidence requires factual interpretation",
+          "request_id": "request_48"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_35: relevant message evidence requires factual interpretation",
+          "request_id": "request_48"
+        }
+      ],
+      "request_id": "request_48"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_36: relevant message evidence requires factual interpretation",
+          "request_id": "request_49"
+        }
+      ],
+      "request_id": "request_49"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_37: relevant message evidence requires factual interpretation",
+          "request_id": "request_50"
+        }
+      ],
+      "request_id": "request_50"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_38: relevant message evidence requires factual interpretation",
+          "request_id": "request_52"
+        }
+      ],
+      "request_id": "request_52"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_39: relevant message evidence requires factual interpretation",
+          "request_id": "request_53"
+        }
+      ],
+      "request_id": "request_53"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_40: relevant message evidence requires factual interpretation",
+          "request_id": "request_54"
+        }
+      ],
+      "request_id": "request_54"
+    },
+    {
+      "categories": [
+        "Forecasting",
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_5170: cash amount is unavailable",
+          "request_id": "request_55"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_09: relevant image evidence requires factual interpretation",
+          "request_id": "request_55"
+        }
+      ],
+      "request_id": "request_55"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_41: relevant message evidence requires factual interpretation",
+          "request_id": "request_57"
+        }
+      ],
+      "request_id": "request_57"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_42: relevant message evidence requires factual interpretation",
+          "request_id": "request_58"
+        }
+      ],
+      "request_id": "request_58"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_43: relevant message evidence requires factual interpretation",
+          "request_id": "request_59"
+        }
+      ],
+      "request_id": "request_59"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_44: relevant message evidence requires factual interpretation",
+          "request_id": "request_60"
+        }
+      ],
+      "request_id": "request_60"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_45: relevant message evidence requires factual interpretation",
+          "request_id": "request_61"
+        }
+      ],
+      "request_id": "request_61"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_46: relevant message evidence requires factual interpretation",
+          "request_id": "request_62"
+        }
+      ],
+      "request_id": "request_62"
+    },
+    {
+      "categories": [
+        "Forecasting",
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_6033: cash amount is unavailable",
+          "request_id": "request_64"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_10: relevant image evidence requires factual interpretation",
+          "request_id": "request_64"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_47: relevant message evidence requires factual interpretation",
+          "request_id": "request_64"
+        }
+      ],
+      "request_id": "request_64"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_48: relevant message evidence requires factual interpretation",
+          "request_id": "request_65"
+        }
+      ],
+      "request_id": "request_65"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_49: relevant message evidence requires factual interpretation",
+          "request_id": "request_66"
+        }
+      ],
+      "request_id": "request_66"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_50: relevant message evidence requires factual interpretation",
+          "request_id": "request_68"
+        }
+      ],
+      "request_id": "request_68"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_51: relevant message evidence requires factual interpretation",
+          "request_id": "request_69"
+        }
+      ],
+      "request_id": "request_69"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_52: relevant message evidence requires factual interpretation",
+          "request_id": "request_70"
+        }
+      ],
+      "request_id": "request_70"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_53: relevant message evidence requires factual interpretation",
+          "request_id": "request_71"
+        }
+      ],
+      "request_id": "request_71"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_54: relevant message evidence requires factual interpretation",
+          "request_id": "request_72"
+        }
+      ],
+      "request_id": "request_72"
+    },
+    {
+      "categories": [
+        "Forecasting",
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_6859: cash amount is unavailable",
+          "request_id": "request_73"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_11: relevant image evidence requires factual interpretation",
+          "request_id": "request_73"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_55: relevant message evidence requires factual interpretation",
+          "request_id": "request_73"
+        }
+      ],
+      "request_id": "request_73"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_56: relevant message evidence requires factual interpretation",
+          "request_id": "request_74"
+        }
+      ],
+      "request_id": "request_74"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_57: relevant message evidence requires factual interpretation",
+          "request_id": "request_75"
+        }
+      ],
+      "request_id": "request_75"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_58: relevant message evidence requires factual interpretation",
+          "request_id": "request_76"
+        }
+      ],
+      "request_id": "request_76"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_59: relevant message evidence requires factual interpretation",
+          "request_id": "request_77"
+        }
+      ],
+      "request_id": "request_77"
+    },
+    {
+      "categories": [
+        "Forecasting",
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_7307: cash amount is unavailable",
+          "request_id": "request_78"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_12: relevant image evidence requires factual interpretation",
+          "request_id": "request_78"
+        }
+      ],
+      "request_id": "request_78"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_60: relevant message evidence requires factual interpretation",
+          "request_id": "request_80"
+        }
+      ],
+      "request_id": "request_80"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_61: relevant message evidence requires factual interpretation",
+          "request_id": "request_81"
+        }
+      ],
+      "request_id": "request_81"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_62: relevant message evidence requires factual interpretation",
+          "request_id": "request_82"
+        }
+      ],
+      "request_id": "request_82"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_63: relevant message evidence requires factual interpretation",
+          "request_id": "request_83"
+        }
+      ],
+      "request_id": "request_83"
+    },
+    {
+      "categories": [
+        "Forecasting",
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_7941: cash amount is unavailable",
+          "request_id": "request_84"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_13: relevant image evidence requires factual interpretation",
+          "request_id": "request_84"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_64: relevant message evidence requires factual interpretation",
+          "request_id": "request_84"
+        }
+      ],
+      "request_id": "request_84"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_65: relevant message evidence requires factual interpretation",
+          "request_id": "request_85"
+        }
+      ],
+      "request_id": "request_85"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_66: relevant message evidence requires factual interpretation",
+          "request_id": "request_87"
+        }
+      ],
+      "request_id": "request_87"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_67: relevant message evidence requires factual interpretation",
+          "request_id": "request_88"
+        }
+      ],
+      "request_id": "request_88"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_68: relevant message evidence requires factual interpretation",
+          "request_id": "request_90"
+        }
+      ],
+      "request_id": "request_90"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_69: relevant message evidence requires factual interpretation",
+          "request_id": "request_91"
+        }
+      ],
+      "request_id": "request_91"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_70: relevant message evidence requires factual interpretation",
+          "request_id": "request_92"
+        }
+      ],
+      "request_id": "request_92"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_71: relevant message evidence requires factual interpretation",
+          "request_id": "request_93"
+        }
+      ],
+      "request_id": "request_93"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_72: relevant message evidence requires factual interpretation",
+          "request_id": "request_94"
+        }
+      ],
+      "request_id": "request_94"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_73: relevant message evidence requires factual interpretation",
+          "request_id": "request_95"
+        }
+      ],
+      "request_id": "request_95"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_74: relevant message evidence requires factual interpretation",
+          "request_id": "request_98"
+        }
+      ],
+      "request_id": "request_98"
+    }
+  ],
+  "hard_targets": {
+    "hard_safety_target_met": true,
+    "hard_safety_violation_rate": 0.0,
+    "schema_target_met": true,
+    "schema_violation_rate": 0.0
+  },
+  "metrics": {
+    "amount": {
+      "exact_accuracy": "unavailable",
+      "max_absolute_error": "unavailable",
+      "mean_absolute_error": "unavailable",
+      "mean_relative_absolute_error": "unavailable",
+      "median_absolute_error": "unavailable"
+    },
+    "complete_row": {
+      "exact_match_rate": "unavailable",
+      "explanation_consistency_rate": "unavailable",
+      "explanation_groundedness_rate": "unavailable",
+      "explanation_present_rate": 1.0
+    },
+    "earliest_date": {
+      "correct_empty_date_rate": "unavailable",
+      "exact_accuracy": "unavailable",
+      "mean_absolute_date_error_days": "unavailable"
+    },
+    "partial_payment": {
+      "constraint_pass_rate": 1.0
+    },
+    "payment_method": {
+      "accuracy": "unavailable",
+      "macro_f1": "unavailable"
+    },
+    "payment_plan": {
+      "exact_match_rate": "unavailable",
+      "safety_valid_rate": 1.0,
+      "supplied_option_match_rate": 1.0,
+      "syntax_valid_rate": 1.0
+    },
+    "safety": {
+      "deadline_violation_rate": 0.0,
+      "minimum_balance_violation_rate": 0.0,
+      "safety_invariant_violation_rate": 0.0,
+      "schema_violation_rate": 0.0,
+      "unresolved_fx_positive_violation_rate": 0.0,
+      "unsupported_income_expense_violation_rate": "unavailable"
+    },
+    "spending_changes": {
+      "at_most_three_actions_rate": 1.0,
+      "exact_action_set_accuracy": "unavailable",
+      "floor_compliance_rate": 1.0,
+      "protected_category_violation_rate": 0.0,
+      "syntax_validity_rate": 1.0,
+      "target_eligibility_rate": 1.0
+    },
+    "status": {
+      "accuracy": "unavailable",
+      "macro_f1": "unavailable"
+    },
+    "structured": {
+      "first_seven_field_exact_accuracy": "unavailable"
+    }
+  },
+  "policy": {
+    "evidence": "Relevant unparsed messages/images prevent verified acceptance. No regex text is promoted into income; no model or OCR calls are made.",
+    "forecast": "Independent conservative projection: 90 days inclusive; same-day essential debits before credits, candidate payments after recorded daily cash flows.",
+    "limits": "Forecast assumptions are explicit evaluator policy, not a claim of equivalence to hidden ground truth. Public label self-comparison only verifies comparison mechanics.",
+    "metrics": "Groundedness, substantive explanation consistency and unsupported-claim detection are unavailable. Relative error excludes zero-gold rows and reports coverage.",
+    "precision": "Safe-now capacity is floored to two decimal places; monetary plan comparisons use exact decimals. Installment duration uses elapsed days divided by 30.",
+    "recurrence": "At least two historical occurrences with stable 7-45 day cadence; monthly series use calendar dates. Concrete occurrences replace forecasts.",
+    "variable": "Essential variable spending uses the maximum historical 30-day total over the preceding 90 days, reserved at the start of each forecast month."
+  },
+  "usage": {
+    "average_tokens_per_request": 0.0,
+    "cache_hits": 384,
+    "estimated_cost_per_request": 0.0,
+    "estimated_total_cost": 0.0,
+    "input_tokens": 0,
+    "latency_ms": 12310.0,
+    "model_calls": 384,
+    "output_tokens": 0,
+    "provenance": "evaluation\\dataset_metrics.json",
+    "providers": [
+      {
+        "cache_hits": 173,
+        "calls": 173,
+        "estimated_cost": 0.0,
+        "input_tokens": 0,
+        "model": "google/gemini-3.8-flash",
+        "output_tokens": 0,
+        "provider": "ZenMux",
+        "purpose": "extraction_independent"
+      },
+      {
+        "cache_hits": 209,
+        "calls": 209,
+        "estimated_cost": 0.0,
+        "input_tokens": 0,
+        "model": "meta/muse-spark-1.3-contributor",
+        "output_tokens": 0,
+        "provider": "ZenMux",
+        "purpose": "extraction_primary"
+      },
+      {
+        "cache_hits": 2,
+        "calls": 2,
+        "estimated_cost": 0.0,
+        "input_tokens": 0,
+        "model": "meta/muse-spark-1.3-contributor",
+        "output_tokens": 0,
+        "provider": "ZenMux",
+        "purpose": "verification_controller"
+      }
+    ],
+    "request_count": 250,
+    "total_tokens": 0
+  },
+  "validation": {
+    "issue_count": 0,
+    "issues": [],
+    "valid": true
+  }
+}

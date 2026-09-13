@@ -1,0 +1,618 @@
+{
+  "candidate": "sample_requests.csv",
+  "comparisons": {},
+  "failures": [
+    {
+      "categories": [
+        "State reconstruction",
+        "Forecasting"
+      ],
+      "issues": [
+        {
+          "blocking": true,
+          "code": "safe_amount_mismatch",
+          "message": "baseline safe amount is 10087.27",
+          "request_id": "request_01"
+        },
+        {
+          "blocking": true,
+          "code": "earliest_date_mismatch",
+          "message": "baseline earliest full-payment date is none",
+          "request_id": "request_01"
+        },
+        {
+          "blocking": true,
+          "code": "minimum_balance",
+          "message": "projected balance falls below minimum",
+          "request_id": "request_01"
+        }
+      ],
+      "request_id": "request_01"
+    },
+    {
+      "categories": [
+        "Message interpretation",
+        "Forecasting"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_01: relevant message evidence requires factual interpretation",
+          "request_id": "request_02"
+        },
+        {
+          "blocking": true,
+          "code": "minimum_balance",
+          "message": "projected balance falls below minimum",
+          "request_id": "request_02"
+        }
+      ],
+      "request_id": "request_02"
+    },
+    {
+      "categories": [
+        "Message interpretation",
+        "Forecasting"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_01: relevant image evidence requires factual interpretation",
+          "request_id": "request_03"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_02: relevant message evidence requires factual interpretation",
+          "request_id": "request_03"
+        },
+        {
+          "blocking": true,
+          "code": "minimum_balance",
+          "message": "projected balance falls below minimum",
+          "request_id": "request_03"
+        }
+      ],
+      "request_id": "request_03"
+    },
+    {
+      "categories": [
+        "Message interpretation",
+        "Forecasting"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_03: relevant message evidence requires factual interpretation",
+          "request_id": "request_04"
+        },
+        {
+          "blocking": true,
+          "code": "minimum_balance",
+          "message": "projected balance falls below minimum",
+          "request_id": "request_04"
+        }
+      ],
+      "request_id": "request_04"
+    },
+    {
+      "categories": [
+        "State reconstruction",
+        "Payment eligibility"
+      ],
+      "issues": [
+        {
+          "blocking": true,
+          "code": "safe_amount_mismatch",
+          "message": "baseline safe amount is 15488.00",
+          "request_id": "request_05"
+        },
+        {
+          "blocking": true,
+          "code": "false_not_affordable",
+          "message": "an eligible safe plan completes the request",
+          "request_id": "request_05"
+        }
+      ],
+      "request_id": "request_05"
+    },
+    {
+      "categories": [
+        "Message interpretation",
+        "Forecasting"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_04: relevant message evidence requires factual interpretation",
+          "request_id": "request_06"
+        },
+        {
+          "blocking": true,
+          "code": "minimum_balance",
+          "message": "projected balance falls below minimum",
+          "request_id": "request_06"
+        }
+      ],
+      "request_id": "request_06"
+    },
+    {
+      "categories": [
+        "Message interpretation",
+        "Forecasting"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_05: relevant message evidence requires factual interpretation",
+          "request_id": "request_07"
+        },
+        {
+          "blocking": true,
+          "code": "minimum_balance",
+          "message": "projected balance falls below minimum",
+          "request_id": "request_07"
+        }
+      ],
+      "request_id": "request_07"
+    },
+    {
+      "categories": [
+        "Message interpretation",
+        "Forecasting"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_06: relevant message evidence requires factual interpretation",
+          "request_id": "request_08"
+        },
+        {
+          "blocking": true,
+          "code": "minimum_balance",
+          "message": "projected balance falls below minimum",
+          "request_id": "request_08"
+        }
+      ],
+      "request_id": "request_08"
+    },
+    {
+      "categories": [
+        "State reconstruction",
+        "Forecasting"
+      ],
+      "issues": [
+        {
+          "blocking": true,
+          "code": "safe_amount_mismatch",
+          "message": "baseline safe amount is 0.00",
+          "request_id": "request_09"
+        },
+        {
+          "blocking": true,
+          "code": "earliest_date_mismatch",
+          "message": "baseline earliest full-payment date is none",
+          "request_id": "request_09"
+        },
+        {
+          "blocking": true,
+          "code": "minimum_balance",
+          "message": "projected balance falls below minimum",
+          "request_id": "request_09"
+        }
+      ],
+      "request_id": "request_09"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_07: relevant message evidence requires factual interpretation",
+          "request_id": "request_10"
+        }
+      ],
+      "request_id": "request_10"
+    },
+    {
+      "categories": [
+        "Message interpretation",
+        "Forecasting"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_08: relevant message evidence requires factual interpretation",
+          "request_id": "request_11"
+        },
+        {
+          "blocking": true,
+          "code": "minimum_balance",
+          "message": "projected balance falls below minimum",
+          "request_id": "request_11"
+        }
+      ],
+      "request_id": "request_11"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_09: relevant message evidence requires factual interpretation",
+          "request_id": "request_12"
+        }
+      ],
+      "request_id": "request_12"
+    },
+    {
+      "categories": [
+        "State reconstruction",
+        "Forecasting"
+      ],
+      "issues": [
+        {
+          "blocking": true,
+          "code": "safe_amount_mismatch",
+          "message": "baseline safe amount is 0.00",
+          "request_id": "request_13"
+        },
+        {
+          "blocking": true,
+          "code": "earliest_date_mismatch",
+          "message": "baseline earliest full-payment date is none",
+          "request_id": "request_13"
+        },
+        {
+          "blocking": true,
+          "code": "minimum_balance",
+          "message": "projected balance falls below minimum",
+          "request_id": "request_13"
+        }
+      ],
+      "request_id": "request_13"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_10: relevant message evidence requires factual interpretation",
+          "request_id": "request_14"
+        }
+      ],
+      "request_id": "request_14"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_11: relevant message evidence requires factual interpretation",
+          "request_id": "request_15"
+        }
+      ],
+      "request_id": "request_15"
+    },
+    {
+      "categories": [
+        "Forecasting",
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_1442: cash amount is unavailable",
+          "request_id": "request_16"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_02: relevant image evidence requires factual interpretation",
+          "request_id": "request_16"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_12: relevant message evidence requires factual interpretation",
+          "request_id": "request_16"
+        }
+      ],
+      "request_id": "request_16"
+    },
+    {
+      "categories": [
+        "Forecasting",
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_1545: cash amount is unavailable",
+          "request_id": "request_17"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_03: relevant image evidence requires factual interpretation",
+          "request_id": "request_17"
+        },
+        {
+          "blocking": true,
+          "code": "minimum_balance",
+          "message": "projected balance falls below minimum",
+          "request_id": "request_17"
+        }
+      ],
+      "request_id": "request_17"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_13: relevant message evidence requires factual interpretation",
+          "request_id": "request_18"
+        }
+      ],
+      "request_id": "request_18"
+    },
+    {
+      "categories": [
+        "Forecasting",
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_1700: cash amount is unavailable",
+          "request_id": "request_19"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_04: relevant image evidence requires factual interpretation",
+          "request_id": "request_19"
+        },
+        {
+          "blocking": true,
+          "code": "minimum_balance",
+          "message": "projected balance falls below minimum",
+          "request_id": "request_19"
+        }
+      ],
+      "request_id": "request_19"
+    },
+    {
+      "categories": [
+        "Forecasting",
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_amount",
+          "message": "event_1786: cash amount is unavailable",
+          "request_id": "request_20"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "image_05: relevant image evidence requires factual interpretation",
+          "request_id": "request_20"
+        },
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_14: relevant message evidence requires factual interpretation",
+          "request_id": "request_20"
+        }
+      ],
+      "request_id": "request_20"
+    },
+    {
+      "categories": [
+        "State reconstruction",
+        "Forecasting"
+      ],
+      "issues": [
+        {
+          "blocking": true,
+          "code": "safe_amount_mismatch",
+          "message": "baseline safe amount is 1463.50",
+          "request_id": "request_21"
+        },
+        {
+          "blocking": true,
+          "code": "minimum_balance",
+          "message": "projected balance falls below minimum",
+          "request_id": "request_21"
+        }
+      ],
+      "request_id": "request_21"
+    },
+    {
+      "categories": [
+        "Message interpretation",
+        "Forecasting"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_15: relevant message evidence requires factual interpretation",
+          "request_id": "request_22"
+        },
+        {
+          "blocking": true,
+          "code": "minimum_balance",
+          "message": "projected balance falls below minimum",
+          "request_id": "request_22"
+        }
+      ],
+      "request_id": "request_22"
+    },
+    {
+      "categories": [
+        "Message interpretation",
+        "Forecasting"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_16: relevant message evidence requires factual interpretation",
+          "request_id": "request_23"
+        },
+        {
+          "blocking": true,
+          "code": "minimum_balance",
+          "message": "projected balance falls below minimum",
+          "request_id": "request_23"
+        }
+      ],
+      "request_id": "request_23"
+    },
+    {
+      "categories": [
+        "Message interpretation"
+      ],
+      "issues": [
+        {
+          "blocking": false,
+          "code": "unresolved_evidence",
+          "message": "message_17: relevant message evidence requires factual interpretation",
+          "request_id": "request_24"
+        }
+      ],
+      "request_id": "request_24"
+    },
+    {
+      "categories": [
+        "State reconstruction"
+      ],
+      "issues": [
+        {
+          "blocking": true,
+          "code": "safe_amount_mismatch",
+          "message": "baseline safe amount is 0.00",
+          "request_id": "request_25"
+        }
+      ],
+      "request_id": "request_25"
+    }
+  ],
+  "hard_targets": {
+    "hard_safety_target_met": false,
+    "hard_safety_violation_rate": 0.68,
+    "schema_target_met": true,
+    "schema_violation_rate": 0.0
+  },
+  "metrics": {
+    "amount": {
+      "exact_accuracy": 1.0,
+      "max_absolute_error": 0.0,
+      "mean_absolute_error": 0.0,
+      "mean_relative_absolute_error": 0.0,
+      "median_absolute_error": 0.0,
+      "relative_error_coverage": 1.0
+    },
+    "complete_row": {
+      "exact_match_rate": 1.0,
+      "explanation_consistency_rate": "unavailable",
+      "explanation_groundedness_rate": "unavailable",
+      "explanation_present_rate": 1.0
+    },
+    "earliest_date": {
+      "correct_empty_date_rate": 1.0,
+      "exact_accuracy": 1.0,
+      "mean_absolute_date_error_days": 0.0
+    },
+    "partial_payment": {
+      "constraint_pass_rate": 1.0
+    },
+    "payment_method": {
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    "payment_plan": {
+      "exact_match_rate": 1.0,
+      "safety_valid_rate": 0.32,
+      "supplied_option_match_rate": 1.0,
+      "syntax_valid_rate": 1.0
+    },
+    "safety": {
+      "deadline_violation_rate": 0.0,
+      "minimum_balance_violation_rate": 0.6,
+      "safety_invariant_violation_rate": 0.68,
+      "schema_violation_rate": 0.0,
+      "unresolved_fx_positive_violation_rate": 0.0,
+      "unsupported_income_expense_violation_rate": "unavailable"
+    },
+    "spending_changes": {
+      "at_most_three_actions_rate": 1.0,
+      "exact_action_set_accuracy": 1.0,
+      "floor_compliance_rate": 1.0,
+      "protected_category_violation_rate": 0.0,
+      "syntax_validity_rate": 1.0,
+      "target_eligibility_rate": 1.0
+    },
+    "status": {
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    "structured": {
+      "first_seven_field_exact_accuracy": 1.0
+    }
+  },
+  "policy": {
+    "evidence": "Relevant unparsed messages/images prevent verified acceptance. No regex text is promoted into income; no model or OCR calls are made.",
+    "forecast": "Independent conservative projection: 90 days inclusive; same-day essential debits before credits, candidate payments after recorded daily cash flows.",
+    "limits": "Forecast assumptions are explicit evaluator policy, not a claim of equivalence to hidden ground truth. Public label self-comparison only verifies comparison mechanics.",
+    "metrics": "Groundedness, substantive explanation consistency and unsupported-claim detection are unavailable. Relative error excludes zero-gold rows and reports coverage.",
+    "precision": "Safe-now capacity is floored to two decimal places; monetary plan comparisons use exact decimals. Installment duration uses elapsed days divided by 30.",
+    "recurrence": "At least two historical occurrences with stable 7-45 day cadence; monthly series use calendar dates. Concrete occurrences replace forecasts.",
+    "variable": "Essential variable spending uses the maximum historical 30-day total over the preceding 90 days, reserved at the start of each forecast month."
+  },
+  "usage": {
+    "average_tokens_per_request": "unavailable",
+    "estimated_cost_per_request": "unavailable",
+    "estimated_total_cost": "unavailable",
+    "input_tokens": "unavailable",
+    "latency_ms": "unavailable",
+    "model_calls": "unavailable",
+    "output_tokens": "unavailable",
+    "providers": [],
+    "total_tokens": "unavailable"
+  },
+  "validation": {
+    "issue_count": 0,
+    "issues": [],
+    "valid": true
+  }
+}
